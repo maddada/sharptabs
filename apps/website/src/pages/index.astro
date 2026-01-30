@@ -1,0 +1,85 @@
+---
+import "../styles/global.css";
+import CustomizeSection from "../components/CustomizeSection.astro";
+import Download from "../components/Download.astro";
+import Features from "../components/Features.astro";
+import Footer from "../components/Footer.astro";
+import Hero from "../components/Hero.astro";
+import Navbar from "../components/Navbar.astro";
+import UseCases from "../components/UseCases.astro";
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link
+            rel="icon"
+            type="image/svg+xml"
+            href="/icon.svg"
+        />
+        <link
+            rel="alternate icon"
+            type="image/png"
+            sizes="48x48"
+            href="/icon48.png"
+        />
+        <link
+            rel="alternate icon"
+            type="image/png"
+            sizes="16x16"
+            href="/icon16.png"
+        />
+        <meta
+            name="viewport"
+            content="width=device-width"
+        />
+        <meta
+            name="generator"
+            content={Astro.generator}
+        />
+        <title>Sharp Tabs</title>
+        <meta
+            name="description"
+            content="The most polished and performant vertical tabs extension for your browser. Organize tabs vertically for improved productivity and workspace management."
+        />
+
+
+    </head>
+    <body class="min-h-screen select-none bg-[#000e2b] transition-colors duration-300">
+        <div id="top"></div>
+        <!-- Page chrome background wrapper -->
+        <div class="page-shell">
+            <div class="starfield"></div>
+            <div class="hex-particles"></div>
+            <Navbar />
+            <main class="container-outer">
+                <Hero />
+                <div class="section-gap"></div>
+                <section class="section-wrap relative">
+                    <div class="features-bg"></div>
+                    <Features />
+                </section>
+                <div class="section-gap"></div>
+                <section class="section-wrap relative">
+                    <div class="usecases-bg"></div>
+                    <UseCases />
+                </section>
+                <div class="section-gap"></div>
+                <section class="section-wrap relative">
+                    <div class="customize-bg"></div>
+                    <CustomizeSection />
+                </section>
+                <div class="section-gap"></div>
+                <section class="section-wrap relative">
+                    <div class="download-bg"></div>
+                    <Download />
+                </section>
+            </main>
+            <!-- Extra breathing room before footer per feedback -->
+            <div class="section-gap"></div>
+            <Footer />
+        </div>
+
+        <script src="/scripts/smoothScroll.js" is:inline></script>
+    </body>
+</html>

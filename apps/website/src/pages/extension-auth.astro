@@ -1,0 +1,198 @@
+---
+import "../styles/global.css";
+
+// Set headers to allow iframe embedding for Chrome extension
+if (Astro.request.headers.get("User-Agent")?.includes("Chrome")) {
+    // Allow iframe embedding for Chrome extensions
+    Astro.response.headers.set("X-Frame-Options", "SAMEORIGIN");
+    Astro.response.headers.set("Content-Security-Policy", "frame-ancestors 'self' chrome-extension://*");
+}
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+        <link rel="alternate icon" type="image/png" sizes="48x48" href="/icon48.png" />
+        <link rel="alternate icon" type="image/png" sizes="16x16" href="/icon16.png" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>Sharp Tabs - Extension Authentication</title>
+    </head>
+    <body class="min-h-screen bg-[#030811] transition-colors duration-300">
+        <div class="flex h-screen flex-col items-center justify-center">
+            <h1 class="mb-3 text-3xl font-bold text-white">Sign in with Google</h1>
+            <p class="text-lg text-gray-400">Please wait while we authenticate you with Google...</p>
+            <div id="loading-spinner" class="mt-4">
+                <div class="mx-auto h-8 w-8 animate-spin rounded-full border-4 border-primary/30 border-t-primary"></div>
+            </div>
+        </div>
+
+        <!-- Firebase Configuration -->
+        <script
+            is:inline
+            define:vars={{
+                firebaseConfig: {
+                    apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
+                    authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN,
+                    projectId: import.meta.env.PUBLIC_FIREBASE_PROJECT_ID,
+                    storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
+                    messagingSenderId: import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+                    appId: import.meta.env.PUBLIC_FIREBASE_APP_ID,
+                },
+            }}
+        >
+            // Set Firebase configuration from environment variables
+            window.firebaseConfig = firebaseConfig;
+        </script>
+
+        <!-- Toast utilities script -->
+        <script is:inline src="/scripts/toast-utils.js?v=2"></script>
+
+        <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+            import {
+                getAuth,
+                GoogleAuthProvider,
+                signInWithPopup,
+                getAdditionalUserInfo,
+            } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+            try {
+                console.log("[extension-auth] Initializing extension authentication...");
+                console.log("[extension-auth] Current URL:", window.location.href);
+                console.log("[extension-auth] Firebase config:", window.firebaseConfig);
+
+                if (!window.firebaseConfig || !window.firebaseConfig.apiKey) {
+                    throw new Error("Firebase configuration is missing or invalid");
+                }
+
+                // Initialize Firebase
+                const app = initializeApp(window.firebaseConfig);
+                const auth = getAuth(app);
+
+                // Function to handle Google sign in using popup for extension
+                async function handleGoogleSignInForExtension() {
+                    try {
+                        console.log("[extension-auth] Starting popup-based Google sign in for extension...");
+
+                        const provider = new GoogleAuthProvider();
+                        provider.addScope("email");
+                        provider.addScope("profile");
+
+                        console.log("[extension-auth] Provider configured, calling signInWithPopup...");
+
+                        // Update UI to show we're signing in
+                        document.querySelector("h1").textContent = "Opening Google Sign-In...";
+                        document.querySelector("p").textContent = "Please complete the sign-in process in the popup window.";
+
+                        // Focus the current window to ensure popup appears in front
+                        window.focus();
+                        alert(
+                            "Please complete Sharp Tabs' sign in process in the pop up. \n\n(It might be behind other windows)"
+                        );
+
+                        // Close the popup after 10 seconds
+                        setTimeout(() => {
+                            window.close();
+                        }, 10000);
+
+                        // Small delay to ensure window focus takes effect
+                        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+                        // Use signInWithPopup for extension flow
+                        const result = await signInWithPopup(auth, provider);
+                        console.log("[extension-auth] signInWithPopup successful:", result.user);
+
+                        // Process auth data
+                        const authData = {
+                            user: {
+                                uid: result.user.uid,
+                                email: result.user.email,
+                                displayName: result.user.displayName,
+                                photoURL: result.user.photoURL,
+                                emailVerified: result.user.emailVerified,
+                                metadata: {
+                                    creationTime: result.user.metadata.creationTime,
+                                    lastSignInTime: result.user.metadata.lastSignInTime,
+                                },
+                            },
+                            additionalUserInfo: getAdditionalUserInfo(result) || { isNewUser: false },
+                        };
+
+                        console.log("[extension-auth] Sending success message to parent...");
+
+                        // Send message to parent (offscreen document)
+                        if (window.parent && window.parent !== window) {
+                            window.parent.postMessage(
+                                {
+                                    type: "SHARPTABS_GOOGLE_AUTH_SUCCESS",
+                                    authData: authData,
+                                },
+                                "*"
+                            );
+                            console.log("[extension-auth] Message sent to iframe parent");
+                        }
+
+                        // Show success message
+                        document.querySelector("h1").textContent = "Successfully signed in with Google!";
+                        document.querySelector("p").textContent = "Authentication complete.";
+                        document.getElementById("loading-spinner").style.display = "none";
+
+                        // Show extension login success toast
+                        console.log("[extension-auth] About to show toast for user:", result.user.email);
+                        showExtensionLoginSuccessToast(result.user.email);
+                    } catch (error) {
+                        console.error("[extension-auth] Popup sign in error:", error);
+
+                        // Show error message
+                        document.querySelector("h1").textContent = "Sign in failed";
+                        document.querySelector("p").textContent =
+                            `${error.message || "An error occurred during sign in."} Please try again.`;
+                        document.getElementById("loading-spinner").style.display = "none";
+
+                        // Send error to parent
+                        if (window.parent && window.parent !== window) {
+                            window.parent.postMessage(
+                                {
+                                    type: "SHARPTABS_GOOGLE_AUTH_ERROR",
+                                    error: {
+                                        code: error.code || "unknown-error",
+                                        message: error.message || "An unknown error occurred",
+                                    },
+                                },
+                                "*"
+                            );
+                        }
+                    }
+                }
+
+                // Start authentication immediately for extension
+                console.log("[extension-auth] Starting authentication automatically...");
+                handleGoogleSignInForExtension();
+            } catch (initError) {
+                console.error("[extension-auth] Initialization error:", initError);
+
+                // Show error message
+                document.querySelector("h1").textContent = "Initialization failed";
+                document.querySelector("p").textContent = `${initError.message} Please try again.`;
+                document.getElementById("loading-spinner").style.display = "none";
+
+                // Send error message to parent
+                if (window.parent && window.parent !== window) {
+                    window.parent.postMessage(
+                        {
+                            type: "SHARPTABS_GOOGLE_AUTH_ERROR",
+                            error: {
+                                code: "initialization-failed",
+                                message: initError.message,
+                            },
+                        },
+                        "*"
+                    );
+                }
+            }
+
+        </script>
+    </body>
+</html>

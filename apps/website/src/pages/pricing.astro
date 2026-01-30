@@ -1,0 +1,90 @@
+---
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
+import PremiumBenefits from "../components/PremiumBenefits.astro";
+import PricingCards from "../components/PricingCards.astro";
+import "../styles/global.css";
+import { Zap } from "@lucide/astro";
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+        <link rel="alternate icon" type="image/png" sizes="48x48" href="/icon48.png" />
+        <link rel="alternate icon" type="image/png" sizes="16x16" href="/icon16.png" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>Sharp Tabs</title>
+        <meta
+            name="description"
+            content="The most polished and performant vertical tabs extension for your browser. Organize tabs vertically for improved productivity and workspace management."
+        />
+
+        <!-- Theme script - Add this early in the head to avoid FOUC (Flash of Unstyled Content) -->
+    </head>
+    <body class="min-h-screen select-none transition-colors duration-300">
+        <Navbar />
+        <section class="bg-gradient-to-r from-black via-[#020b1c] to-black pb-20 pt-24 transition-colors duration-300">
+            <div class="container mx-auto px-4">
+                <div class="mb-10 text-center">
+                    <div
+                        class="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-2"
+                    >
+                        <Zap size={20} class="text-blue-400" />
+                        <span class="font-medium text-blue-300">Support Sharp Tabs</span>
+                    </div>
+                    <h1 class="mx-auto mb-4 max-w-4xl text-xl font-bold text-white/80 md:max-w-2xl md:text-3xl">
+                        Subscribe to unlock AI features and support continued development!
+                    </h1>
+                    <p class="mx-auto max-w-2xl text-gray-400">
+                        All other features are free. You can also use your own Gemini API key for free AI features.
+                    </p>
+                </div>
+                <div class="mb-12 mt-8">
+                    <PricingCards showTitle={true} />
+                    <div class="mt-10 flex justify-center">
+                        <a
+                            id="purchase-btn"
+                            href="/profile"
+                            class="group relative cursor-pointer overflow-hidden rounded-2xl border border-primary/50 bg-gradient-to-br from-primary/20 to-purple-600/20 px-8 py-4 text-xl font-bold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                        >
+                            <div
+                                class="absolute inset-0 animate-pulse bg-gradient-to-r from-primary via-purple-600 to-cyan-500 opacity-30"
+                                style="animation-duration: 3s;"
+                            >
+                            </div>
+                            <div
+                                class="absolute inset-0 bg-gradient-to-br from-primary/10 to-purple-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                            >
+                            </div>
+                            <span class="relative z-10 flex items-center justify-center"> 💎 Purchase Premium </span>
+                        </a>
+                    </div>
+                    <div class="mx-auto mb-20 mt-20 flex w-[300px] justify-center">
+                        <div class="relative w-full">
+                            <div
+                                class="absolute inset-0 h-[1px] bg-gradient-to-r from-transparent via-purple-500 to-transparent opacity-60"
+                            >
+                            </div>
+                            <div
+                                class="absolute inset-0 h-[1px] bg-gradient-to-r from-transparent via-purple-400 to-transparent opacity-40 blur-sm"
+                            >
+                            </div>
+                            <div
+                                class="absolute inset-0 h-[1px] animate-pulse bg-gradient-to-r from-transparent via-purple-600 to-transparent opacity-80"
+                            >
+                            </div>
+                            <div
+                                class="h-[1px] bg-gradient-to-r from-transparent via-purple-300 to-transparent shadow-[0_0_10px_rgba(168,85,247,0.5)]"
+                            >
+                            </div>
+                        </div>
+                    </div>
+                    <PremiumBenefits class="mt-10" />
+                </div>
+            </div>
+        </section>
+        <Footer />
+    </body>
+</html>

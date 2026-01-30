@@ -1,0 +1,15 @@
+packages:
+  - apps/*
+  - packages/*
+
+onlyBuiltDependencies:
+  - '@clerk/shared'
+  - '@firebase/util'
+  - '@tailwindcss/oxide'
+  - core-js
+  - electron
+  - esbuild
+  - javascript-obfuscator
+  - protobufjs
+  - sharp
+  - workerd

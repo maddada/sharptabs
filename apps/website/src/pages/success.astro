@@ -1,0 +1,246 @@
+---
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
+import { CheckCircle, Download, Settings, Sparkles } from "@lucide/astro";
+import "../styles/global.css";
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+        <link rel="alternate icon" type="image/png" sizes="48x48" href="/icon48.png" />
+        <link rel="alternate icon" type="image/png" sizes="16x16" href="/icon16.png" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>Success - Sharp Tabs</title>
+        <meta name="description" content="Thank you for subscribing to Sharp Tabs Premium!" />
+
+        <!-- Theme script -->
+
+    </head>
+    <!-- <body
+        class="min-h-screen select-none bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 transition-colors duration-300"
+    > -->
+    <body
+        class="min-h-screen select-none from-black via-[#020b1c] to-black transition-colors duration-300"
+    >
+        <Navbar />
+
+        <section
+            class="min-h-screen bg-gradient-to-br pb-20 pt-32 transition-colors duration-300"
+        >
+            <div class="container mx-auto max-w-4xl px-4">
+                <!-- Success Header -->
+                <div class="mb-12 text-center">
+                    <div
+                        class="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg"
+                    >
+                        <CheckCircle size={48} />
+                    </div>
+                    <h1
+                        class="mb-4 bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-4xl font-bold text-transparent dark:from-green-400 dark:to-emerald-400"
+                    >
+                        Payment Successful!
+                    </h1>
+                    <p class="text-lg text-gray-300">
+                        Thank you for subscribing to Sharp Tabs Premium. Your subscription is now active!
+                    </p>
+                </div>
+
+                <!-- Next Steps Card -->
+                <div
+                    class="hover:shadow-3xl /50 group relative mb-12 overflow-hidden rounded-2xl bg-gray-800/90 p-8 shadow-2xl ring-1 ring-gray-200 backdrop-blur-sm transition-all duration-300"
+                >
+                    <div
+                        class="absolute inset-0 bg-gradient-to-br from-primary/5 to-purple-600/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    >
+                    </div>
+                    <div class="relative">
+                        <div class="mb-6 flex items-center space-x-4">
+                            <div
+                                class="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-primary to-purple-600 text-white shadow-lg"
+                            >
+                                <Sparkles size={24} />
+                            </div>
+                            <h3 class="text-2xl font-bold text-white">What's Next?</h3>
+                        </div>
+
+                        <div class="grid gap-6 md:grid-cols-2">
+                            <div
+                                class="rounded-xl border border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 p-6"
+                            >
+                                <div class="mb-4 flex items-center space-x-3">
+                                    <div
+                                        class="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white"
+                                    >
+                                        <Download size={20} />
+                                    </div>
+                                    <h4 class="text-lg font-semibold text-white">Install Extension</h4>
+                                </div>
+                                <p class="mb-4 text-gray-300">
+                                    Download and install the Sharp Tabs extension to start using your premium features.
+                                </p>
+                                <a
+                                    href="https://chromewebstore.google.com/detail/sharp-tabs-the-most-polis/ooagakphldicpdeamgchdkpfbehcdjjk"
+                                    target="_blank"
+                                    class="inline-flex items-center space-x-2 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500/20"
+                                >
+                                    <Download size={16} />
+                                    <span>Download Extension</span>
+                                </a>
+                            </div>
+
+                            <div
+                                class="rounded-xl border border-gray-600 bg-gradient-to-r from-gray-50 to-gray-100 p-6"
+                            >
+                                <div class="mb-4 flex items-center space-x-3">
+                                    <div
+                                        class="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-purple-500 to-purple-600 text-white"
+                                    >
+                                        <Settings size={20} />
+                                    </div>
+                                    <h4 class="text-lg font-semibold text-white">Manage Subscription</h4>
+                                </div>
+                                <p class="mb-4 text-gray-300">
+                                    View your subscription details and manage your billing preferences.
+                                </p>
+                                <a
+                                    href="/profile"
+                                    class="inline-flex items-center space-x-2 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 px-4 py-2 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:from-purple-600 hover:to-purple-700 focus:outline-none focus:ring-4 focus:ring-purple-500/20"
+                                >
+                                    <Settings size={16} />
+                                    <span>View Profile</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Premium Features Reminder -->
+                <div
+                    class="hover:shadow-3xl group relative overflow-hidden rounded-2xl bg-gray-800/90 p-8 shadow-2xl ring-1 ring-gray-700/50 backdrop-blur-sm transition-all duration-300"
+                >
+                    <div
+                        class="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-yellow-500/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    >
+                    </div>
+                    <div class="relative">
+                        <div class="mb-6 text-center">
+                            <h3
+                                class="mb-4 bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-2xl font-bold text-transparent dark:from-amber-400 dark:to-yellow-400"
+                            >
+                                Premium Features Now Available
+                            </h3>
+                            <p class="text-gray-300">
+                                Enjoy all the premium features that come with your subscription:
+                            </p>
+                        </div>
+
+                        <div class="grid gap-4 md:grid-cols-3">
+                            <div
+                                class="rounded-lg border border-amber-200 bg-gradient-to-r from-amber-50 to-yellow-50 p-4 dark:border-amber-700/50 dark:from-amber-900/20 dark:to-yellow-900/20"
+                            >
+                                <h4 class="font-semibold text-amber-900 dark:text-amber-100">🤖 AI Auto-Organize</h4>
+                                <p class="text-sm text-amber-800 dark:text-amber-200">
+                                    Intelligently group your tabs with AI
+                                </p>
+                            </div>
+                            <div
+                                class="rounded-lg border border-amber-200 bg-gradient-to-r from-amber-50 to-yellow-50 p-4 dark:border-amber-700/50 dark:from-amber-900/20 dark:to-yellow-900/20"
+                            >
+                                <h4 class="font-semibold text-amber-900 dark:text-amber-100">✨ AI Group Naming</h4>
+                                <p class="text-sm text-amber-800 dark:text-amber-200">Auto-name and color your tab groups</p>
+                            </div>
+                            <div
+                                class="rounded-lg border border-amber-200 bg-gradient-to-r from-amber-50 to-yellow-50 p-4 dark:border-amber-700/50 dark:from-amber-900/20 dark:to-yellow-900/20"
+                            >
+                                <h4 class="font-semibold text-amber-900 dark:text-amber-100">🧹 AI Tab Cleanup</h4>
+                                <p class="text-sm text-amber-800 dark:text-amber-200">Smart suggestions for tabs to close</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <Footer />
+
+        <!-- Firebase Configuration -->
+        <script
+            is:inline
+            define:vars={{
+                firebaseConfig: {
+                    apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
+                    authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN,
+                    projectId: import.meta.env.PUBLIC_FIREBASE_PROJECT_ID,
+                    storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
+                    messagingSenderId: import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+                    appId: import.meta.env.PUBLIC_FIREBASE_APP_ID,
+                },
+                convexUrl: import.meta.env.PUBLIC_CONVEX_URL,
+            }}
+        >
+            // Set Firebase configuration from environment variables
+            window.firebaseConfig = firebaseConfig;
+            // Set Convex URL from environment variables
+            window.convexUrl = convexUrl;
+        </script>
+
+        <!-- Success page script -->
+        <script type="module">
+            // Import Firebase from CDN
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+            import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
+            // Initialize Firebase
+            const app = initializeApp(window.firebaseConfig);
+            const auth = getAuth(app);
+
+            // Handle URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get("session_id");
+
+            if (sessionId) {
+                console.log("Checkout session ID:", sessionId);
+
+                // Clean up URL without refreshing
+                const url = new URL(window.location);
+                url.searchParams.delete("session_id");
+                window.history.replaceState({}, "", url.toString());
+
+                // Sync subscription status after successful checkout
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        try {
+                            console.log("Syncing subscription data after checkout...");
+                            const idToken = await user.getIdToken();
+                            const convexUrl = window.convexUrl;
+
+                            const response = await fetch(`${convexUrl}/sync-after-success`, {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    Authorization: `Bearer ${idToken}`,
+                                },
+                                body: JSON.stringify({
+                                    sessionId: sessionId,
+                                    email: user.email,
+                                    firebaseUserId: user.uid,
+                                }),
+                            });
+
+                            if (response.ok) {
+                                console.log("Subscription sync completed successfully");
+                            } else {
+                                console.error("Failed to sync subscription data");
+                            }
+                        } catch (error) {
+                            console.error("Error syncing subscription:", error);
+                        }
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>

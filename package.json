@@ -1,0 +1,37 @@
+{
+    "name": "sharptabs",
+    "license": "GPL-3.0",
+    "private": true,
+    "scripts": {
+        "dev": "turbo run dev",
+        "dev:extension": "pnpm --filter @apps/extension dev",
+        "build": "turbo run build",
+        "build:basic": "turbo run build:basic --filter=@apps/extension",
+        "clean": "turbo run clean && rm -rf node_modules",
+        "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore",
+        "lint": "turbo run lint",
+        "typecheck": "turbo run typecheck",
+        "deploy:convex": "turbo run deploy --filter=@packages/backend",
+        "test:extension": "pnpm --filter @apps/extension test -- --run",
+        "devtools:extension": "pnpm --filter @apps/extension devtools -- --run",
+        "lint:extension": "pnpm --filter=@apps/extension exec eslint src --ext .ts,.tsx --quiet",
+        "lint:extension:warn": "pnpm --filter=@apps/extension exec eslint src --ext .ts,.tsx",
+        "upload:extension": "dotenv -e .env.publish -- node scripts/upload-to-webstore.mjs",
+        "upload:extension:bump": "dotenv -e .env.publish -- node scripts/upload-to-webstore.mjs --increment-version",
+        "upload:extension:publish": "dotenv -e .env.publish -- node scripts/upload-to-webstore.mjs --increment-version --publish",
+        "upload:extension:bash": "source .env.publish && node scripts/upload-to-webstore.mjs",
+        "upload:extension:bump:bash": "source .env.publish && node scripts/upload-to-webstore.mjs --increment-version",
+        "upload:extension:publish:bash": "source .env.publish && node scripts/upload-to-webstore.mjs --increment-version --publish",
+        "setup:chrome-api": "node scripts/get-refresh-token.js"
+    },
+    "devDependencies": {
+        "chrome-webstore-upload": "^4.0.3",
+        "dotenv-cli": "^11.0.0",
+        "prettier": "^3.5.3",
+        "turbo": "^2.5.5"
+    },
+    "engines": {
+        "node": ">=18.8.0"
+    },
+    "packageManager": "pnpm@10.12.4"
+}

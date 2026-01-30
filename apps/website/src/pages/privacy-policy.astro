@@ -1,0 +1,92 @@
+---
+import "../styles/global.css";
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+        <link rel="alternate icon" type="image/png" sizes="48x48" href="/icon48.png" />
+        <link rel="alternate icon" type="image/png" sizes="16x16" href="/icon16.png" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>Privacy Policy | Sharp Tabs</title>
+        <meta
+            name="description"
+            content="Privacy Policy for Sharp Tabs Chrome Extension, including details on data handling and AI features."
+        />
+
+    </head>
+    <body class="min-h-screen bg-[#03060f] transition-colors duration-300">
+        <Navbar />
+        <main class="mx-auto mt-24 max-w-3xl px-4 py-12 text-white/80">
+            <h1 class="mb-6 text-3xl font-bold">Privacy Policy</h1>
+            <p class="mb-4 text-sm text-gray-500">Last updated: June 6th, 2025</p>
+            <section class="mb-8">
+                <h2 class="mb-2 text-xl font-semibold">Your Privacy Matters</h2>
+                <p>
+                    Sharp Tabs is designed with your privacy in mind. We do <b>not</b> collect, log, or store any personal
+                    data or browsing history. Your information remains on your device and is never sent to the developer.
+                </p>
+            </section>
+            <section class="mb-8">
+                <h2 class="mb-2 text-xl font-semibold">1. What We Collect</h2>
+                <p>
+                    Sharp Tabs does <b>not</b> collect any personal or sensitive data. The only data we store is related
+                    to your Sharp Tabs account (if you register): your email address, registration date, email verification
+                    status, and subscription details. We might also store which features are enabled or disabled in the future.
+                    <b>No browsing history, tab details, or personal content is ever collected.</b>
+                </p>
+            </section>
+            <section class="mb-8">
+                <h2 class="mb-2 text-xl font-semibold">2. AI Features and Data Usage</h2>
+                <p>
+                    AI features are available for premium users or anyone using their own Gemini API key. Only the names of your
+                    tabs and the beginning of their URLs are sent to Gemini's API to organize your tabs or name a group. <b
+                        >Nothing else is sent to Gemini. Nothing is logged or stored. Nothing is ever sent to the
+                        developer.</b
+                    > You can always toggle off all AI features—they are completely optional.
+                </p>
+            </section>
+            <section class="mb-8">
+                <h2 class="mb-2 text-xl font-semibold">3. No Tracking or Analytics</h2>
+                <p>
+                    Sharp Tabs does <b>not</b> use any installed tracking scripts or third-party cookies. Your browsing activity
+                    is never monitored or analyzed.
+                    <br />
+                    We only optionally Anonymously track the non-sensitive applied settings (once per day max when you close
+                    the settings page), this is to get stats about which settings are most used, and help guide development.
+                    You can easily toggle this off at any time in the general settings section at the top of the settings
+                    page.
+                </p>
+            </section>
+            <section class="mb-8">
+                <h2 class="mb-2 text-xl font-semibold">4. Data Security</h2>
+                <p>
+                    We take your privacy seriously. All data related to your account is securely stored and never shared
+                    with third parties. You can delete your account at any time, and all associated data will be
+                    removed.
+                </p>
+            </section>
+            <section class="mb-8">
+                <h2 class="mb-2 text-xl font-semibold">5. Changes to This Policy</h2>
+                <p>
+                    If this policy changes, we will update this page. By continuing to use Sharp Tabs, you agree to the
+                    latest version of the policy. We will add a notice on the app's settings when this is done.
+                </p>
+            </section>
+            <section class="mb-8">
+                <h2 class="mb-2 text-xl font-semibold">6. Contact</h2>
+                <p>
+                    If you have any questions about this Privacy Policy, please contact us at <a
+                        href="mailto:support@sharptabs.com"
+                        class="text-blue-400 underline">support@sharptabs.com</a
+                    >.
+                </p>
+            </section>
+        </main>
+        <Footer />
+    </body>
+</html>

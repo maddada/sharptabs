@@ -1,0 +1,289 @@
+---
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
+import PricingCards from "../components/PricingCards.astro";
+import { User, Mail, Crown, LogOut, Shield, Sparkles } from "@lucide/astro";
+import "../styles/global.css";
+import PremiumBenefits from "../components/PremiumBenefits.astro";
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+        <link rel="alternate icon" type="image/png" sizes="48x48" href="/icon48.png" />
+        <link rel="alternate icon" type="image/png" sizes="16x16" href="/icon16.png" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>Profile - Sharp Tabs</title>
+        <meta name="description" content="Manage your Sharp Tabs profile, subscription, and premium features." />
+
+        <!-- Theme script -->
+    </head>
+    <body class="min-h-screen select-none bg-black transition-colors duration-300">
+        <Navbar />
+
+        <!-- Loading State -->
+        <div id="loading-state" class="flex min-h-screen items-center justify-center">
+            <div class="text-center">
+                <div class="mx-auto h-16 w-16 animate-spin rounded-full border-4 border-primary/30 border-t-primary"></div>
+                <p class="mt-4 text-lg text-gray-300">Loading your profile...</p>
+            </div>
+        </div>
+
+        <!-- Login Form -->
+        <section
+            id="login-section"
+            class="hidden bg-gradient-to-r from-black via-[#020b1c] to-black pb-32 pt-32 transition-colors duration-300"
+        >
+            <div class="container mx-auto max-w-md px-4">
+                <!-- Themed card to match FIREBASE_SETUP.md / site theme -->
+                <div
+                    class="hover:shadow-3xl group relative overflow-hidden rounded-2xl border border-blue-500/15 bg-gradient-to-br from-gray-950/50 to-[#000e2b]/80 p-8 shadow-2xl backdrop-blur-sm transition-all duration-300 hover:scale-[1.02]"
+                    style="background-color: rgba(0, 14, 43, 0.6);"
+                >
+                    <div
+                        class="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-cyan-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    >
+                    </div>
+                    <div class="relative">
+                        <div class="mb-8 text-center">
+                            <div
+                                class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg"
+                            >
+                                <User size={32} />
+                            </div>
+                            <h1 class="text-3xl font-bold text-white">Welcome to Sharp Tabs</h1>
+                            <p class="mt-3 leading-relaxed text-gray-300">
+                                Sign in to get a premium plan or manage your subscription
+                            </p>
+                        </div>
+
+                        <form id="login-form" class="space-y-6">
+                            <div>
+                                <label for="email" class="mb-2 block text-sm font-semibold text-gray-300"> Email Address </label>
+                                <div class="relative">
+                                    <Mail size={20} class="absolute left-3 top-1/2 z-10 -translate-y-1/2 text-gray-200" />
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        required
+                                        class="w-full rounded-xl border border-blue-500/15 bg-gray-900/70 py-3 pl-10 pr-4 text-white placeholder-gray-400 backdrop-blur-sm transition-all duration-300 focus:border-blue-400 focus:outline-none focus:ring-4 focus:ring-blue-500/20"
+                                        placeholder="Enter your email address"
+                                    />
+                                </div>
+                            </div>
+
+                            <button
+                                type="submit"
+                                class="w-full transform rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:from-blue-500 hover:to-cyan-500 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-500/20 active:scale-[0.98]"
+                            >
+                                Send Login Link
+                            </button>
+
+                            <div class="flex items-center">
+                                <div class="h-px flex-1 bg-gray-700"></div>
+                                <span class="px-3 text-sm text-gray-400">or</span>
+                                <div class="h-px flex-1 bg-gray-700"></div>
+                            </div>
+
+                            <button
+                                type="button"
+                                id="google-signin-btn"
+                                class="w-full transform rounded-xl border border-blue-500/15 bg-gray-900/70 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:border-blue-400 hover:bg-gray-800/80 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-500/20 active:scale-[0.98]"
+                            >
+                                <svg class="mr-2 inline h-5 w-5" viewBox="0 0 24 24">
+                                    <path
+                                        fill="currentColor"
+                                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                    ></path>
+                                    <path
+                                        fill="currentColor"
+                                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                    ></path>
+                                    <path
+                                        fill="currentColor"
+                                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                                    ></path>
+                                    <path
+                                        fill="currentColor"
+                                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                                    ></path>
+                                </svg>
+                                Sign In With Google
+                            </button>
+                        </form>
+
+                        <div
+                            id="email-sent-message"
+                            class="mt-6 hidden rounded-xl border border-emerald-200/50 bg-gradient-to-br from-emerald-50 to-teal-50 p-4 dark:border-emerald-700/50 dark:from-emerald-900/20 dark:to-teal-900/20"
+                        >
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <Shield size={20} class="text-emerald-600 dark:text-emerald-400" />
+                                </div>
+                                <p class="ml-3 text-sm font-medium text-emerald-700 dark:text-emerald-300">
+                                    Check your email! We've sent you a login link.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div
+                            id="error-message"
+                            class="mt-6 hidden rounded-xl border border-red-200/60 bg-gradient-to-br from-red-50 to-rose-50 p-4 dark:border-red-700/50 dark:from-red-900/20 dark:to-rose-900/20"
+                        >
+                            <p class="text-sm font-medium text-red-700 dark:text-red-300" id="error-text"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile/Dashboard Section -->
+        <section
+            id="profile-section"
+            class="hidden bg-gradient-to-r from-black via-[#020b1c] to-black pb-20 pt-32 transition-colors duration-300"
+        >
+            <div class="container mx-auto max-w-6xl px-4">
+                <!-- Welcome Header -->
+                <div class="mb-12 text-center">
+                    <h1 class="mb-4 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-4xl font-bold text-transparent">
+                        Your Sharp Tabs Dashboard
+                    </h1>
+                    <p class="text-lg text-gray-300">Manage your subscription and unlock premium features</p>
+                </div>
+
+                <!-- User Info Card -->
+                <div
+                    class="hover:shadow-3xl group relative mb-10 overflow-hidden rounded-2xl border border-blue-500/15 bg-gradient-to-br from-gray-950/50 to-[#000e2b]/80 p-8 shadow-2xl backdrop-blur-sm transition-all duration-300 hover:scale-[1.01]"
+                    style="background-color: rgba(0, 14, 43, 0.6);"
+                >
+                    <div
+                        class="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-cyan-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    >
+                    </div>
+                    <div class="relative flex items-center justify-between">
+                        <div class="flex items-center space-x-6">
+                            <div
+                                class="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg"
+                            >
+                                <User size={32} />
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-white">Welcome back!</h2>
+                                <p id="user-email" class="mt-1 text-lg text-gray-300"></p>
+                            </div>
+                        </div>
+                        <button
+                            id="logout-btn"
+                            class="flex transform items-center space-x-2 rounded-xl bg-gradient-to-r from-red-500 to-red-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:from-red-600 hover:to-red-700 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-red-500/20 active:scale-[0.98]"
+                        >
+                            <LogOut size={18} />
+                            <span>Logout</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Current Subscription Card -->
+                <div
+                    class="group relative mb-10 overflow-hidden rounded-2xl border border-emerald-700/40 bg-gradient-to-br from-emerald-900/20 to-teal-900/20 p-8 shadow-lg transition-all duration-300 hover:scale-[1.01] hover:shadow-xl"
+                >
+                    <div
+                        class="absolute inset-0 bg-gradient-to-br from-emerald-600/10 to-teal-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    >
+                    </div>
+                    <div class="relative">
+                        <div class="mb-6 flex items-center space-x-4">
+                            <div
+                                class="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg"
+                            >
+                                <Crown size={24} />
+                            </div>
+                            <h3 class="text-2xl font-bold text-white">Current Subscription</h3>
+                        </div>
+                        <div
+                            id="subscription-status"
+                            class="rounded-xl border border-emerald-200/50 bg-gradient-to-br from-emerald-50/80 to-teal-50/80 p-6 dark:border-emerald-700/50 dark:from-emerald-900/30 dark:to-teal-900/30"
+                        >
+                            <!-- Content dynamically updated by profile-client.js -->
+                            <div class="flex items-center space-x-3">
+                                <div class="h-10 w-10 animate-spin rounded-full border-4 border-emerald-500/30 border-t-emerald-500"></div>
+                                <div>
+                                    <p class="text-lg font-semibold text-white">Loading subscription status...</p>
+                                    <p class="text-gray-300">Please wait while we check your account</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Plan Selection Section -->
+                <div class="mb-12">
+                    <div class="relative">
+                        <div
+                            class="absolute inset-0 rounded-3xl bg-gradient-to-r from-blue-500/10 to-cyan-600/10 opacity-30 blur-3xl"
+                        >
+                        </div>
+                        <div
+                            class="hover:shadow-3xl group relative overflow-hidden rounded-2xl border border-blue-500/15 bg-gradient-to-br from-gray-950/50 to-[#000e2b]/80 p-8 shadow-2xl ring-0 backdrop-blur-sm transition-all duration-300 hover:scale-[1.005]"
+                            style="background-color: rgba(0, 14, 43, 0.6);"
+                        >
+                            <div
+                                class="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-cyan-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                            >
+                            </div>
+                            <div class="relative">
+                                <div class="mb-8 text-center">
+                                    <h3 class="mb-4 text-3xl font-bold text-white">Support Sharp Tabs</h3>
+                                    <p class="text-lg text-gray-300">Get AI features and support continued development</p>
+                                </div>
+                                <PricingCards showTitle={false} showDescription={true} />
+                                <div class="mt-8 flex justify-center">
+                                    <button
+                                        id="purchase-btn"
+                                        class="transform rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 px-8 py-4 text-xl font-bold text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:from-blue-500 hover:to-cyan-500 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-500/20 active:scale-[0.98]"
+                                    >
+                                        🚀 Purchase Extension
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Premium Benefits -->
+                <PremiumBenefits />
+            </div>
+        </section>
+
+        <Footer />
+
+        <!-- Firebase Configuration -->
+        <script
+            is:inline
+            define:vars={{
+                firebaseConfig: {
+                    apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
+                    authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN,
+                    projectId: import.meta.env.PUBLIC_FIREBASE_PROJECT_ID,
+                    storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
+                    messagingSenderId: import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+                    appId: import.meta.env.PUBLIC_FIREBASE_APP_ID,
+                },
+                convexUrl: import.meta.env.PUBLIC_CONVEX_URL,
+            }}
+        >
+            // Set Firebase configuration from environment variables
+            window.firebaseConfig = firebaseConfig;
+            // Set Convex URL from environment variables
+            window.convexUrl = convexUrl;
+        </script>
+
+        <!-- Toast utilities script -->
+        <script is:inline src="/scripts/toast-utils.js?v=2"></script>
+
+        <!-- Firebase and Auth Scripts -->
+        <script type="module" src="/scripts/profile-client.js"></script>
+    </body>
+</html>

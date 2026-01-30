@@ -1,0 +1,31 @@
+{
+    "name": "@apps/website",
+    "type": "module",
+    "version": "0.0.1",
+    "license": "GPL-3.0",
+    "scripts": {
+        "dev": "astro dev",
+        "build": "astro build",
+        "preview": "astro preview",
+        "deploy": "wrangler pages deploy dist",
+        "astro": "astro"
+    },
+    "dependencies": {
+        "@astrojs/react": "^4.3.0",
+        "@astrojs/tailwind": "^6.0.2",
+        "@lucide/astro": "^0.501.0",
+        "@packages/backend": "workspace:*",
+        "@tailwindcss/vite": "^4.1.4",
+        "astro": "^5.7.4",
+        "firebase": "^11.9.1",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "wrangler": "^4.12.1"
+    },
+    "devDependencies": {
+        "prettier": "^3.5.3",
+        "prettier-plugin-astro": "^0.14.1",
+        "tailwindcss": "^3.4.17"
+    },
+    "packageManager": "pnpm@10.12.4+sha512.5ea8b0deed94ed68691c9bad4c955492705c5eeb8a87ef86bc62c74a26b037b08ff9570f108b2e4dbd1dd1a9186fea925e527f141c648e85af45631074680184"
+}

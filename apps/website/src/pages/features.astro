@@ -1,0 +1,600 @@
+---
+import {
+    Archive,
+    ArrowLeftRight,
+    Bot,
+    FolderTree,
+    Layers,
+    Mail,
+    MessageCircle,
+    Moon,
+    Palette,
+    Save,
+    Search,
+    Zap,
+} from "@lucide/astro";
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
+import "../styles/global.css";
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+        <link rel="alternate icon" type="image/png" sizes="48x48" href="/icon48.png" />
+        <link rel="alternate icon" type="image/png" sizes="16x16" href="/icon16.png" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>Sharp Tabs - Features</title>
+        <meta
+            name="description"
+            content="Discover all the powerful features of Sharp Tabs - the most polished vertical tabs extension for your browser. Tab search, suspending, session backups, and more."
+        />
+    </head>
+    <body class="min-h-screen select-none bg-black transition-colors duration-300">
+        <Navbar />
+
+        <section class="bg-gradient-to-r from-black via-[#020b1c] to-black pb-20 pt-24 transition-colors duration-300">
+            <div class="container mx-auto max-w-5xl px-4">
+                <div class="mb-16 text-center">
+                    <div
+                        class="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-2"
+                    >
+                        <Zap size={20} class="text-blue-400" />
+                        <span class="font-medium text-blue-300">Form & Function</span>
+                    </div>
+                    <h1 class="mb-6 text-5xl font-bold text-white md:text-6xl">Powerful Features</h1>
+                    <p class="mx-auto max-w-3xl text-xl leading-relaxed text-gray-300">
+                        Discover what makes Sharp Tabs the best vertical tabs extension for your browser
+                    </p>
+                </div>
+
+                <div
+                    class="mb-12 rounded-2xl border border-blue-500/15 bg-gradient-to-br from-gray-950/50 to-[#000e2b]/80 p-8 shadow-2xl backdrop-blur-sm"
+                    style="background-color: rgba(0, 14, 43, 0.6);"
+                >
+                    <div class="text-center">
+                        <h3 class="mb-4 text-2xl font-semibold text-white">Have a Feature Request?</h3>
+                        <p class="mb-6 text-lg text-gray-300">Your feedback drives our development. Share your ideas with us!</p>
+                        <div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
+                            <a
+                                href="mailto:support@sharptabs.com"
+                                class="inline-flex transform items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-all duration-300 hover:scale-105 hover:bg-blue-500 hover:shadow-lg"
+                            >
+                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                                </svg>
+                                Email Us
+                            </a>
+                            <span class="text-gray-400">or</span>
+                            <a
+                                href="https://www.reddit.com/r/sharptabs/"
+                                target="_blank"
+                                class="inline-flex transform items-center gap-2 rounded-lg bg-orange-600 px-6 py-3 font-medium text-white transition-all duration-300 hover:scale-105 hover:bg-orange-500 hover:shadow-lg"
+                            >
+                                <img src="/reddit.svg" alt="Reddit" class="h-5 w-5" />
+                                r/sharptabs
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Grid -->
+        <section class="bg-[#030811] py-20">
+            <div class="container mx-auto max-w-5xl px-4">
+                <div class="mx-auto grid gap-8 md:grid-cols-2 lg:grid-cols-2">
+                    <!-- Tab Search Feature -->
+                    <div
+                        class="group relative overflow-hidden rounded-2xl border border-blue-200/50 bg-gradient-to-br from-blue-50 to-cyan-50 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-blue-700/50 dark:from-blue-900/20 dark:to-cyan-900/20"
+                    >
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-cyan-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                        >
+                        </div>
+                        <div class="relative">
+                            <div class="mb-4 flex items-center">
+                                <div class="rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 p-3 text-white">
+                                    <Search size={24} />
+                                </div>
+                                <h3 class="ml-3 text-xl font-bold text-white">Tab Search</h3>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-blue-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Start typing anywhere in the sidebar or popup for immediate results
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-blue-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Use Alt+E to open popup, arrow keys to navigate, Enter to activate
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-blue-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Find your tab even if it's in another windows or workspaces
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-blue-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Keyboard optimized UX with arrow keys and enter to select your tab and activate it + Escape
+                                        to clear search.
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Tab Suspending Feature -->
+                    <div
+                        class="group relative overflow-hidden rounded-2xl border border-purple-200/50 bg-gradient-to-br from-purple-50 to-indigo-50 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-purple-700/50 dark:from-purple-900/20 dark:to-indigo-900/20"
+                    >
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-indigo-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                        >
+                        </div>
+                        <div class="relative">
+                            <div class="mb-4 flex items-center">
+                                <div class="rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 p-3 text-white">
+                                    <Moon size={24} />
+                                </div>
+                                <h3 class="ml-3 text-xl font-bold text-white">Tab Suspending</h3>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Preview screenshots shown for suspended tabs
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Most advanced and customizable suspension system available
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Automatically suspend tabs after set inactivity time
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Configure which sites/tabs to never suspend with whitelist rules
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Session Backups Feature -->
+                    <div
+                        class="group relative overflow-hidden rounded-2xl border border-emerald-200/50 bg-gradient-to-br from-emerald-50 to-teal-50 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-emerald-700/50 dark:from-emerald-900/20 dark:to-teal-900/20"
+                    >
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-emerald-600/10 to-teal-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                        >
+                        </div>
+                        <div class="relative">
+                            <div class="mb-4 flex items-center">
+                                <div class="rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 p-3 text-white">
+                                    <Archive size={24} />
+                                </div>
+                                <h3 class="ml-3 text-xl font-bold text-white">Session Backups</h3>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-emerald-500 dark:bg-emerald-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Automatic backups every 10 minutes when tabs change
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-emerald-500 dark:bg-emerald-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Restore sessions, windows, groups, or individual tabs
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-emerald-500 dark:bg-emerald-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Easily export and import sessions between browsers
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-emerald-500 dark:bg-emerald-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Instant session restoration, faster than other extensions
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Tab Management -->
+                    <div
+                        class="group relative overflow-hidden rounded-2xl border border-green-200/50 bg-gradient-to-br from-green-50 to-lime-50 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-green-700/50 dark:from-green-900/20 dark:to-lime-900/20"
+                    >
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-green-600/10 to-lime-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                        >
+                        </div>
+                        <div class="relative">
+                            <div class="mb-4 flex items-center">
+                                <div class="rounded-full bg-gradient-to-r from-green-500 to-lime-500 p-3 text-white">
+                                    <Layers size={24} />
+                                </div>
+                                <h3 class="ml-3 text-xl font-bold text-white">Tab Management</h3>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-green-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Name, color, expand and collapse tab groups
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-green-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        One click to show duplicate tabs for easy cleanup
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-green-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Easily select and drag & drop multiple tabs and groups
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-green-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        2 Display Modes: Popup and Sidebar panel
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- AI Features -->
+                    <div
+                        class="group relative overflow-hidden rounded-2xl border border-violet-200/50 bg-gradient-to-br from-violet-50 to-purple-50 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-violet-700/50 dark:from-violet-900/20 dark:to-purple-900/20"
+                    >
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-violet-600/10 to-purple-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                        >
+                        </div>
+                        <div class="relative">
+                            <div class="mb-4 flex items-center">
+                                <div class="rounded-full bg-gradient-to-r from-violet-500 to-purple-500 p-3 text-white">
+                                    <Bot size={24} />
+                                </div>
+                                <h3 class="ml-3 text-xl font-bold text-white">AI Features</h3>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-violet-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Intelligently organize your tabs by topic and purpose
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-violet-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        AI identifies and lists tabs you might want to close
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-violet-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Create a group and it gets automatically named and even optionally colorized!
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Complete Theming -->
+                    <div
+                        class="group relative overflow-hidden rounded-2xl border border-pink-200/50 bg-gradient-to-br from-pink-50 to-rose-50 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-pink-700/50 dark:from-pink-900/20 dark:to-rose-900/20"
+                    >
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-pink-600/10 to-rose-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                        >
+                        </div>
+                        <div class="relative">
+                            <div class="mb-4 flex items-center">
+                                <div class="rounded-full bg-gradient-to-r from-pink-500 to-rose-500 p-3 text-white">
+                                    <Palette size={24} />
+                                </div>
+                                <h3 class="ml-3 text-xl font-bold text-white">Complete Theming</h3>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-pink-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Tons of themes and background images/gradients
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-pink-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Full compatibility with tweakcn.com for unlimited themes
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-pink-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Full custom CSS customization allowed
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-pink-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Expand on hover for browsers with floating sidebars
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Keyboard Shortcuts Feature -->
+                    <div
+                        class="group relative overflow-hidden rounded-2xl border border-orange-200/50 bg-gradient-to-br from-orange-50 to-red-50 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-orange-700/50 dark:from-orange-900/20 dark:to-red-900/20"
+                    >
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-orange-600/10 to-red-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                        >
+                        </div>
+                        <div class="relative">
+                            <div class="mb-4 flex items-center">
+                                <div class="rounded-full bg-gradient-to-r from-orange-500 to-red-500 p-3 text-white">
+                                    <Zap size={24} />
+                                </div>
+                                <h3 class="ml-3 text-xl font-bold text-white">Keyboard Shortcuts</h3>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-orange-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Extensive list of keyboard shortcuts for every action
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-orange-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Forward/backward navigation between recent tabs
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-orange-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Configure shortcuts to match your workflow
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Tab Search Feature -->
+                    <div
+                        class="group relative overflow-hidden rounded-2xl border border-blue-200/50 bg-gradient-to-br from-blue-50 to-cyan-50 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-blue-700/50 dark:from-blue-900/20 dark:to-cyan-900/20"
+                    >
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-cyan-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                        >
+                        </div>
+                        <div class="relative">
+                            <div class="mb-4 flex items-center">
+                                <div class="rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 p-3 text-white">
+                                    <Search size={24} />
+                                </div>
+                                <h3 class="ml-3 text-xl font-bold text-white">Manage Settings</h3>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-blue-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Use cloud sync to move your settings between browsers and devices
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-blue-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Import/Export your settings between browsers and devices
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-blue-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Use saved presets to keep a backup of your favorite theme
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Workspaces Feature - NEW -->
+                    <div
+                        class="group relative overflow-hidden rounded-2xl border border-amber-200/50 bg-gradient-to-br from-amber-50 to-yellow-50 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-amber-700/50 dark:from-amber-900/20 dark:to-yellow-900/20"
+                    >
+                        <div
+                            class="absolute right-3 top-3 rounded-full bg-gradient-to-r from-red-500 to-pink-500 px-3 py-1 text-xs font-bold text-white shadow-lg"
+                        >
+                            New!
+                        </div>
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-amber-600/10 to-yellow-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                        >
+                        </div>
+                        <div class="relative">
+                            <div class="mb-4 flex items-center">
+                                <div class="rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 p-3 text-white">
+                                    <FolderTree size={24} />
+                                </div>
+                                <h3 class="ml-3 text-xl font-bold text-white">Workspaces</h3>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-amber-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Organize tabs by topic or category (work, personal, gaming, etc.)
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-amber-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Switch between workspaces instantly to focus on different tasks
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-amber-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Keep your browser organized by separating contexts and reducing clutter
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-amber-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Each workspace maintains its own set of tabs and groups independently
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Auto Tab Saving Feature - NEW -->
+                    <div
+                        class="group relative overflow-hidden rounded-2xl border border-teal-200/50 bg-gradient-to-br from-teal-50 to-cyan-50 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-teal-700/50 dark:from-teal-900/20 dark:to-cyan-900/20"
+                    >
+                        <div
+                            class="absolute right-3 top-3 rounded-full bg-gradient-to-r from-red-500 to-pink-500 px-3 py-1 text-xs font-bold text-white shadow-lg"
+                        >
+                            New!
+                        </div>
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-teal-600/10 to-cyan-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                        >
+                        </div>
+                        <div class="relative">
+                            <div class="mb-4 flex items-center">
+                                <div class="rounded-full bg-gradient-to-r from-teal-500 to-cyan-500 p-3 text-white">
+                                    <Save size={24} />
+                                </div>
+                                <h3 class="ml-3 text-xl font-bold text-white">Auto Tab Saving</h3>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-teal-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Never lose tabs thanks to our amazing session manager
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-teal-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Restore a specific window, group, or individual tab with one click
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-teal-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Automatic backups protect against crashes and accidental closures
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-teal-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Browse history with confidence knowing everything is recoverable
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Compact Expand on Hover Mode Feature - NEW -->
+                    <div
+                        class="group relative overflow-hidden rounded-2xl border border-slate-200/50 bg-gradient-to-br from-slate-50 to-gray-50 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-slate-700/50 dark:from-slate-900/20 dark:to-gray-900/20"
+                    >
+                        <div
+                            class="absolute right-3 top-3 rounded-full bg-gradient-to-r from-red-500 to-pink-500 px-3 py-1 text-xs font-bold text-white shadow-lg"
+                        >
+                            New!
+                        </div>
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-slate-600/10 to-gray-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                        >
+                        </div>
+                        <div class="relative">
+                            <div class="mb-4 flex items-center">
+                                <div class="rounded-full bg-gradient-to-r from-slate-500 to-gray-500 p-3 text-white">
+                                    <ArrowLeftRight size={24} />
+                                </div>
+                                <h3 class="ml-3 text-xl font-bold text-white">Compact Expand on Hover</h3>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-slate-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Perfect for Vivaldi users with floating sidebar support
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-slate-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Mod replaces default tabs for the ultimate tabs experience
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-slate-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        Automatically expands on hover to show full tab information
+                                    </span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-slate-400"></div>
+                                    <span class="text-lg leading-relaxed text-gray-300">
+                                        <a
+                                            href="https://www.reddit.com/r/SharpTabs/comments/1olgw8d/improved_the_smoothness_of_the_collapsed_mode_and/"
+                                            target="_blank"
+                                            class="text-blue-400 underline hover:text-blue-300"
+                                        >
+                                            Learn more about this feature
+                                        </a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- More Features Coming Soon -->
+                <div class="mt-8 text-center">
+                    <div
+                        class="group relative overflow-hidden rounded-2xl border border-pink-200/50 bg-gradient-to-br from-pink-50 to-rose-50 p-8 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-pink-700/50 dark:from-pink-900/20 dark:to-rose-900/20"
+                    >
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-pink-600/10 to-rose-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                        >
+                        </div>
+                        <div class="relative">
+                            <h3 class="mb-4 text-2xl font-bold text-white">And Much More...</h3>
+                            <p class="mx-auto max-w-3xl text-lg leading-relaxed text-gray-300">
+                                I keep adding features based on your feedback! So please share your ideas with us!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <Footer />
+    </body>
+</html>

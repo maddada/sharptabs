@@ -1,0 +1,109 @@
+---
+import "../styles/global.css";
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+        <link rel="alternate icon" type="image/png" sizes="48x48" href="/icon48.png" />
+        <link rel="alternate icon" type="image/png" sizes="16x16" href="/icon16.png" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>Terms and Conditions | Sharp Tabs</title>
+        <meta
+            name="description"
+            content="Friendly Terms and Conditions for Sharp Tabs Chrome Extension, a simple indie project."
+        />
+
+    </head>
+    <body class="min-h-screen bg-[#03060f] transition-colors duration-300">
+        <Navbar />
+        <main class="mx-auto mt-24 max-w-3xl px-4 py-12 text-white/80">
+            <h1 class="mb-6 text-3xl font-bold">Terms and Conditions</h1>
+            <p class="mb-4 text-sm text-gray-500">Last updated: June 6th, 2025</p>
+            <section class="mb-8">
+                <h2 class="mb-2 text-xl font-semibold">Welcome!</h2>
+                <p>
+                    Thanks for checking out Sharp Tabs! This is a Chrome extension made by a solo developer to help you
+                    manage your tabs more easily. These terms are here to keep things clear and friendly.
+                </p>
+            </section>
+            <section class="mb-8">
+                <h2 class="mb-2 text-xl font-semibold">1. Using Sharp Tabs</h2>
+                <p>
+                    By using Sharp Tabs, you agree to these simple terms. If you have any questions or suggestions, feel
+                    free to reach out at <a
+                        href="mailto:support@sharptabs.com"
+                        class="text-blue-400 underline">support@sharptabs.com</a
+                    >.
+                </p>
+            </section>
+            <section class="mb-8">
+                <h2 class="mb-2 text-xl font-semibold">2. What Sharp Tabs Does</h2>
+                <p>
+                    Sharp Tabs is a Chrome extension for better tab management, including vertical tabs and some
+                    customization. Some features are free, and a few are part of a small premium plan to help cover
+                    development costs.
+                </p>
+            </section>
+            <section class="mb-8">
+                <h2 class="mb-2 text-xl font-semibold">3. Premium Plan</h2>
+                <p>
+                    If you choose to support Sharp Tabs by subscribing to the premium plan, thank you! Premium helps
+                    keep the project going. You can cancel anytime, and if you have any issues, just let me know and
+                    I'll do my best to help.
+                </p>
+            </section>
+            <section class="mb-8">
+                <h2 class="mb-2 text-xl font-semibold">4. Respectful Use</h2>
+                <p>
+                    Please use Sharp Tabs as intended and don't try to break it, crack it, or create clones based on
+                    it's code without permission.
+                </p>
+            </section>
+            <section class="mb-8">
+                <h2 class="mb-2 text-xl font-semibold">5. Privacy</h2>
+                <p>
+                    Your privacy matters. Sharp Tabs doesn't collect any personal or sensitive data at all . We only
+                    store your email address if you create an account. We also store details about your Sharp Tabs
+                    account (registration date, email verification status, subscription details), you're free to use
+                    Sharp Tabs without an account.
+                    <br />
+                    We only optionally Anonymously track the non-sensitive applied settings (once per day max when you close
+                    the settings page), this is to get stats about which settings are most used, and help guide development.
+                    You can easily toggle this off at any time in the general settings section at the top of the settings
+                    page.
+                    <br />
+                    Please check out the <a href="/privacy-policy" class="text-blue-400 underline"
+                        >Privacy Policy</a
+                    > for more details.
+                </p>
+            </section>
+            <section class="mb-8">
+                <h2 class="mb-2 text-xl font-semibold">6. No Guarantees</h2>
+                <p>
+                    I do my best to keep Sharp Tabs working well, but sometimes things might break or not work as
+                    expected. If you run into issues, please let me know and I'll try to fix them!
+                </p>
+            </section>
+            <section class="mb-8">
+                <h2 class="mb-2 text-xl font-semibold">7. Changes to These Terms</h2>
+                <p>
+                    If these terms change, I'll update this page. By continuing to use Sharp Tabs, you're agreeing to
+                    the latest version of the terms. I will add a message on the app's settings when this is done.
+                </p>
+            </section>
+            <section class="mb-8">
+                <h2 class="mb-2 text-xl font-semibold">8. Contact</h2>
+                <p>
+                    Questions, feedback, or just want to say hi? Email me at support@sharptabs.com. I'd love to hear
+                    from you!
+                </p>
+            </section>
+        </main>
+        <Footer />
+    </body>
+</html>

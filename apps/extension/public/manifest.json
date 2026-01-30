@@ -1,0 +1,167 @@
+{
+    "manifest_version": 3,
+    "name": "Sharp Tabs - Best Vertical Tabs Suspender & Organizer!",
+    "short_name": "Sharp Tabs",
+    "version": "2.1.8",
+    "description": "Instant Search. Advanced Suspend. AI Integrations. Auto Session Backups. Duplicates. Workspaces. Themes. and Much More!",
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4IJGu0yk4ns6mLily7sajg52EWpARUQKE4UmuesTcduD6YNp0fMeiSV4SwHz5InMl0VXj0l/lN6CVR4xJUi6pLiHa5EYcX9I1Lr+buVOtuwJ0yhUUzRNvc8HSydWQtS7ElLy4OmSaE0Jle26y1td1NzAgTgyxS2ah5fM3GUkHGmQIwJ8aJfZZLiAuYJm4L/kiFXiEMBcWXQ4n/BF5b8w5FVhCEAIhw+Pp0xl3ofwwf/YtmzY8LjW8WNxIbqNfqIKuDdfm2Uw9LvucN3zkz+smmbrbvcnaDWqzfjK9bHtZlwBk8HroOxmIm0Na8leq0Y0H8NQmQmDrkeTiW3E3YtiZQIDAQAB",
+    "oauth2": {
+        "client_id": "1031894486726-ietdl5p4hvs1hf6ej36otjn5ung35u7c.apps.googleusercontent.com",
+        "scopes": ["openid", "email", "profile"]
+    },
+    "permissions": [
+        "windows",
+        "tabs",
+        "tabGroups",
+        "sessions",
+        "sidePanel",
+        "storage",
+        "unlimitedStorage",
+        "alarms",
+        "contextMenus",
+        "favicon",
+        "bookmarks",
+        "activeTab",
+        "scripting",
+        "search"
+    ],
+    "content_scripts": [
+        {
+            "matches": ["https://sharptabs.com/*", "https://sharp-tabs.firebaseapp.com/*"],
+            "js": ["./assets/content_script.js"],
+            "run_at": "document_start"
+        }
+    ],
+    "action": {
+        "default_title": "Sharp Tabs"
+    },
+    "icons": {
+        "16": "icons/icon16.png",
+        "24": "icons/icon24.png",
+        "32": "icons/icon32.png",
+        "48": "icons/icon48.png",
+        "64": "icons/icon64.png",
+        "128": "icons/icon128.png",
+        "256": "icons/icon256.png",
+        "512": "icons/icon512.png"
+    },
+    "side_panel": {
+        "default_path": "./sb.html"
+    },
+    "options_page": "./settings.html",
+    "background": {
+        "service_worker": "./assets/service_worker.js",
+        "type": "module"
+    },
+    "commands": {
+        "_execute_action": {
+            "description": "Activate the extension",
+            "suggested_key": {
+                "default": "Alt+T",
+                "windows": "Alt+T",
+                "mac": "Alt+T",
+                "linux": "Alt+T",
+                "chromeos": "Alt+T"
+            }
+        },
+        "suspend-current-tab": {
+            "description": "Suspend the current tab",
+            "suggested_key": {
+                "default": "Alt+S",
+                "windows": "Alt+S",
+                "mac": "Alt+S",
+                "linux": "Alt+S",
+                "chromeos": "Alt+S"
+            }
+        },
+        "suspend-group-tabs": {
+            "description": "Suspend all tabs in the current group"
+        },
+        "suspend-window-tabs": {
+            "description": "Suspend all tabs in the current window",
+            "suggested_key": {
+                "default": "Alt+Shift+S",
+                "windows": "Alt+Shift+S",
+                "mac": "Alt+Shift+S",
+                "linux": "Alt+Shift+S",
+                "chromeos": "Alt+Shift+S"
+            }
+        },
+        "open-sidepanel": {
+            "description": "Toggle the side panel",
+            "suggested_key": {
+                "default": "Alt+R",
+                "windows": "Alt+R",
+                "mac": "Alt+R",
+                "linux": "Alt+R",
+                "chromeos": "Alt+R"
+            }
+        },
+        "open-popup": {
+            "description": "Open the popup"
+        },
+        "duplicate-tab": {
+            "description": "Duplicate the current tab"
+        },
+        "new-tab-current-group": {
+            "description": "Create a new tab in the current group"
+        },
+        "switch-to-last-active-tab": {
+            "description": "Switch to the last active tab"
+        },
+        "go-to-tab-1": {
+            "description": "Go to tab 1"
+        },
+        "go-to-tab-2": {
+            "description": "Go to tab 2"
+        },
+        "go-to-tab-3": {
+            "description": "Go to tab 3"
+        },
+        "go-to-tab-4": {
+            "description": "Go to tab 4"
+        },
+        "go-to-tab-5": {
+            "description": "Go to tab 5"
+        },
+        "go-to-tab-6": {
+            "description": "Go to tab 6"
+        },
+        "go-to-tab-7": {
+            "description": "Go to tab 7"
+        },
+        "go-to-tab-8": {
+            "description": "Go to tab 8"
+        },
+        "go-to-tab-9": {
+            "description": "Go to tab 9"
+        },
+        "go-to-tab-last-tab": {
+            "description": "Go to last tab"
+        },
+        "navigate-back": {
+            "description": "Navigate to previous active tab in this window"
+        },
+        "navigate-forward": {
+            "description": "Navigate to next active tab in this window"
+        },
+        "switch-to-workspace-1": {
+            "description": "Switch to 1st workspace"
+        },
+        "switch-to-workspace-2": {
+            "description": "Switch to 2nd workspace"
+        },
+        "switch-to-workspace-3": {
+            "description": "Switch to 3rd workspace"
+        },
+        "switch-to-workspace-4": {
+            "description": "Switch to 4th workspace"
+        },
+        "switch-to-workspace-5": {
+            "description": "Switch to 5th workspace"
+        },
+        "switch-to-workspace-6": {
+            "description": "Switch to 6th workspace"
+        }
+    }
+}

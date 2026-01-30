@@ -1,0 +1,30 @@
+---
+import "../styles/global.css";
+import FAQ from "../components/FAQ.astro";
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+        <link rel="alternate icon" type="image/png" sizes="48x48" href="/icon48.png" />
+        <link rel="alternate icon" type="image/png" sizes="16x16" href="/icon16.png" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>FAQ - Sharp Tabs</title>
+        <meta name="description" content="Frequently Asked Questions about Sharp Tabs vertical tabs extension." />
+    </head>
+    <body class="min-h-screen select-none bg-black transition-colors duration-300">
+        <Navbar />
+        <section class="bg-gradient-to-r from-black via-[#050c18] to-black pb-16 pt-32 transition-colors duration-300">
+            <div class="container mx-auto px-4">
+                <main class="mx-auto max-w-3xl">
+                    <FAQ />
+                </main>
+            </div>
+        </section>
+        <Footer />
+    </body>
+</html>

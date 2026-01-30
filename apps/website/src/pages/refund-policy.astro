@@ -1,0 +1,162 @@
+---
+import "../styles/global.css";
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+        <link rel="alternate icon" type="image/png" sizes="48x48" href="/icon48.png" />
+        <link rel="alternate icon" type="image/png" sizes="16x16" href="/icon16.png" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>Refund Policy | Sharp Tabs</title>
+        <meta
+            name="description"
+            content="Refund Policy for Sharp Tabs Chrome Extension, including details on eligibility and process."
+        />
+    </head>
+    <body class="min-h-screen bg-[#03060f] transition-colors duration-300">
+        <Navbar />
+        <main class="mx-auto max-w-3xl px-4 py-40 text-white/80">
+            <h1 class="mb-6 text-3xl font-bold">Refund Policy</h1>
+            <p class="mb-4 text-sm text-gray-500">Last updated: June 6, 2025</p>
+            <section class="mb-8">
+                <h2 class="mb-2 text-xl font-semibold">Thank you for choosing Sharp Tabs!</h2>
+                <p>
+                    Our goal is to provide a valuable and enjoyable experience. We understand that sometimes things don't work out
+                    as expected, and we've created this policy to explain when you may be eligible for a refund.<br />
+                    Our policy is designed to be transparent and fair. Please read it carefully to understand your rights and our obligations.
+                </p>
+            </section>
+            <section class="mb-8">
+                <h2 class="mb-2 text-xl font-semibold">1. General Policy & Platform Refunds</h2>
+                <p>
+                    For most users, purchases are made through an app store platform like the Apple App Store or the Google Play
+                    Store. These platforms act as the merchant of record and have their own robust refund policies and processes.<br
+                    />
+                    As such, nearly all refund requests must be processed directly through the platform where you made the purchase.
+                    We do not have the ability to process refunds for purchases made through Apple or Google.
+                </p>
+                <ul class="ml-6 mt-2 list-disc">
+                    <li>
+                        For Apple App Store Purchases: Apple handles all billing and refunds for iOS apps. To request a refund
+                        from Apple, please visit: <a
+                            href="https://reportaproblem.apple.com/"
+                            class="text-blue-400 underline"
+                            target="_blank">https://reportaproblem.apple.com/</a
+                        >
+                    </li>
+                    <li>
+                        For Google Play Store Purchases: Google handles all billing and refunds for Android apps. To request a
+                        refund from Google, please follow their instructions here: <a
+                            href="https://support.google.com/googleplay/answer/2479637"
+                            class="text-blue-400 underline"
+                            target="_blank">https://support.google.com/googleplay/answer/2479637</a
+                        >
+                    </li>
+                </ul>
+            </section>
+            <section class="mb-8">
+                <h2 class="mb-2 text-xl font-semibold">2. Eligibility for Refunds</h2>
+                <p>
+                    While the final decision rests with the app store, here are our general guidelines on what we consider
+                    eligible for a refund. You can use these as a reference when submitting your request to Apple or Google.
+                </p>
+                <ul class="ml-6 mt-2 list-disc">
+                    <li>
+                        <b>Subscriptions (e.g., Monthly/Annual Pro)</b>
+                        <ul class="ml-6 mt-2 list-disc">
+                            <li>
+                                <b>Initial Subscription:</b> If you are unhappy with your initial subscription for any reason, you
+                                may be eligible for a full refund if you request it within 14 days of the purchase date.
+                            </li>
+                            <li>
+                                <b>Subscription Renewals:</b> Automatic renewals are generally non-refundable. You are responsible
+                                for canceling your subscription before the renewal date. You can cancel your subscription at any time
+                                to prevent future charges, and you will retain access to premium features until the end of your current
+                                billing period.
+                            </li>
+                            <li>
+                                <b>Accidental Renewals:</b> If you forgot to cancel and were charged for a renewal you did not want,
+                                please request a refund from the app store within 48 hours of the charge.
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="mt-2">
+                        <b>One-Time Purchases (e.g., Lifetime Premium, Feature Unlock)</b><br />
+                        We offer a 30-day money-back guarantee on all one-time purchases. If you are not satisfied with your purchase,
+                        you are eligible for a full refund provided you request it within 30 days of the transaction date.
+                    </li>
+                    <li class="mt-2">
+                        <b>Technical Issues</b><br />
+                        If Sharp Tabs has a critical technical failure or bug that prevents you from using its core features, and we
+                        are unable to provide a working solution within a reasonable timeframe, you may be eligible for a refund. Please
+                        contact our support team first at <a href="mailto:support@sharptabs.com" class="text-blue-400 underline"
+                            >support@sharptabs.com</a
+                        > to report the issue.
+                    </li>
+                </ul>
+            </section>
+            <section class="mb-8">
+                <h2 class="mb-2 text-xl font-semibold">3. What is Not Eligible for a Refund?</h2>
+                <ul class="ml-6 mt-2 list-disc">
+                    <li>
+                        In-App Consumables: Any consumable in-app purchases (e.g., credits, coins, tokens, gems) that have been
+                        used or consumed are non-refundable.
+                    </li>
+                    <li>
+                        Partial Subscription Periods: We do not offer prorated refunds for canceled subscriptions. You will retain
+                        access for the remainder of the paid period.
+                    </li>
+                    <li>
+                        Violation of Terms of Service: If your account is suspended or terminated due to a violation of our Terms
+                        of Service, you forfeit your right to any and all refunds.
+                    </li>
+                    <li>
+                        Purchases Made More Than 30 Days Ago: Except where required by law, one-time purchases made more than 30
+                        days ago are not eligible for a refund.
+                    </li>
+                </ul>
+            </section>
+            <section class="mb-8">
+                <h2 class="mb-2 text-xl font-semibold">4. How to Request a Refund (for Direct Purchases)</h2>
+                <p>
+                    If you made a purchase directly from our website (not through an app store), please contact our support team
+                    to request a refund.<br />
+                    Email us at <a href="mailto:support@sharptabs.com" class="text-blue-400 underline">support@sharptabs.com</a> with
+                    the following information:
+                </p>
+                <ul class="ml-6 mt-2 list-disc">
+                    <li>Subject Line: "Refund Request"</li>
+                    <li>The email address associated with your Sharp Tabs account.</li>
+                    <li>The order number or a copy of your receipt.</li>
+                    <li>A brief reason for your refund request.</li>
+                </ul>
+                <p class="mt-2">
+                    We will review your request and notify you of our decision within 5-7 business days. If approved, your refund
+                    will be processed back to your original payment method.
+                </p>
+            </section>
+            <section class="mb-8">
+                <h2 class="mb-2 text-xl font-semibold">5. Changes to This Policy</h2>
+                <p>
+                    Sharp Tabs reserves the right to modify this Refund Policy at any time. We will post the updated policy on
+                    this page and indicate the date of the latest revision. We encourage you to review this policy periodically.
+                </p>
+            </section>
+            <section class="">
+                <h2 class="mb-2 text-xl font-semibold">6. Contact Us</h2>
+                <p>
+                    If you have any questions about our Refund Policy, please contact us at <a
+                        href="mailto:support@sharptabs.com"
+                        class="text-blue-400 underline">support@sharptabs.com</a
+                    > or visit our <a href="/support" class="text-blue-400 underline">support page</a>.
+                </p>
+            </section>
+        </main>
+        <Footer />
+    </body>
+</html>

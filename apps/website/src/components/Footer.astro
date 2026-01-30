@@ -1,0 +1,86 @@
+---
+
+---
+
+<footer class="border-t border-white/5 bg-gradient-to-br from-[#000e2b] via-gray-950 to-black py-12 text-white">
+    <div class="container-outer">
+        <div class="mb-8 flex flex-col items-center justify-between md:flex-row">
+            <a class="flex h-10 flex-row items-center gap-2" href={Astro.url.pathname === "/" ? "#top" : "/"}>
+                <img src="/icon.svg" alt="Sharp Tabs" class="w-10" />
+                <div class="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-xl font-bold text-transparent">Sharp Tabs</div>
+            </a>
+
+            <!-- <div class="flex space-x-6"> -->
+            <!-- <a href="#" class="text-gray-400 transition-colors hover:text-white">
+                    <Github size={24} />
+                </a> -->
+            <!-- <a href="#" class="text-gray-400 transition-colors hover:text-white">
+                    <Twitter size={24} />
+                </a> -->
+            <!-- <a href="#" class="text-gray-400 transition-colors hover:text-white">
+                    <img src="reddit.svg" alt="Reddit" class="h-6 w-6" />
+                </a> -->
+            <!-- </div> -->
+        </div>
+
+        <div class="mt-10 border-t border-white/10 pt-10">
+            <div class="flex flex-col justify-between md:flex-row">
+                <div class="mb-6 md:mb-0">
+                    <h4 class="mb-4 text-lg font-semibold text-white">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="#features" class="text-gray-300 transition-all duration-300 hover:translate-x-1 hover:text-blue-400">Features</a>
+                        </li>
+                        <li>
+                            <a href="#use-cases" class="text-gray-300 transition-all duration-300 hover:translate-x-1 hover:text-blue-400">Use Cases</a>
+                        </li>
+                        <li>
+                            <a href="#customize" class="text-gray-300 transition-all duration-300 hover:translate-x-1 hover:text-blue-400"
+                                >Customization</a
+                            >
+                        </li>
+                        <li>
+                            <a href="https://chromewebstore.google.com/detail/sharp-tabs-the-most-polis/ooagakphldicpdeamgchdkpfbehcdjjk"
+                            target="_blank" class="text-gray-300 transition-all duration-300 hover:translate-x-1 hover:text-blue-400">Install</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="mb-6 md:mb-0">
+                    <h4 class="mb-4 text-lg font-semibold text-white">Resources</h4>
+                    <ul class="space-y-2">
+                        <!-- <li><a href="#" class="text-gray-400 transition-colors hover:text-white">Documentation</a></li>
+                        <li><a href="#" class="text-gray-400 transition-colors hover:text-white">FAQ</a></li> -->
+                        <li>
+                            <a href="/privacy-policy" class="text-gray-300 transition-all duration-300 hover:translate-x-1 hover:text-blue-400"
+                                >Privacy Policy</a
+                            >
+                        </li>
+                        <li>
+                            <a href="/terms-and-conditions" class="text-gray-300 transition-all duration-300 hover:translate-x-1 hover:text-blue-400"
+                                >Terms & Conditions</a
+                            >
+                        </li>
+                        <li>
+                            <a href="/refund-policy" class="text-gray-300 transition-all duration-300 hover:translate-x-1 hover:text-blue-400"
+                                >Refund Policy</a
+                            >
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="mb-4 text-lg font-semibold text-white">Contact</h4>
+                    <p class="mb-2 text-gray-300">Have questions or feedback?</p>
+                    <a href="mailto:support@sharptabs.com" class="text-blue-400 transition-all duration-300 hover:text-cyan-400 hover:underline"
+                        >support@sharptabs.com</a
+                    >
+                </div>
+            </div>
+
+            <div class="mt-8 border-t border-white/10 pt-8 text-center text-sm text-gray-400">
+                <p>&copy; {new Date().getFullYear()} Sharp Tabs. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</footer>

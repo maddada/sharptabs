@@ -1,0 +1,245 @@
+---
+import ArrowRight from "@lucide/astro/icons/arrow-right";
+---
+
+<section class="relative overflow-hidden pb-20 pt-32 transition-colors duration-300">
+    <div class="container-outer relative">
+        <!-- Main hero text section -->
+        <div class="flex animate-slide-right flex-col items-center text-center">
+            <h1
+                class="mb-6 text-4xl font-bold leading-tight text-white/90 drop-shadow-[0_0_18px_rgba(78,163,255,0.25)] md:text-5xl lg:text-6xl"
+            >
+                The Most Polished and Performant <span
+                    class="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Vertical Tabs</span
+                > Extension
+            </h1>
+            <p class="mb-8 max-w-5xl text-balance text-lg text-gray-300 md:text-xl">
+                Organize your tabs vertically for improved productivity and efficient workspace management. Pro user features like
+                hotkeys, session management, full theming, and more.
+            </p>
+            <div class="flex flex-col gap-3 sm:flex-row sm:gap-4">
+                <a
+                    href="https://chromewebstore.google.com/detail/sharp-tabs-the-most-polis/ooagakphldicpdeamgchdkpfbehcdjjk"
+                    target="_blank"
+                    class="inline-flex items-center rounded-lg bg-gradient-to-r from-blue-600 to-cyan-600 px-5 py-3 font-medium text-white transition-all duration-300 hover:from-blue-500 hover:to-cyan-500 hover:shadow-lg"
+                >
+                    Get Extension
+                    <ArrowRight size={18} class="ml-2" />
+                </a>
+                <a
+                    href="https://www.reddit.com/r/SharpTabs/"
+                    target="_blank"
+                    rel="noopener"
+                    class="inline-flex items-center gap-2 rounded-lg border border-blue-400/30 bg-blue-500/10 px-6 py-3 font-medium text-blue-200 transition-all duration-300 hover:border-blue-300/50 hover:bg-blue-500/20"
+                >
+                    <img src="/reddit.svg" alt="Reddit" class="h-5 w-5" />
+                    Discuss SharpTabs
+                </a>
+            </div>
+        </div>
+
+        <!-- Video section below main content -->
+        <div class="mt-16 flex animate-slide-up flex-col items-center">
+            <h2
+                class="mb-8 text-center text-2xl font-bold leading-tight text-white/90 drop-shadow-[0_0_18px_rgba(78,163,255,0.25)]"
+            >
+                Watch to see what <span class="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent"
+                    >Sharp Tabs</span
+                > is all about!
+            </h2>
+            <div class="w-full max-w-4xl">
+                <div class="relative">
+                    <div
+                        class="pointer-events-none absolute -inset-6 -z-10 rounded-[28px] bg-gradient-to-br from-blue-500/15 to-cyan-500/10 blur-2xl"
+                    >
+                    </div>
+                    <div
+                        id="hero-image-container"
+                        class="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-blue-400/25 bg-gray-800/60 shadow-2xl"
+                    >
+                        <div class="video-container">
+                            <iframe
+                                src="https://www.youtube.com/embed/bkQlpyZc8iI?si=z315HMxTP_JQGkxz&controls=1"
+                                title="YouTube video player"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script is:inline>
+    document.addEventListener("DOMContentLoaded", function () {
+        const heroImg = document.getElementById("hero-image");
+        if (!heroImg) return;
+
+        const heroImages = ["/hero1.png", "/hero2.png", "/hero3.png", "/hero5.png", "/hero6.png", "/hero7.jpeg", "hero.gif"];
+        let currentIdx = 0;
+
+        function showOverlay(idx) {
+            if (document.getElementById("hero-image-pop-overlay")) return;
+            currentIdx = idx;
+            const overlay = document.createElement("div");
+            overlay.id = "hero-image-pop-overlay";
+            overlay.style.position = "fixed";
+            overlay.style.inset = "0";
+            overlay.style.background = "rgba(0,0,0,0.7)";
+            overlay.style.display = "flex";
+            overlay.style.alignItems = "center";
+            overlay.style.justifyContent = "center";
+            overlay.style.zIndex = "9999";
+
+            const wrapper = document.createElement("div");
+            wrapper.style.position = "relative";
+            wrapper.style.width = "90vw";
+            wrapper.style.maxWidth = "1600px";
+            wrapper.style.aspectRatio = "60/37";
+            wrapper.style.background = "transparent";
+            wrapper.style.display = "flex";
+            wrapper.style.alignItems = "center";
+            wrapper.style.justifyContent = "center";
+
+            const img = document.createElement("img");
+            img.src = heroImages[currentIdx];
+            img.alt = heroImg.alt;
+            img.style.width = "100%";
+            img.style.height = "100%";
+            img.style.objectFit = "cover";
+            img.style.borderRadius = "0.5rem";
+            img.style.border = "4px solid white";
+            img.style.background = "#e5e7eb";
+            img.style.boxShadow = "0 10px 40px rgba(0,0,0,0.2)";
+            img.style.cursor = "pointer";
+
+            // Close button
+            const closeBtn = document.createElement("button");
+            closeBtn.innerHTML = "&times;";
+            closeBtn.setAttribute("aria-label", "Close");
+            closeBtn.style.position = "absolute";
+            closeBtn.style.top = "12px";
+            closeBtn.style.right = "12px";
+            closeBtn.style.background = "rgba(255,255,255,0.8)";
+            closeBtn.style.border = "none";
+            closeBtn.style.borderRadius = "9999px";
+            closeBtn.style.width = "36px";
+            closeBtn.style.height = "36px";
+            closeBtn.style.fontSize = "2rem";
+            closeBtn.style.cursor = "pointer";
+            closeBtn.style.lineHeight = "1";
+            closeBtn.style.display = "flex";
+            closeBtn.style.alignItems = "center";
+            closeBtn.style.justifyContent = "center";
+            closeBtn.style.zIndex = "10000";
+
+            // Left arrow
+            const leftArrow = document.createElement("button");
+            leftArrow.innerHTML = "&#8592;";
+            leftArrow.setAttribute("aria-label", "Previous image");
+            leftArrow.style.position = "absolute";
+            leftArrow.style.left = "-56px";
+            leftArrow.style.top = "50%";
+            leftArrow.style.transform = "translateY(-50%)";
+            leftArrow.style.background = "rgba(255,255,255,0.8)";
+            leftArrow.style.border = "none";
+            leftArrow.style.borderRadius = "9999px";
+            leftArrow.style.width = "44px";
+            leftArrow.style.height = "44px";
+            leftArrow.style.fontSize = "2rem";
+            leftArrow.style.cursor = "pointer";
+            leftArrow.style.display = "flex";
+            leftArrow.style.alignItems = "center";
+            leftArrow.style.justifyContent = "center";
+            leftArrow.style.zIndex = "10000";
+
+            // Right arrow
+            const rightArrow = document.createElement("button");
+            rightArrow.innerHTML = "&#8594;";
+            rightArrow.setAttribute("aria-label", "Next image");
+            rightArrow.style.position = "absolute";
+            rightArrow.style.right = "-56px";
+            rightArrow.style.top = "50%";
+            rightArrow.style.transform = "translateY(-50%)";
+            rightArrow.style.background = "rgba(255,255,255,0.8)";
+            rightArrow.style.border = "none";
+            rightArrow.style.borderRadius = "9999px";
+            rightArrow.style.width = "44px";
+            rightArrow.style.height = "44px";
+            rightArrow.style.fontSize = "2rem";
+            rightArrow.style.cursor = "pointer";
+            rightArrow.style.display = "flex";
+            rightArrow.style.alignItems = "center";
+            rightArrow.style.justifyContent = "center";
+            rightArrow.style.zIndex = "10000";
+
+            function updateImage(newIdx) {
+                currentIdx = (newIdx + heroImages.length) % heroImages.length;
+                img.src = heroImages[currentIdx];
+            }
+
+            // Keyboard controls
+            function handleKeyDown(e) {
+                if (e.key === "ArrowLeft") {
+                    e.preventDefault();
+                    updateImage(currentIdx - 1);
+                } else if (e.key === "ArrowRight") {
+                    e.preventDefault();
+                    updateImage(currentIdx + 1);
+                } else if (e.key === "Escape") {
+                    e.preventDefault();
+                    overlay.remove();
+                }
+            }
+            document.addEventListener("keydown", handleKeyDown);
+
+            leftArrow.addEventListener("click", function (e) {
+                e.stopPropagation();
+                updateImage(currentIdx - 1);
+            });
+            rightArrow.addEventListener("click", function (e) {
+                e.stopPropagation();
+                updateImage(currentIdx + 1);
+            });
+
+            // Clicking the image closes the overlay
+            img.addEventListener("click", function () {
+                overlay.remove();
+            });
+
+            overlay.addEventListener("click", function () {
+                overlay.remove();
+            });
+
+            closeBtn.addEventListener("click", function (e) {
+                e.stopPropagation();
+                overlay.remove();
+            });
+
+            // Remove keyboard listener when overlay is closed
+            function cleanup() {
+                document.removeEventListener("keydown", handleKeyDown);
+            }
+            overlay.addEventListener("remove", cleanup);
+            // Also call cleanup on removal
+            const origRemove = overlay.remove.bind(overlay);
+            overlay.remove = function () {
+                cleanup();
+                origRemove();
+            };
+
+            wrapper.appendChild(leftArrow);
+            wrapper.appendChild(img);
+            wrapper.appendChild(rightArrow);
+            wrapper.appendChild(closeBtn);
+            overlay.appendChild(wrapper);
+            document.body.appendChild(overlay);
+        }
+
+        heroImg.addEventListener("click", function () {
+            showOverlay(0);
+        });
+    });
+</script>

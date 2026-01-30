@@ -1,0 +1,107 @@
+---
+interface Props {
+    showTitle?: boolean;
+    showDescription?: boolean;
+}
+
+const { showTitle = true } = Astro.props;
+---
+
+
+<div
+    class={"max-w-2xl mx-auto grid gap-6 md:grid-cols-2 lg:grid-cols-4" +
+        (Astro.url.pathname === "/pricing" ? " pointer-events-none" : "")}
+>
+    <div
+        class="group relative flex cursor-pointer flex-col items-center overflow-hidden rounded-2xl border border-blue-700/50 bg-gradient-to-br from-blue-900/60 to-cyan-900/60 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+        data-plan="3months"
+        data-price="4"
+    >
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-cyan-600/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+        <div class="relative mb-2 text-3xl font-bold text-white">$4</div>
+        <div class="relative text-gray-300">3 months</div>
+    </div>
+    <div
+        class="group relative flex cursor-pointer flex-col items-center overflow-hidden rounded-2xl border border-blue-700/50 bg-gradient-to-br from-blue-900/60 to-cyan-900/60 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+        data-plan="6months"
+        data-price="6"
+    >
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-cyan-600/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+        <div class="relative mb-2 text-3xl font-bold text-white">$6</div>
+        <div class="relative text-gray-300">6 months</div>
+    </div>
+    <div
+        class="group relative flex cursor-pointer flex-col items-center overflow-hidden rounded-2xl border border-blue-700/50 bg-gradient-to-br from-blue-900/60 to-cyan-900/60 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+        data-plan="12months"
+        data-price="9"
+    >
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-cyan-600/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+        <div class="relative mb-2 text-3xl font-bold text-white">$9</div>
+        <div class="relative text-gray-300">1 year</div>
+    </div>
+    <div
+        class="group relative flex cursor-pointer flex-col items-center overflow-hidden rounded-2xl border border-blue-700/50 bg-gradient-to-br from-blue-900/60 to-cyan-900/60 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+        data-plan="lifetime"
+        data-price="15"
+    >
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-cyan-600/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+        <div class="relative mb-2 text-3xl font-bold text-white">$15</div>
+        <div class="relative text-gray-300">Lifetime</div>
+    </div>
+</div>
+
+<div id="selected-plan" class={"mt-12 hidden text-center" + (Astro.url.pathname === "/pricing" ? " hidden" : "")}>
+    <div class="inline-flex items-center rounded-md bg-primary/10 px-4 py-2 dark:bg-primary/20">
+        <span class="text-lg font-medium text-white">
+            Selected: <span id="selected-plan-text"></span>
+        </span>
+    </div>
+</div>
+
+<!-- Firebase Configuration -->
+<script is:inline define:vars={{
+    firebaseConfig: {
+        apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
+        authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN,
+        projectId: import.meta.env.PUBLIC_FIREBASE_PROJECT_ID,
+        storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
+        messagingSenderId: import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+        appId: import.meta.env.PUBLIC_FIREBASE_APP_ID
+    }
+}}>
+    // Set Firebase configuration from environment variables if not already set
+    if (!window.firebaseConfig) {
+        window.firebaseConfig = firebaseConfig;
+    }
+</script>
+
+<script type="module" src="/scripts/pricing-cards.js"></script>
+
+<script>
+    // Handle plan selection
+    document.addEventListener("DOMContentLoaded", () => {
+        const planCards = document.querySelectorAll("[data-plan]");
+
+        planCards.forEach((card) => {
+            card.addEventListener("click", () => {
+                const plan = card.getAttribute("data-plan");
+                const price = card.getAttribute("data-price");
+
+                // Remove previous selection
+                planCards.forEach((c) => c.classList.remove("ring-2", "ring-white", "dark:ring-white"));
+
+                // Add selection to clicked card
+                card.classList.add("ring-2", "ring-white", "dark:ring-white");
+
+                window.selectedPlan = { plan, price };
+
+                // Trigger custom event for parent components to listen to
+                window.dispatchEvent(
+                    new CustomEvent("planSelected", {
+                        detail: { plan, price: parseFloat(price ?? "0") },
+                    })
+                );
+            });
+        });
+    });
+</script>

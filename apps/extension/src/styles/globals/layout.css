@@ -1,0 +1,311 @@
+
+*,
+body {
+    font-family: var(--font-sans);
+}
+
+#root {
+    opacity: 1;
+    /* transition: opacity 0s linear; */
+}
+
+.popup-root {
+    min-width: 300px;
+    max-width: 800px;
+}
+
+#tabs-scroll-container::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    background: transparent;
+}
+
+#tabs-scroll-container {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+/* Show scrollbar when setting is enabled */
+#tabs-scroll-container[data-show-scrollbar="true"]::-webkit-scrollbar {
+    display: block;
+    width: 4px;
+    background: transparent;
+}
+
+#tabs-scroll-container[data-show-scrollbar="true"]::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--foreground) / 0.1);
+    border-radius: 8px;
+}
+
+/* Dark scrollbar for light theme */
+.light #tabs-scroll-container[data-show-scrollbar="true"]::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--foreground) / 0.3);
+}
+
+#tabs-scroll-container[data-show-scrollbar="true"] {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--foreground) / 0.1) transparent;
+}
+
+/* Dark scrollbar for light theme in Firefox */
+.light #tabs-scroll-container[data-show-scrollbar="true"] {
+    scrollbar-color: hsl(var(--foreground) / 0.3) transparent;
+}
+
+div[role="dialog"] div:has(> #rbgcp-color-picker-dark) {
+    background-color: transparent !important;
+}
+
+/* Make the sonner toast close button on the top right instead of top left */
+[data-sonner-toast][data-styled="true"] [data-close-button] {
+    left: unset !important;
+    right: -14px !important;
+    top: 0px !important;
+}
+
+#tabs-manager-header {
+    opacity: 1;
+    transition: opacity 0s;
+    will-change: opacity;
+}
+
+#workspace-bar-container {
+    opacity: 1;
+    /* transition: opacity 0.15s; */
+    will-change: opacity;
+    height: 48px;
+    align-self: center;
+    margin-inline: 14px;
+    max-width: calc(100% - 28px);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+#workspace-bar-container::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+    background: transparent;
+}
+
+#tabs-manager-footer > * {
+    opacity: 1;
+    transition: opacity 0.2s;
+    will-change: opacity;
+}
+
+@media screen and (max-width: 198px) {
+    #workspace-bar-container {
+        opacity: 0;
+    }
+
+    #tabs-manager-header {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    #selected-tabs-notice,
+    .toaster {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    #tabs-manager-footer > * {
+        opacity: 0;
+    }
+
+    .new-tab-button-area {
+        opacity: 0;
+    }
+
+    .tab-title,
+    .tab-pin-button,
+    .tab-discarded-icon,
+    .tab-close-button,
+    .tab-mute-button {
+        flex-shrink: 1 !important;
+    }
+}
+
+@media screen and (max-width: 140px) {
+    /* .tab-title {
+        opacity: 0 !important;
+    } */
+}
+
+/* @keyframes faviconFadeInOut {
+    0% {
+        transform: translatex(0px);
+    }
+    50% {
+        transform: translatex(-3px);
+    }
+    100% {
+        transform: translatex(0px);
+    }
+} */
+
+/* @media screen and (max-width: 217px) {
+    .tab-favicon-container {
+        animation: faviconFadeInOut 0.7s ease-in-out;
+    }
+} */
+
+/* Vivaldi collapsed sidebar styles */
+@media screen and (max-width: 84px) {
+    .tab-title,
+    .tab-pin-button,
+    .tab-discarded-icon,
+    .tab-close-button,
+    .tab-media-container,
+    .tab-mute-button {
+        display: none !important;
+    }
+
+    /* Adjust pinned and compact pinned */
+    div.pinned-tab,
+    div.regular-tab {
+        margin-left: 3px;
+    }
+
+    div.compact-pinned-tab-wrapper {
+        margin-left: 15px;
+    }
+
+    /* Centering the icons in narrow mode */
+    /* Adjust the group */
+    .group-expand-icon-container {
+        margin-left: 1.5px;
+    }
+
+    /* Adjust grouped tabs */
+    div.grouped-tab {
+        margin-left: 2px;
+
+        .tab-favicon-container {
+            margin-left: 3px;
+        }
+    }
+
+    #eseparator-newtab {
+        opacity: 0;
+        transition: opacity 0s;
+    }
+
+    .group-item-container {
+        margin-left: 15px;
+    }
+
+    .group-expand-icon {
+        margin-left: 15px;
+    }
+
+    .group-title,
+    .group-audio-icon,
+    .group-discarded-icon,
+    .group-current-icon,
+    .group-add-tab-button {
+        display: none;
+    }
+
+    /* Always hide scrollbar in compact mode */
+    #tabs-scroll-container::-webkit-scrollbar {
+        display: none !important;
+        width: 0 !important;
+        background: transparent !important;
+    }
+
+    #tabs-scroll-container {
+        scrollbar-width: none !important;
+        -ms-overflow-style: none !important;
+    }
+
+    /* Remove padding from gtabs in compact mode */
+    div.grouped-tab {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+
+    /* Make regular tabs centered in compact mode */
+    div.regular-tab > div,
+    div.pinned-tab > div {
+        justify-content: center;
+    }
+
+    /* Adjust padding on regular tabs in compact mode */
+    div.regular-tab {
+        padding-left: 33px !important;
+        padding-right: 0px !important;
+    }
+
+    /* Adjust padding on pinned tabs in compact mode */
+    div.pinned-tab {
+        padding-left: 33px !important;
+        padding-right: 0px !important;
+    }
+
+    /* Hide context menu */
+    div[data-radix-menu-content],
+    /* Hide rename dialog */
+    div[role="dialog"],
+    /* Hide background behind rename dialog */
+    div[data-state="open"].fixed {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width: 80px) {
+    #tabs-manager-container {
+        margin-left: 4px;
+    }
+}
+
+/* @media screen and (max-width: 224px) {
+    .tab-title,
+    .tab-pin-button,
+    .tab-discarded-icon,
+    .tab-close-button,
+    .tab-media-container,
+    .tab-mute-button {
+        animation: faviconFadeInOut 0.6s ease-in-out;
+    }
+} */
+
+/* Define transition at wider breakpoint - elements visible */
+/* .tab-title,
+.tab-pin-button,
+.tab-discarded-icon,
+.tab-close-button,
+.tab-media-container,
+.tab-mute-button {
+    transition: opacity 0.3s ease-in-out;
+}*/
+
+/* Fade out at narrower breakpoint - remove !important */
+/*@media screen and (max-width: 224px) {
+    .tab-title,
+    .tab-pin-button,
+    .tab-discarded-icon,
+    .tab-close-button,
+    .tab-media-container,
+    .tab-mute-button {
+        opacity: 0 !important;
+    }
+}*/
+
+
+/* Extend hover area of TabHeaderSeparator to trigger header expansion */
+/* .hover-trigger-header-expand {
+    position: relative;
+    padding-top: 20px;
+    margin-top: -20px;
+} */
+
+/* Force expand the header when hovering over the separator */
+.header-buttons-container.force-expanded {
+    margin-top: 0 !important;
+    height: 34px !important;
+    overflow: visible !important;
+    opacity: 1 !important;
+    padding-top: 0.5rem !important;
+}

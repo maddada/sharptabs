@@ -1,0 +1,361 @@
+---
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
+import PremiumBenefits from "../components/PremiumBenefits.astro";
+import PricingCards from "../components/PricingCards.astro";
+import "../styles/global.css";
+import { CheckCircle, Square, Zap, Eye, Layers, Image, Bookmark, Tag, Monitor } from "@lucide/astro";
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+        <link rel="alternate icon" type="image/png" sizes="48x48" href="/icon48.png" />
+        <link rel="alternate icon" type="image/png" sizes="16x16" href="/icon16.png" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>Sharp Tabs - Feature Roadmap</title>
+        <meta
+            name="description"
+            content="Discover upcoming features and improvements for Sharp Tabs. See what's planned for the future of the best vertical tabs extension."
+        />
+    </head>
+    <body class="min-h-screen select-none bg-black transition-colors duration-300">
+        <Navbar />
+
+        <!-- Hero Section themed like features page -->
+        <section class="bg-gradient-to-r from-black via-[#020b1c] to-black pb-20 pt-24 transition-colors duration-300">
+            <div class="container mx-auto max-w-5xl px-4">
+                <!-- Header -->
+                <div class="mb-16 text-center">
+                    <div
+                        class="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-2"
+                    >
+                        <Zap size={20} class="text-blue-400" />
+                        <span class="font-medium text-blue-300">What's coming!</span>
+                    </div>
+                    <h1 class="mb-6 text-5xl font-bold text-white md:text-6xl">Feature Roadmap</h1>
+                    <p class="mx-auto max-w-3xl text-xl leading-relaxed text-gray-300">
+                        Exciting new features and improvements coming to Sharp Tabs based on your feedback!
+                    </p>
+                </div>
+
+                <!-- Contact Section (unified with features page style) -->
+                <div
+                    class="mb-12 rounded-2xl border border-blue-500/15 bg-gradient-to-br from-gray-950/50 to-[#000e2b]/80 p-8 shadow-2xl backdrop-blur-sm"
+                    style="background-color: rgba(0, 14, 43, 0.6);"
+                >
+                    <div class="text-center">
+                        <h3 class="mb-4 text-2xl font-semibold text-white">Have a Feature Request?</h3>
+                        <p class="mb-6 text-lg text-gray-300">Your feedback drives our development. Share your ideas with us!</p>
+                        <div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
+                            <a
+                                href="mailto:support@sharptabs.com"
+                                class="inline-flex transform items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-all duration-300 hover:scale-105 hover:bg-blue-500 hover:shadow-lg"
+                            >
+                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                                </svg>
+                                Email Us
+                            </a>
+                            <span class="text-gray-400">or</span>
+                            <a
+                                href="https://www.reddit.com/r/sharptabs/"
+                                target="_blank"
+                                class="inline-flex transform items-center gap-2 rounded-lg bg-orange-600 px-6 py-3 font-medium text-white transition-all duration-300 hover:scale-105 hover:bg-orange-500 hover:shadow-lg"
+                            >
+                                <img src="/reddit.svg" alt="Reddit" class="h-5 w-5" />
+                                r/sharptabs
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main content area themed like features page body section -->
+            <section class="bg-[#030811] py-20">
+                <div class="container mx-auto max-w-5xl px-4">
+                    <!-- Features Grid -->
+                    <div class="space-y-8">
+                        <div class="mb-8 text-center">
+                            <h2 class="mb-4 text-3xl font-bold text-white">Planned Features</h2>
+                            <p class="text-lg text-gray-400">Major features in development based on user requests</p>
+                        </div>
+
+                        <div class="grid gap-8 md:grid-cols-2">
+                            <!-- Feature Card 1 -->
+                            <div
+                                class="group relative overflow-hidden rounded-2xl border border-emerald-200/50 bg-gradient-to-br from-emerald-50 to-teal-50 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-emerald-700/50 dark:from-emerald-900/20 dark:to-teal-900/20"
+                            >
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-br from-emerald-600/10 to-teal-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                                >
+                                </div>
+                                <div class="relative">
+                                    <div class="mb-4 flex items-center">
+                                        <div class="rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 p-3 text-white">
+                                            <CheckCircle size={24} />
+                                        </div>
+                                        <div class="ml-3 flex flex-1 items-center gap-2">
+                                            <h3 class="text-xl font-bold text-white">Duplicate Tab Manager</h3>
+                                            <span
+                                                class="rounded-full border border-emerald-500/30 bg-emerald-500/20 px-2 py-1 text-xs font-medium text-emerald-300"
+                                                >COMPLETED</span
+                                            >
+                                        </div>
+                                    </div>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-start gap-3">
+                                            <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-emerald-400"></div>
+                                            <span class="text-lg leading-relaxed text-gray-300">
+                                                <strong>Smart Detection</strong> - Modal that shows duplicate tabs with intelligent
+                                                matching
+                                            </span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-emerald-400"></div>
+                                            <span class="text-lg leading-relaxed text-gray-300">
+                                                <strong>Flexible Options</strong> - Options to ignore URL params or hashes for better
+                                                matching
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Feature Card 2 -->
+                            <div
+                                class="group relative overflow-hidden rounded-2xl border border-blue-200/50 bg-gradient-to-br from-blue-50 to-cyan-50 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-blue-700/50 dark:from-blue-900/20 dark:to-cyan-900/20"
+                            >
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-cyan-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                                >
+                                </div>
+                                <div class="relative">
+                                    <div class="mb-4 flex items-center">
+                                        <div class="rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 p-3 text-white">
+                                            <Tag size={24} />
+                                        </div>
+                                        <h3 class="ml-3 text-xl font-bold text-white">Mini Pinned Tabs</h3>
+                                    </div>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-start gap-3">
+                                            <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-blue-400"></div>
+                                            <span class="text-lg leading-relaxed text-gray-300">
+                                                <strong>Always Visible</strong> - Pinned tabs stay at the top of your tabs list
+                                            </span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-blue-400"></div>
+                                            <span class="text-lg leading-relaxed text-gray-300">
+                                                <strong>Quick Access</strong> - Instant access to your most important sites
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Feature Card 3 -->
+                            <div
+                                class="group relative overflow-hidden rounded-2xl border border-green-200/50 bg-gradient-to-br from-green-50 to-lime-50 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-green-700/50 dark:from-green-900/20 dark:to-lime-900/20"
+                            >
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-br from-green-600/10 to-lime-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                                >
+                                </div>
+                                <div class="relative">
+                                    <div class="mb-4 flex items-center">
+                                        <div class="rounded-full bg-gradient-to-r from-green-500 to-lime-500 p-3 text-white">
+                                            <Bookmark size={24} />
+                                        </div>
+                                        <h3 class="ml-3 text-xl font-bold text-white">Enhanced Search</h3>
+                                    </div>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-start gap-3">
+                                            <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-green-400"></div>
+                                            <span class="text-lg leading-relaxed text-gray-300">
+                                                <strong>Bookmarks Integration</strong> - Show bookmarks alongside tab search results
+                                            </span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-green-400"></div>
+                                            <span class="text-lg leading-relaxed text-gray-300">
+                                                <strong>History Search</strong> - Browse through your browsing history for better navigation
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Feature Card 4 -->
+                            <div
+                                class="group relative overflow-hidden rounded-2xl border border-purple-200/50 bg-gradient-to-br from-purple-50 to-indigo-50 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-purple-700/50 dark:from-purple-900/20 dark:to-indigo-900/20"
+                            >
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-indigo-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                                >
+                                </div>
+                                <div class="relative">
+                                    <div class="mb-4 flex items-center">
+                                        <div class="rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 p-3 text-white">
+                                            <Image size={24} />
+                                        </div>
+                                        <h3 class="ml-3 text-xl font-bold text-white">Suspended Tab Previews</h3>
+                                    </div>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-start gap-3">
+                                            <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
+                                            <span class="text-lg leading-relaxed text-gray-300">
+                                                <strong>Visual Previews</strong> - See screenshots of suspended tabs without loading
+                                                them
+                                            </span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
+                                            <span class="text-lg leading-relaxed text-gray-300">
+                                                <strong>Quick Identification</strong> - Instantly identify content without memory usage
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Feature Card 5 -->
+                            <div
+                                class="group relative overflow-hidden rounded-2xl border border-orange-200/50 bg-gradient-to-br from-orange-50 to-red-50 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-orange-700/50 dark:from-orange-900/20 dark:to-red-900/20"
+                            >
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-br from-orange-600/10 to-red-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                                >
+                                </div>
+                                <div class="relative">
+                                    <div class="mb-4 flex items-center">
+                                        <div class="rounded-full bg-gradient-to-r from-orange-500 to-red-500 p-3 text-white">
+                                            <Tag size={24} />
+                                        </div>
+                                        <h3 class="ml-3 text-xl font-bold text-white">Named Separators</h3>
+                                    </div>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-start gap-3">
+                                            <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-orange-400"></div>
+                                            <span class="text-lg leading-relaxed text-gray-300">
+                                                <strong>Custom Labels</strong> - Add named separators between tabs and groups
+                                            </span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-orange-400"></div>
+                                            <span class="text-lg leading-relaxed text-gray-300">
+                                                <strong>Better Organization</strong> - Visual dividers for improved tab management
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Feature Card 6 -->
+                            <div
+                                class="group relative overflow-hidden rounded-2xl border border-violet-200/50 bg-gradient-to-br from-violet-50 to-purple-50 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-violet-700/50 dark:from-violet-900/20 dark:to-purple-900/20"
+                            >
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-br from-violet-600/10 to-purple-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                                >
+                                </div>
+                                <div class="relative">
+                                    <div class="mb-4 flex items-center">
+                                        <div class="rounded-full bg-gradient-to-r from-violet-500 to-purple-500 p-3 text-white">
+                                            <Eye size={24} />
+                                        </div>
+                                        <h3 class="ml-3 text-xl font-bold text-white">Hover Screenshots</h3>
+                                    </div>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-start gap-3">
+                                            <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-violet-400"></div>
+                                            <span class="text-lg leading-relaxed text-gray-300">
+                                                <strong>Live Previews</strong> - Show live screenshots when hovering over tabs
+                                            </span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-violet-400"></div>
+                                            <span class="text-lg leading-relaxed text-gray-300">
+                                                <strong>Instant Preview</strong> - See tab content without switching tabs
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Feature Card 7 -->
+                            <div
+                                class="group relative overflow-hidden rounded-2xl border border-pink-200/50 bg-gradient-to-br from-pink-50 to-rose-50 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl md:col-span-2 dark:border-pink-700/50 dark:from-pink-900/20 dark:to-rose-900/20"
+                            >
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-br from-pink-600/10 to-rose-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                                >
+                                </div>
+                                <div class="relative">
+                                    <div class="mb-4 flex items-center">
+                                        <div class="rounded-full bg-gradient-to-r from-pink-500 to-rose-500 p-3 text-white">
+                                            <Monitor size={24} />
+                                        </div>
+                                        <h3 class="ml-3 text-xl font-bold text-white">Workspaces</h3>
+                                    </div>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-start gap-3">
+                                            <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-pink-400"></div>
+                                            <span class="text-lg leading-relaxed text-gray-300">
+                                                <strong>Multiple Contexts</strong> - Organize tabs into different workspaces (work,
+                                                personal, etc.)
+                                            </span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-pink-400"></div>
+                                            <span class="text-lg leading-relaxed text-gray-300">
+                                                <strong>Arc-Style Experience</strong> - Similar to Arc browser's workspace functionality
+                                            </span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <div class="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-pink-400"></div>
+                                            <span class="text-lg leading-relaxed text-gray-300">
+                                                <strong>Community Driven</strong> - Will be prioritized if highly requested by users
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bottom CTA unified with features styling family -->
+                        <div class="mt-16 text-center">
+                            <div
+                                class="group relative overflow-hidden rounded-2xl border border-pink-200/50 bg-gradient-to-br from-pink-50 to-rose-50 p-8 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-pink-700/50 dark:from-pink-900/20 dark:to-rose-900/20"
+                            >
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-br from-pink-600/10 to-rose-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                                >
+                                </div>
+                                <div class="relative">
+                                    <h3 class="mb-4 text-2xl font-bold text-white">Stay Updated</h3>
+                                    <p class="mb-6 text-lg text-gray-300">
+                                        Follow our progress and be the first to know when new features are released
+                                    </p>
+                                    <a
+                                        href="https://www.reddit.com/r/sharptabs/"
+                                        target="_blank"
+                                        class="inline-flex transform items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 px-8 py-4 font-semibold text-white transition-all duration-300 hover:scale-105 hover:from-blue-500 hover:to-cyan-500 hover:shadow-lg"
+                                    >
+                                        <img src="/reddit.svg" alt="Reddit" class="h-5 w-5" />
+                                        Join r/sharptabs Community
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </body>
+
+    <Footer />
+</html>

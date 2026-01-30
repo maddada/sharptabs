@@ -1,0 +1,40 @@
+---
+import "../styles/global.css";
+import { MessagesAndTips as MesssageAndTipsComponent } from "../components/react/MessagesAndTips";
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Messages & Tips - Sharp Tabs</title>
+        <style>
+            body {
+                margin: 0;
+                font-family: "Inter", Arial, sans-serif;
+                background: rgb(0, 0, 0);
+            }
+
+            /* Hide scrollbar while keeping scroll functionality */
+            .scrollbar-hide {
+                -ms-overflow-style: none; /* Internet Explorer 10+ */
+                scrollbar-width: none; /* Firefox */
+                scrollbar-color: transparent transparent; /* Firefox fallback */
+            }
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none; /* Safari and Chrome */
+                width: 0px;
+                background: transparent;
+            }
+            .scrollbar-hide::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            .scrollbar-hide::-webkit-scrollbar-thumb {
+                background: transparent;
+            }
+        </style>
+    </head>
+    <body>
+        <MesssageAndTipsComponent client:load />
+    </body>
+</html>

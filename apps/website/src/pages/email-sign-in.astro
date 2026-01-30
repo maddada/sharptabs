@@ -1,0 +1,45 @@
+---
+import "../styles/global.css";
+import Navbar from "../components/Navbar.astro";
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+        <link rel="alternate icon" type="image/png" sizes="48x48" href="/icon48.png" />
+        <link rel="alternate icon" type="image/png" sizes="16x16" href="/icon16.png" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>Sharp Tabs - Email Sign In</title>
+        <meta
+            name="description"
+            content="The most polished and performant vertical tabs extension for your browser. Organize tabs vertically for improved productivity and workspace management."
+        />
+
+        <!-- Theme script - Add this early in the head to avoid FOUC (Flash of Unstyled Content) -->
+
+    </head>
+    <body class="min-h-screen bg-[#030811] transition-colors duration-300">
+        <Navbar />
+
+        <div class="flex h-screen flex-col items-center justify-center">
+            <h1 class="mb-3 text-3xl font-bold text-white">You have been signed in to Sharp Tabs!</h1>
+            <p class="text-lg text-gray-400">Redirecting you to the extensions settings page...</p>
+        </div>
+
+        <script is:inline>
+            console.log("[email-sign-in] Signing in to Sharp Tabs...");
+            window.postMessage(
+                {
+                    type: "SHARPTABS_SETTINGS_SIGNIN",
+                    url: window.location.href,
+                },
+                window.origin
+            );
+            setTimeout(() => {
+                window.close();
+            }, 3000);
+        </script>
+    </body>
+</html>

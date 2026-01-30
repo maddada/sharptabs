@@ -1,0 +1,433 @@
+---
+import { Settings, Heart, Sparkles, Key } from "@lucide/astro";
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
+import "../styles/global.css";
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+        <link rel="alternate icon" type="image/png" sizes="48x48" href="/icon48.png" />
+        <link rel="alternate icon" type="image/png" sizes="16x16" href="/icon16.png" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>Sharp Tabs - Settings Overview</title>
+        <meta
+            name="description"
+            content="Complete overview of Sharp Tabs settings. All core features are free forever - premium is only needed for AI features without your own API key."
+        />
+    </head>
+    <body class="min-h-screen select-none bg-black transition-colors duration-300">
+        <Navbar />
+
+        <section class="bg-gradient-to-r from-black via-[#020b1c] to-black pb-20 pt-24 transition-colors duration-300">
+            <div class="container mx-auto max-w-5xl px-4">
+                <div class="mb-16 text-center">
+                    <div
+                        class="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-2"
+                    >
+                        <Settings size={20} class="text-blue-400" />
+                        <span class="font-medium text-blue-300">Complete Settings Overview</span>
+                    </div>
+                    <h1 class="mb-6 text-5xl font-bold text-white md:text-6xl">Settings & Features</h1>
+                    <p class="mx-auto max-w-3xl text-xl leading-relaxed text-gray-300">
+                        Explore every setting and feature available in Sharp Tabs
+                    </p>
+                </div>
+
+                <!-- Free Forever Message -->
+                <div
+                    class="mb-12 rounded-2xl border border-emerald-500/15 bg-gradient-to-br from-emerald-950/50 to-[#000e2b]/80 p-8 shadow-2xl backdrop-blur-sm"
+                    style="background-color: rgba(0, 43, 14, 0.6);"
+                >
+                    <div class="text-center">
+                        <div class="mb-4 flex justify-center">
+                            <div class="rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 p-4">
+                                <Heart size={32} class="text-white" />
+                            </div>
+                        </div>
+                        <h3 class="mb-4 text-2xl font-semibold text-white">Free to Use Forever</h3>
+                        <p class="mb-4 text-lg leading-relaxed text-gray-300">
+                            Sharp Tabs is completely free to use with <strong>all features</strong> available at no cost.
+                            You can enjoy tab management, workspaces, search, suspending, session backups, themes, custom CSS, and extensive customization
+                            <strong>without ever paying a cent</strong>.
+                        </p>
+                        <p class="text-lg leading-relaxed text-gray-300">
+                            The only premium feature is <strong>AI-powered organization</strong> (auto-grouping, auto-naming, auto-cleanup).
+                            Even AI features can be used for free by providing your own Gemini API key!
+                            Your support helps me dedicate more time to making Sharp Tabs even better for everyone.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- BYOK Info -->
+                <div
+                    class="mb-12 rounded-2xl border border-purple-500/15 bg-gradient-to-br from-purple-950/50 to-[#000e2b]/80 p-8 shadow-2xl backdrop-blur-sm"
+                    style="background-color: rgba(43, 0, 43, 0.4);"
+                >
+                    <div class="text-center">
+                        <div class="mb-4 flex justify-center">
+                            <div class="rounded-full bg-gradient-to-r from-purple-500 to-fuchsia-500 p-4">
+                                <Key size={32} class="text-white" />
+                            </div>
+                        </div>
+                        <h3 class="mb-4 text-2xl font-semibold text-white">Bring Your Own Gemini Key</h3>
+                        <p class="mb-4 text-lg leading-relaxed text-gray-300">
+                            Want to use AI features without a premium subscription? You can add your own Gemini API key in the extension settings
+                            and use all AI features completely free! Get your free API key from Google AI Studio.
+                        </p>
+                        <a
+                            href="https://aistudio.google.com/apikey"
+                            target="_blank"
+                            class="inline-flex transform items-center gap-2 rounded-lg bg-gradient-to-r from-purple-600 to-fuchsia-600 px-6 py-3 font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                        >
+                            <Key size={20} />
+                            Get Free Gemini API Key
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Free Features Section -->
+        <section class="bg-[#030811] py-20">
+            <div class="container mx-auto max-w-5xl px-4">
+                <div class="mb-12 text-center">
+                    <h2 class="mb-4 text-4xl font-bold text-white">All Features (Free)</h2>
+                    <p class="text-lg text-gray-400">All of these features are available to everyone at no cost</p>
+                </div>
+
+                <div class="space-y-8">
+                    <!-- Keyboard Shortcuts -->
+                    <div
+                        class="rounded-2xl border border-blue-500/15 bg-gradient-to-br from-gray-950/50 to-[#000e2b]/80 p-6 shadow-lg"
+                    >
+                        <h3 class="mb-4 text-2xl font-semibold text-blue-300">Keyboard Shortcuts</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-blue-400"></div>
+                                <span class="text-gray-300">Customizable keyboard shortcuts for various actions</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Design -->
+                    <div
+                        class="rounded-2xl border border-purple-500/15 bg-gradient-to-br from-gray-950/50 to-[#000e2b]/80 p-6 shadow-lg"
+                    >
+                        <h3 class="mb-4 text-2xl font-semibold text-purple-300">Design & Theming</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-purple-400"></div>
+                                <span class="text-gray-300">Save Your Theme or Apply a Preset</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-purple-400"></div>
+                                <span class="text-gray-300"><strong>Custom CSS</strong> - Add custom CSS code to modify the appearance (compatible with tweakcn.com themes)</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-purple-400"></div>
+                                <span class="text-gray-300"><strong>Background Images</strong> - Upload or select background images</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-purple-400"></div>
+                                <span class="text-gray-300"><strong>Tabs & Groups Animations Speed</strong> - Customize animation timing</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-purple-400"></div>
+                                <span class="text-gray-300"><strong>Tab & Group Roundness</strong> - Control the roundness of tab items</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-purple-400"></div>
+                                <span class="text-gray-300"><strong>Show Search Bar</strong> - Show the search bar in the header (can still search by typing when hidden)</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-purple-400"></div>
+                                <span class="text-gray-300"><strong>Show New Tab Button</strong> - Show the floating new tab button in the bottom-right corner</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-purple-400"></div>
+                                <span class="text-gray-300"><strong>Show Scrollbar</strong> - Show the scrollbar when hovering over the tabs list</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-purple-400"></div>
+                                <span class="text-gray-300"><strong>Compact Pinned Tabs</strong> - Show pinned tabs as buttons that always stay at the top</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-purple-400"></div>
+                                <span class="text-gray-300"><strong>Background Color</strong> - Set a custom color or gradient</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Workspaces -->
+                    <div
+                        class="rounded-2xl border border-amber-500/15 bg-gradient-to-br from-gray-950/50 to-[#000e2b]/80 p-6 shadow-lg"
+                    >
+                        <h3 class="mb-4 text-2xl font-semibold text-amber-300">Workspaces</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-amber-400"></div>
+                                <span class="text-gray-300">All workspace features - organize tabs into different areas (Personal, Work, etc.)</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div
+                        class="rounded-2xl border border-cyan-500/15 bg-gradient-to-br from-gray-950/50 to-[#000e2b]/80 p-6 shadow-lg"
+                    >
+                        <h3 class="mb-4 text-2xl font-semibold text-cyan-300">Tabs</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-cyan-400"></div>
+                                <span class="text-gray-300"><strong>Tab Height</strong> - Set the height of tabs and tab group headers</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-cyan-400"></div>
+                                <span class="text-gray-300"><strong>Tab Text Color</strong> - Set a custom color for tab text</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-cyan-400"></div>
+                                <span class="text-gray-300"><strong>Font Size</strong> - Set the font size of the tabs and tab group headers</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-cyan-400"></div>
+                                <span class="text-gray-300"><strong>Shadow Behind Tab Favicons</strong> - Make favicons easier to see</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-cyan-400"></div>
+                                <span class="text-gray-300"><strong>Background Behind Tab Favicons</strong> - Add background behind favicons</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-cyan-400"></div>
+                                <span class="text-gray-300"><strong>Show Close Button on Hover</strong> - Show/hide close button</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-cyan-400"></div>
+                                <span class="text-gray-300"><strong>Disable middle click on pinned tabs</strong> - Prevent accidental closing</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-cyan-400"></div>
+                                <span class="text-gray-300"><strong>Show Suspended Icon</strong> - Show a moon icon on suspended tabs</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-cyan-400"></div>
+                                <span class="text-gray-300"><strong>Show title tooltips</strong> - Read the full title by hovering</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Tab Groups -->
+                    <div
+                        class="rounded-2xl border border-green-500/15 bg-gradient-to-br from-gray-950/50 to-[#000e2b]/80 p-6 shadow-lg"
+                    >
+                        <h3 class="mb-4 text-2xl font-semibold text-green-300">Tab Groups</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-green-400"></div>
+                                <span class="text-gray-300"><strong>Group Text Color</strong> - Set a custom color for group text</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-green-400"></div>
+                                <span class="text-gray-300"><strong>Group Background Opacity</strong> - Set the opacity of group header backgrounds</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-green-400"></div>
+                                <span class="text-gray-300"><strong>Outline Style</strong> - A different design for tab groups</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-green-400"></div>
+                                <span class="text-gray-300"><strong>Groups Gradient Background</strong> - Makes the background gradient</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-green-400"></div>
+                                <span class="text-gray-300"><strong>Highlight High Tab Count</strong> - Show tab count in red when a group has many tabs</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-green-400"></div>
+                                <span class="text-gray-300"><strong>Show Number of Tabs</strong> - Display the tab count in the group header</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Header -->
+                    <div
+                        class="rounded-2xl border border-orange-500/15 bg-gradient-to-br from-gray-950/50 to-[#000e2b]/80 p-6 shadow-lg"
+                    >
+                        <h3 class="mb-4 text-2xl font-semibold text-orange-300">Header</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-orange-400"></div>
+                                <span class="text-gray-300"><strong>Automatically collapse header buttons</strong> - Hide buttons by default, show on hover</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-orange-400"></div>
+                                <span class="text-gray-300"><strong>Show Navigation Buttons</strong> - Show back/forward navigation buttons</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-orange-400"></div>
+                                <span class="text-gray-300"><strong>Dropdown Menu Items</strong> - Customize which items appear in the menu</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Context Menu -->
+                    <div
+                        class="rounded-2xl border border-pink-500/15 bg-gradient-to-br from-gray-950/50 to-[#000e2b]/80 p-6 shadow-lg"
+                    >
+                        <h3 class="mb-4 text-2xl font-semibold text-pink-300">Context Menu</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-pink-400"></div>
+                                <span class="text-gray-300"><strong>Tab Context Menu Items</strong> - Customize the right-click menu for tabs</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-pink-400"></div>
+                                <span class="text-gray-300"><strong>Group Context Menu Items</strong> - Customize the right-click menu for groups</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Tab Suspending -->
+                    <div
+                        class="rounded-2xl border border-indigo-500/15 bg-gradient-to-br from-gray-950/50 to-[#000e2b]/80 p-6 shadow-lg"
+                    >
+                        <h3 class="mb-4 text-2xl font-semibold text-indigo-300">Tab Suspending</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-indigo-400"></div>
+                                <span class="text-gray-300"><strong>Enable capturing screenshots</strong> - Display screenshots on restore page</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-indigo-400"></div>
+                                <span class="text-gray-300"><strong>Restore Page Accent Color</strong> - Customize the accent color</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-indigo-400"></div>
+                                <span class="text-gray-300"><strong>Auto restore on activate</strong> - Clicking restores without showing page</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-indigo-400"></div>
+                                <span class="text-gray-300"><strong>Enable auto suspending</strong> - Automatically suspend inactive tabs</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-indigo-400"></div>
+                                <span class="text-gray-300"><strong>Auto suspend delay</strong> - Configure inactivity time (1-120 minutes)</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-indigo-400"></div>
+                                <span class="text-gray-300"><strong>Excluded Domains</strong> - List of domains to never suspend</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Saved Sessions -->
+                    <div
+                        class="rounded-2xl border border-emerald-500/15 bg-gradient-to-br from-gray-950/50 to-[#000e2b]/80 p-6 shadow-lg"
+                    >
+                        <h3 class="mb-4 text-2xl font-semibold text-emerald-300">Saved Sessions</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-emerald-400"></div>
+                                <span class="text-gray-300"><strong>Auto-save sessions</strong> - Automatically save every 10 minutes</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-emerald-400"></div>
+                                <span class="text-gray-300"><strong>Export Sessions</strong> - Save to a JSON file</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-emerald-400"></div>
+                                <span class="text-gray-300"><strong>Import Sessions</strong> - Load from a JSON file</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Advanced -->
+                    <div
+                        class="rounded-2xl border border-red-500/15 bg-gradient-to-br from-gray-950/50 to-[#000e2b]/80 p-6 shadow-lg"
+                    >
+                        <h3 class="mb-4 text-2xl font-semibold text-red-300">Advanced</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-red-400"></div>
+                                <span class="text-gray-300"><strong>New Tab Link</strong> - The URL to open when creating new tabs</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-red-400"></div>
+                                <span class="text-gray-300"><strong>Close window when last tab closed</strong> - Auto close browser window</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-red-400"></div>
+                                <span class="text-gray-300"><strong>Export/Import Settings</strong> - Save and load settings from JSON</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-red-400"></div>
+                                <span class="text-gray-300"><strong>Cloud Sync</strong> - Sync settings using browser's sync storage</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Features Section -->
+        <section class="bg-[#020b1c] py-20">
+            <div class="container mx-auto max-w-5xl px-4">
+                <div class="mb-12 text-center">
+                    <h2 class="mb-4 text-4xl font-bold text-white">AI Features</h2>
+                    <p class="text-lg text-gray-400">Premium subscription required, or bring your own Gemini API key for free</p>
+                </div>
+
+                <div class="space-y-8">
+                    <!-- AI Features -->
+                    <div
+                        class="rounded-2xl border border-fuchsia-500/15 bg-gradient-to-br from-fuchsia-950/50 to-[#000e2b]/80 p-6 shadow-lg"
+                    >
+                        <h3 class="mb-4 text-2xl font-semibold text-fuchsia-300">AI-Powered Features</h3>
+                        <p class="mb-4 text-sm italic text-gray-400">These features use Gemini AI. Free with your own API key, or included with premium subscription.</p>
+                        <ul class="space-y-2">
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-fuchsia-400"></div>
+                                <span class="text-gray-300"><strong>Auto Cleaner</strong> - Suggest tabs to be closed using AI</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-fuchsia-400"></div>
+                                <span class="text-gray-300"><strong>Auto Name Groups</strong> - Automatically name your tab groups using AI</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-fuchsia-400"></div>
+                                <span class="text-gray-300"><strong>Auto Organize</strong> - Automatically organize your tabs using AI</span>
+                            </li>
+                            <li class="flex items-start gap-3 pl-6">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-fuchsia-400"></div>
+                                <span class="text-gray-300"><strong>Customize Prompt</strong> - Adjust the AI organizing prompt</span>
+                            </li>
+                        </ul>
+                        <div class="mt-6 flex flex-wrap justify-center gap-4">
+                            <a
+                                href="https://aistudio.google.com/apikey"
+                                target="_blank"
+                                class="inline-flex transform items-center gap-2 rounded-lg border border-fuchsia-500/30 bg-fuchsia-500/10 px-4 py-2 font-medium text-fuchsia-300 transition-all duration-300 hover:scale-105 hover:bg-fuchsia-500/20"
+                            >
+                                <Key size={18} />
+                                Get Free Gemini Key
+                            </a>
+                            <a
+                                href="/pricing"
+                                class="inline-flex transform items-center gap-2 rounded-lg bg-gradient-to-r from-fuchsia-600 to-purple-600 px-4 py-2 font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                            >
+                                <Sparkles size={18} />
+                                Get Premium
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <Footer />
+    </body>
+</html>

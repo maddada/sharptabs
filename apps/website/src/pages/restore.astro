@@ -1,0 +1,988 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="#0d3358" />
+        <title>Restored Tab</title>
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="stylesheet" href="/styles/screenshot-background.css" />
+        <style is:inline>
+            * {
+                box-sizing: border-box;
+            }
+
+            html {
+                background-color: #3b3b3b;
+            }
+
+            body {
+                opacity: 0;
+                background: radial-gradient(ellipse at top, rgba(var(--accent-rgb, 13, 51, 88), 1) 0%, rgba(var(--accent-darker-rgb, 14, 31, 53), 1) 50%, #030a11 100%);
+                margin: 0;
+                padding: 20px;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                position: relative;
+                overflow: hidden;
+                cursor: pointer;
+            }
+
+            body::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background:
+                    radial-gradient(circle at 25% 25%, rgba(var(--accent-lighter1-rgb, 30, 58, 85), 0.15) 0%, transparent 50%),
+                    radial-gradient(circle at 75% 75%, rgba(var(--accent-lighter2-rgb, 40, 60, 80), 0.15) 0%, transparent 50%);
+                pointer-events: none;
+            }
+
+            .restore-container {
+                opacity: 0;
+                background: rgba(255, 255, 255, 0.05);
+                -webkit-backdrop-filter: blur(20px);
+                backdrop-filter: blur(20px);
+                border-radius: 24px;
+                padding: 48px 40px;
+                text-align: center;
+                width: 100%;
+                max-width: 520px;
+                position: relative;
+                box-shadow:
+                    0 8px 32px rgba(0, 0, 0, 0.3),
+                    0 2px 16px rgba(0, 0, 0, 0.2),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                z-index: 1;
+                cursor: default;
+            }
+
+            .restore-container::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(255, 255, 255, 0.05) 100%);
+                border-radius: 24px;
+                pointer-events: none;
+            }
+
+            body.fade-in {
+                animation: fadeIn 1.7s ease-in-out forwards;
+            }
+
+            body.fade-in-fast {
+                animation: fadeInFast 0s ease-in-out forwards;
+            }
+
+            .restore-container.fade-in {
+                animation: fadeIn 1.7s ease-in-out forwards;
+            }
+
+            .restore-container.fade-in-fast {
+                animation: fadeInFast 0.5s ease-out forwards;
+            }
+
+            @keyframes fadeIn {
+                0% {
+                    opacity: 0;
+                    transform: translateY(20px) scale(0.95);
+                }
+                70% {
+                    opacity: 0;
+                    transform: translateY(20px) scale(0.95);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+
+            @keyframes fadeInFast {
+                0% {
+                    opacity: 0;
+                    transform: translateY(10px) scale(0.98);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+
+            #favicon-container {
+                user-select: none;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 24px;
+                width: 100%;
+                position: relative;
+                z-index: 2;
+            }
+
+            .favicon {
+                padding: 10px;
+                width: 72px;
+                height: 72px;
+                background: linear-gradient(135deg, rgba(var(--accent-lighter1-rgb, 30, 58, 85), 0.4) 0%, rgba(var(--accent-lighter2-rgb, 40, 60, 80), 0.4) 100%);
+                margin: 0 auto;
+                border-radius: 16px;
+                display: block;
+                object-fit: cover;
+                box-shadow:
+                    0px 2px 4px rgb(0 0 0 / 23%),
+                    0 3px 10px rgba(0, 0, 0, 0.2);
+                border: 2px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .default-icon {
+                width: 72px;
+                height: 72px;
+                background: linear-gradient(135deg, rgba(var(--accent-lighter1-rgb, 30, 58, 85), 0.4) 0%, rgba(var(--accent-lighter2-rgb, 40, 60, 80), 0.4) 100%);
+                border-radius: 16px;
+                margin: 0 auto;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 36px;
+                box-shadow:
+                    0 8px 25px rgba(0, 0, 0, 0.3),
+                    0 3px 10px rgba(0, 0, 0, 0.2);
+                border: 2px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .title-container {
+                height: calc(28px * 1.2 * 2); /* Exactly 2 lines height */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 16px;
+                position: relative;
+                z-index: 2;
+            }
+
+            .title {
+                font-size: 28px;
+                font-weight: 700;
+                line-height: 1.2;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                word-break: break-word;
+                background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                text-align: center;
+                cursor: default;
+            }
+
+            .url-container {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-bottom: 32px;
+                position: relative;
+                z-index: 2;
+            }
+
+            .url {
+                background: rgba(255, 255, 255, 0.08);
+                font-family: "SF Mono", "Monaco", "Consolas", monospace;
+                overflow: hidden;
+                white-space: nowrap;
+                font-size: 14px;
+                opacity: 0.9;
+                padding: 12px 16px;
+                border-radius: 12px;
+                flex: 1;
+                text-overflow: ellipsis;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            .button-group {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 12px;
+                position: relative;
+                z-index: 2;
+            }
+
+            .copy-button {
+                background: rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                color: white;
+                padding: 12px 16px;
+                border-radius: 12px;
+                font-size: 13px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                -webkit-backdrop-filter: blur(10px);
+                backdrop-filter: blur(10px);
+                display: block;
+                white-space: nowrap;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
+
+            .copy-button-bottom-bar {
+                display: none;
+            }
+
+            .copy-button:hover {
+                background: rgba(214, 214, 214, 0.1);
+                border-color: rgba(255, 255, 255, 0.3);
+                transform: translateY(-1px);
+                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+            }
+
+            .copy-button:active {
+                transform: translateY(0);
+            }
+
+            .copy-button.show {
+                display: block;
+            }
+
+            .copy-button.copied {
+                background: rgba(34, 197, 94, 0.2);
+                border-color: rgba(34, 197, 94, 0.4);
+                color: #22c55e;
+            }
+
+            .restore-button {
+                user-select: none;
+                background: linear-gradient(135deg, rgba(var(--accent-lighter1-rgb, 21, 69, 115), 0.9) 0%, rgba(var(--accent-darker-rgb, 5, 25, 44), 0.9) 100%);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                color: white;
+                padding: 18px 36px;
+                border-radius: 8px;
+                font-size: 16px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                -webkit-backdrop-filter: blur(10px);
+                backdrop-filter: blur(10px);
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                z-index: 2;
+                box-shadow:
+                    0 8px 25px rgba(var(--accent-lighter1-rgb, 30, 58, 85), 0.4),
+                    0 3px 10px rgba(0, 0, 0, 0.2);
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+                letter-spacing: 0.5px;
+            }
+
+            .restore-button:hover {
+                background: linear-gradient(135deg, rgba(var(--accent-lighter1-rgb, 21, 69, 115), 1) 0%, rgba(var(--accent-darker-rgb, 5, 25, 44), 1) 100%);
+                border-color: rgba(255, 255, 255, 0.3);
+                transform: translateY(-2px);
+                box-shadow:
+                    0 12px 30px rgba(var(--accent-lighter1-rgb, 30, 58, 85), 0.5),
+                    0 5px 15px rgba(0, 0, 0, 0.3);
+            }
+
+            .restore-button[disabled]:hover {
+                background: linear-gradient(135deg, rgba(var(--accent-lighter1-rgb, 21, 69, 115), 0.9) 0%, rgba(var(--accent-darker-rgb, 5, 25, 44), 0.9) 100%);
+                border-color: rgba(255, 255, 255, 0.2);
+                transform: translateY(0);
+            }
+
+            .restore-button:active {
+                transform: translateY(-1px);
+            }
+
+            /* Bottom bar layout when screenshot is present */
+            body.has-screenshot {
+                align-items: flex-end;
+                padding: 0;
+            }
+
+            .restore-container.bottom-bar {
+                max-width: none;
+                width: 100%;
+                border-radius: 0;
+                padding: 20px 32px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 24px;
+                text-align: left;
+            }
+
+            .restore-container.bottom-bar::before {
+                border-radius: 0;
+            }
+
+            .restore-container.bottom-bar #favicon-container {
+                margin-bottom: 0;
+                width: auto;
+                flex-shrink: 0;
+            }
+
+            .restore-container.bottom-bar .favicon,
+            .restore-container.bottom-bar .default-icon {
+                width: 48px;
+                height: 48px;
+                font-size: 24px;
+                margin: 0;
+            }
+
+            .restore-container.bottom-bar .content-section {
+                flex: 1;
+                min-width: 0;
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .restore-container.bottom-bar .title-container {
+                height: auto;
+                margin-bottom: 0;
+                justify-content: flex-start;
+            }
+
+            .restore-container.bottom-bar .title {
+                font-size: 18px;
+                font-weight: 600;
+                text-align: left;
+                -webkit-line-clamp: 1;
+                line-height: 1.3;
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+
+            .restore-container.bottom-bar .url-container {
+                margin-bottom: 0;
+                gap: 0;
+            }
+
+            .restore-container.bottom-bar .url {
+                padding: 0;
+                background: transparent;
+                border: none;
+                box-shadow: none;
+                font-size: 13px;
+                opacity: 0.7;
+                flex: none;
+                max-width: 550px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .restore-container.bottom-bar .button-group {
+                display: flex;
+                justify-content: flex-end;
+                gap: 12px;
+                flex-shrink: 0;
+            }
+
+            .restore-container.bottom-bar .copy-button-default {
+                display: none;
+            }
+
+            .restore-container.bottom-bar .copy-button-bottom-bar {
+                display: inline-flex;
+                flex-shrink: 0;
+                align-items: center;
+                justify-content: center;
+                /* background: linear-gradient(135deg, rgba(var(--accent-lighter1-rgb, 21, 69, 115), 0.9) 0%, rgba(var(--accent-darker-rgb, 5, 25, 44), 0.9) 100%); */
+                background: rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                padding: 14px 28px;
+                border-radius: 8px;
+                font-size: 15px;
+                font-weight: 700;
+                box-shadow:
+                    0 8px 25px rgba(var(--accent-lighter1-rgb, 30, 58, 85), 0.4),
+                    0 3px 10px rgba(0, 0, 0, 0.2);
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+                letter-spacing: 0.5px;
+            }
+
+            .restore-container.bottom-bar .copy-button-bottom-bar:hover {
+                background: rgba(214, 214, 214, 0.1);
+                border-color: rgba(255, 255, 255, 0.3);
+                transform: translateY(-2px);
+                box-shadow:
+                    0 12px 30px rgba(var(--accent-lighter1-rgb, 30, 58, 85), 0.5),
+                    0 5px 15px rgba(0, 0, 0, 0.3);
+            }
+
+            .restore-container.bottom-bar .copy-button-bottom-bar.copied {
+                background: rgba(34, 197, 94, 0.2);
+                border-color: rgba(34, 197, 94, 0.4);
+                color: #22c55e;
+            }
+
+            .restore-container.bottom-bar .restore-button {
+                flex-shrink: 0;
+                padding: 14px 28px;
+                font-size: 15px;
+            }
+
+            .restore-container.bottom-bar .error-message {
+                display: none;
+            }
+
+            .loading {
+                opacity: 0.7;
+                pointer-events: none;
+            }
+
+            .spinner {
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                border: 2px solid rgba(255, 255, 255, 0.3);
+                border-radius: 50%;
+                border-top-color: white;
+                animation: spin 1s ease-in-out infinite;
+                margin-right: 10px;
+            }
+
+            @keyframes spin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            .subtitle {
+                font-size: 18px;
+                opacity: 0.9;
+                margin-bottom: 24px;
+                font-weight: 500;
+            }
+
+            .error-message {
+                opacity: 0.8;
+                margin-top: 20px;
+                color: rgba(255, 255, 255, 0.9);
+                display: none;
+                line-height: 1.6;
+                font-size: 16px;
+                background: rgba(239, 68, 68, 0.1);
+                border: 1px solid rgba(239, 68, 68, 0.2);
+                border-radius: 12px;
+                padding: 16px;
+                position: relative;
+                z-index: 2;
+            }
+
+            .error-message.show {
+                display: block;
+                animation: slideUp 0.3s ease-out;
+            }
+
+            @keyframes slideUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(10px);
+                }
+                to {
+                    opacity: 0.8;
+                    transform: translateY(0);
+                }
+            }
+
+            .restore-tooltip {
+                position: fixed;
+                bottom: 10px;
+                left: 10px;
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 8px 12px;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: 500;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                z-index: 1000;
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+                pointer-events: none;
+                max-width: 300px;
+                line-height: 1.4;
+            }
+
+            .restore-tooltip.show {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            @media (max-width: 640px) {
+                body {
+                    padding: 16px;
+                }
+
+                .restore-container {
+                    padding: 32px 24px;
+                }
+
+                .title-container {
+                    height: calc(24px * 1.2 * 2); /* Exactly 2 lines height for mobile */
+                }
+
+                .title {
+                    font-size: 24px;
+                }
+
+                .url-container {
+                    flex-direction: column;
+                    gap: 8px;
+                }
+
+                .url {
+                    width: 100%;
+                }
+
+                .copy-button-default {
+                    width: 100%;
+                }
+
+                .copy-button.show {
+                    width: 100%;
+                }
+
+                .restore-button {
+                    width: 100%;
+                    padding: 16px 24px;
+                }
+
+                /* Bottom bar mobile adjustments */
+                .restore-container.bottom-bar {
+                    padding: 16px 20px;
+                    flex-wrap: wrap;
+                }
+
+                .restore-container.bottom-bar .content-section {
+                    flex-basis: 100%;
+                    order: 2;
+                }
+
+                .restore-container.bottom-bar #favicon-container {
+                    order: 1;
+                }
+
+                .restore-container.bottom-bar .button-group {
+                    order: 3;
+                    width: 100%;
+                    margin-top: 12px;
+                }
+
+                .restore-container.bottom-bar .copy-button {
+                    width: calc(50% - 6px);
+                }
+
+                .restore-container.bottom-bar .restore-button {
+                    width: calc(50% - 6px);
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="restore-container">
+            <div id="favicon-container"></div>
+            <div class="content-section">
+                <div class="title-container">
+                    <h1 class="title" id="tab-title">Loading...</h1>
+                </div>
+                <div class="url-container">
+                    <div class="url" id="tab-url"></div>
+                    <button class="copy-button copy-button-default" id="copy-btn-default" onclick="copyUrl()">Copy</button>
+                </div>
+            </div>
+            <div class="button-group">
+                <button class="copy-button copy-button-bottom-bar" id="copy-btn-bottom-bar" onclick="copyUrl()">Copy</button>
+                <button class="restore-button" id="restore-btn" onclick="restoreTab()"> Restore Tab </button>
+            </div>
+            <div class="error-message" id="error-message">
+                Sharp Tabs can't auto open this due to a browser limitation. Please copy the URL and paste it in your address bar
+                to restore.
+            </div>
+        </div>
+        <div class="restore-tooltip" id="restore-tooltip">
+            Tip: You can also click anywhere on the background to restore faster
+        </div>
+
+        <script>
+            import "../../public/scripts/tooltip-manager.js";
+        </script>
+        <script is:inline src="/scripts/screenshot-bridge.js"></script>
+        <script is:inline src="/scripts/screenshot-loader.js"></script>
+        <script is:inline>
+            let isRestoring = false;
+            let tabUrl = "";
+            let tabTitle = "";
+            let tabFavicon = "";
+            let pause = "";
+            let testing = "";
+            let accentColor = "#0d3358"; // Default accent color
+
+            // Helper function to convert hex or rgb() to RGB
+            function hexToRgb(color) {
+                // Check if it's an rgb() format
+                const rgbMatch = /^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/i.exec(color);
+                if (rgbMatch) {
+                    return {
+                        r: parseInt(rgbMatch[1], 10),
+                        g: parseInt(rgbMatch[2], 10),
+                        b: parseInt(rgbMatch[3], 10)
+                    };
+                }
+
+                // Otherwise, try hex format
+                const hexMatch = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+                return hexMatch ? {
+                    r: parseInt(hexMatch[1], 16),
+                    g: parseInt(hexMatch[2], 16),
+                    b: parseInt(hexMatch[3], 16)
+                } : { r: 13, g: 51, b: 88 }; // Default to #0d3358
+            }
+
+            // Helper function to lighten/darken color
+            function adjustColor(hex, amount) {
+                const rgb = hexToRgb(hex);
+                const r = Math.max(0, Math.min(255, rgb.r + amount));
+                const g = Math.max(0, Math.min(255, rgb.g + amount));
+                const b = Math.max(0, Math.min(255, rgb.b + amount));
+                return { r, g, b };
+            }
+
+            function getUrlParams() {
+                const urlParams = new URLSearchParams(window.location.search);
+                let rawUrl = urlParams.get("url") || "";
+
+                // Check if URL starts with @https://sharptabs.com/restore?
+                if (rawUrl.startsWith("@https://sharptabs.com/restore?")) {
+                    // Remove the @ prefix and parse the nested URL
+                    const nestedUrl = rawUrl.substring(1); // Remove @
+                    try {
+                        const nestedUrlObj = new URL(nestedUrl);
+                        const nestedParams = new URLSearchParams(nestedUrlObj.search);
+
+                        // Extract nested parameters
+                        tabTitle = nestedParams.get("title") || "Untitled Tab";
+                        tabFavicon = nestedParams.get("favicon") || "";
+                        tabUrl = nestedParams.get("url") || "";
+
+                        // Decode favicon twice since it's encoded twice
+                        if (tabFavicon && tabFavicon !== "undefined" && tabFavicon !== "") {
+                            try {
+                                tabFavicon = decodeURIComponent(decodeURIComponent(tabFavicon));
+                            } catch (e) {
+                                console.log("Error decoding favicon:", e);
+                                tabFavicon = "";
+                            }
+                        }
+
+                        // Decode URL and title if needed
+                        if (tabUrl) {
+                            try {
+                                tabUrl = decodeURIComponent(tabUrl);
+                            } catch (e) {
+                                console.log("Error decoding URL:", e);
+                            }
+                        }
+
+                        if (tabTitle && tabTitle !== "Untitled Tab") {
+                            try {
+                                tabTitle = decodeURIComponent(tabTitle);
+                            } catch (e) {
+                                console.log("Error decoding title:", e);
+                            }
+                        }
+                    } catch (e) {
+                        console.error("Error parsing nested restore URL:", e);
+                        // Fallback to original parameters
+                        tabTitle = urlParams.get("title") || "Untitled Tab";
+                        tabFavicon = urlParams.get("favicon") || "";
+                        tabUrl = rawUrl;
+                    }
+                } else {
+                    // Normal case - use parameters as they are
+                    tabTitle = urlParams.get("title") || "Untitled Tab";
+                    tabFavicon = urlParams.get("favicon") || "";
+                    tabUrl = rawUrl;
+                }
+
+                pause = urlParams.get("pause") || "";
+                testing = urlParams.get("testing") || "";
+                accentColor = urlParams.get("accent") || "#0d3358";
+            }
+
+            function applyAccentColor() {
+                const rgb = hexToRgb(accentColor);
+                const lighter1 = adjustColor(accentColor, 17); // +17 to get lighter shade
+                const lighter2 = adjustColor(accentColor, 27); // +27 to get even lighter shade
+                const darker = adjustColor(accentColor, -8); // -8 to get darker shade
+
+                // Set CSS custom properties
+                document.documentElement.style.setProperty('--accent-rgb', `${rgb.r}, ${rgb.g}, ${rgb.b}`);
+                document.documentElement.style.setProperty('--accent-lighter1-rgb', `${lighter1.r}, ${lighter1.g}, ${lighter1.b}`);
+                document.documentElement.style.setProperty('--accent-lighter2-rgb', `${lighter2.r}, ${lighter2.g}, ${lighter2.b}`);
+                document.documentElement.style.setProperty('--accent-darker-rgb', `${darker.r}, ${darker.g}, ${darker.b}`);
+            }
+
+            function displayTabInfo() {
+                const titleElement = document.getElementById("tab-title");
+                titleElement.textContent = tabTitle;
+
+                const urlElement = document.getElementById("tab-url");
+                urlElement.textContent = tabUrl;
+                urlElement.setAttribute("href", tabUrl);
+
+                // Check if title is truncated and only show tooltip if it is
+                setTimeout(() => {
+                    // For title - check if content height exceeds container height (line clamping)
+                    const titleScrollHeight = titleElement.scrollHeight;
+                    const titleClientHeight = titleElement.clientHeight;
+                    if (titleScrollHeight > titleClientHeight) {
+                        titleElement.setAttribute("data-tooltip", tabTitle);
+                    } else {
+                        titleElement.removeAttribute("data-tooltip");
+                    }
+
+                    // For URL - check if content width exceeds container width (text overflow)
+                    const urlScrollWidth = urlElement.scrollWidth;
+                    const urlClientWidth = urlElement.clientWidth;
+                    if (urlScrollWidth > urlClientWidth) {
+                        urlElement.setAttribute("data-tooltip", tabUrl);
+                    } else {
+                        urlElement.removeAttribute("data-tooltip");
+                    }
+                }, 0);
+
+                const faviconContainer = document.getElementById("favicon-container");
+
+                if (tabFavicon && tabFavicon !== "undefined" && tabFavicon !== "") {
+                    const faviconImg = document.createElement("img");
+                    faviconImg.src = tabFavicon;
+                    faviconImg.className = "favicon";
+                    faviconImg.onerror = () => {
+                        faviconContainer.innerHTML = '<div class="default-icon">🌐</div>';
+                    };
+                    faviconContainer.appendChild(faviconImg);
+                } else {
+                    faviconContainer.innerHTML = '<div class="default-icon">🌐</div>';
+                }
+            }
+
+            function setPageFavicon() {
+                if (tabFavicon && tabFavicon !== "undefined" && tabFavicon !== "") {
+                    let faviconLink =
+                        document.querySelector('link[rel="icon"]') || document.querySelector('link[rel="shortcut icon"]');
+                    if (!faviconLink) {
+                        faviconLink = document.createElement("link");
+                        faviconLink.rel = "icon";
+                        document.head.appendChild(faviconLink);
+                    }
+                    faviconLink.href = tabFavicon;
+                }
+            }
+
+            async function copyUrl() {
+                await navigator.clipboard.writeText(tabUrl);
+
+                // Update both copy buttons
+                const copyBtnDefault = document.getElementById("copy-btn-default");
+                const copyBtnBottomBar = document.getElementById("copy-btn-bottom-bar");
+
+                const originalTextDefault = copyBtnDefault.innerHTML;
+                const originalTextBottomBar = copyBtnBottomBar.innerHTML;
+
+                copyBtnDefault.innerHTML = "Copied!";
+                copyBtnDefault.classList.add("copied");
+                copyBtnBottomBar.innerHTML = "Copied!";
+                copyBtnBottomBar.classList.add("copied");
+
+                setTimeout(() => {
+                    copyBtnDefault.innerHTML = originalTextDefault;
+                    copyBtnDefault.classList.remove("copied");
+                    copyBtnBottomBar.innerHTML = originalTextBottomBar;
+                    copyBtnBottomBar.classList.remove("copied");
+                }, 2000);
+            }
+
+            async function restoreTab() {
+                if (isRestoring || !tabUrl) return;
+
+                isRestoring = true;
+                const button = document.getElementById("restore-btn");
+                const copyBtnDefault = document.getElementById("copy-btn-default");
+                const copyBtnBottomBar = document.getElementById("copy-btn-bottom-bar");
+                const errorMsg = document.getElementById("error-message");
+
+                button.classList.add("loading");
+                button.innerHTML = '<span class="spinner"></span>Restoring...';
+
+                if (testing === "1") return;
+
+                try {
+                    if (tabUrl.startsWith("http")) {
+                        isRestoring = false;
+                        window.location.href = tabUrl;
+                    } else {
+                        button.innerHTML = "Please copy the URL and paste it into your browser";
+                        button.style.display = "none";
+                        button.disabled = true;
+                        copyBtnDefault.classList.add("show");
+                        copyBtnBottomBar.classList.add("show");
+                        errorMsg.classList.add("show");
+                        button.classList.remove("loading");
+                        isRestoring = false;
+                    }
+                } catch (error) {
+                    console.error("Error restoring tab:", error);
+                    button.classList.remove("loading");
+                    button.innerHTML = "Restore Tab";
+                    isRestoring = false;
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 300);
+                }
+            }
+
+            document.addEventListener("DOMContentLoaded", () => {
+                getUrlParams();
+                applyAccentColor();
+                displayTabInfo();
+                document.title = tabTitle || "Restore Tab";
+                setPageFavicon();
+
+                // Load screenshot if available
+                if (typeof window.loadAndDisplayScreenshot === "function") {
+                    window.loadAndDisplayScreenshot(tabUrl, pause);
+                }
+
+                if (pause === "1") {
+                    const body = document.querySelector("body");
+                    const container = document.querySelector(".restore-container");
+                    if (body && container) {
+                        body.classList.add("fade-in-fast");
+                        container.classList.add("fade-in-fast");
+                    }
+                }
+            });
+
+            window.addEventListener("focus", () => {
+                const body = document.querySelector("body");
+                const container = document.querySelector(".restore-container");
+                if (body && !body.classList.contains("fade-in") && container && !container.classList.contains("fade-in-fast")) {
+                    if (pause === "1") {
+                        body.classList.add("fade-in-fast");
+                        container.classList.add("fade-in-fast");
+                    } else {
+                        body.classList.add("fade-in");
+                        container.classList.add("fade-in");
+                    }
+                }
+
+                if (tabUrl && !isRestoring && pause !== "1") {
+                    restoreTab();
+                }
+            });
+
+            document.addEventListener("DOMContentLoaded", () => {
+                setTimeout(() => {
+                    if (document.hasFocus()) {
+                        const body = document.querySelector("body");
+                        const container = document.querySelector(".restore-container");
+                        if (container && !body.classList.contains("fade-in") && !container.classList.contains("fade-in-fast")) {
+                            if (pause === "1") {
+                                container.classList.add("fade-in-fast");
+                                body.classList.add("fade-in-fast");
+                            } else {
+                                container.classList.add("fade-in");
+                                body.classList.add("fade-in");
+                            }
+                        }
+
+                        if (tabUrl && !isRestoring && pause !== "1") {
+                            restoreTab();
+                        }
+                    }
+                }, 40);
+
+                setupClickHandlers();
+            });
+
+            function setupClickHandlers() {
+                const restoreContainer = document.querySelector(".restore-container");
+                const restoreButton = document.getElementById("restore-btn");
+
+                document.addEventListener("click", (event) => {
+                    if (!restoreContainer.contains(event.target)) {
+                        if (tabUrl && !isRestoring) {
+                            // Increment background click counter
+                            incrementBackgroundClickCounter();
+                            restoreTab();
+                        }
+                    } else {
+                        if (event.target === restoreButton || restoreButton.contains(event.target)) {
+                            return;
+                        }
+                    }
+                });
+
+                // Setup tooltip for restore button
+                const tooltip = document.getElementById("restore-tooltip");
+
+                restoreButton.addEventListener("mouseenter", () => {
+                    // Only show tooltip if user hasn't clicked background 4+ times
+                    if (getBackgroundClickCount() < 3) {
+                        tooltip.classList.add("show");
+                    }
+                });
+
+                restoreButton.addEventListener("mouseleave", () => {
+                    tooltip.classList.remove("show");
+                });
+            }
+
+            function getBackgroundClickCount() {
+                const count = localStorage.getItem("sharpTabsBackgroundClickCount");
+                return count ? parseInt(count, 10) : 0;
+            }
+
+            function incrementBackgroundClickCounter() {
+                const currentCount = getBackgroundClickCount();
+                localStorage.setItem("sharpTabsBackgroundClickCount", (currentCount + 1).toString());
+            }
+
+            // Register Service Worker for offline support
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/sw.js')
+                        .then((registration) => {
+                            console.log('[PWA] Service Worker registered successfully:', registration.scope);
+                        })
+                        .catch((error) => {
+                            console.log('[PWA] Service Worker registration failed:', error);
+                        });
+                });
+            }
+        </script>
+    </body>
+</html>

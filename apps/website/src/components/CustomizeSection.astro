@@ -1,0 +1,197 @@
+---
+import Code from "@lucide/astro/icons/code";
+import Layers from "@lucide/astro/icons/layers";
+import Palette from "@lucide/astro/icons/palette";
+---
+
+<section id="customize" class="py-20 transition-colors duration-300">
+    <div class="container-outer">
+        <div class="mb-16 text-center">
+            <h2 class="mb-4 text-3xl font-bold text-white/80 md:text-4xl">Make It Your Own</h2>
+            <p class="mx-auto max-w-2xl text-xl text-gray-300">Customize every aspect of your vertical tabs experience</p>
+        </div>
+
+        <div class="flex flex-col gap-8 lg:flex-row">
+            <div class="flex lg:w-1/2">
+                <div
+                    class="overflow-hidden rounded-xl border border-blue-400/20 bg-gradient-to-br from-[#0a224f]/40 to-[#06163a]/50 shadow-lg"
+                >
+                    <!-- Placeholder for customization UI -->
+                    <div class="relative aspect-video w-full bg-[#020814]/70">
+                        <!-- Abstract UI SVG replacing image -->
+                        <svg viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg" class="h-full w-full">
+                            <defs>
+                                <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+                                    <stop offset="0%" stop-color="#2563eb" stop-opacity="0.25"/>
+                                    <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.15"/>
+                                </linearGradient>
+                                <linearGradient id="g2" x1="0" x2="1" y1="1" y2="0">
+                                    <stop offset="0%" stop-color="#60a5fa" stop-opacity="0.18"/>
+                                    <stop offset="100%" stop-color="#22d3ee" stop-opacity="0.10"/>
+                                </linearGradient>
+                                <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+                                    <feGaussianBlur stdDeviation="12" result="b"/>
+                                    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                </filter>
+                            </defs>
+                            <rect width="960" height="540" fill="#0a1024"/>
+                            <!-- Sidebar -->
+                            <rect x="70" y="60" rx="14" ry="14" width="240" height="420" fill="url(#g1)" stroke="#5ea8ff22"/>
+                            <rect x="85" y="85" rx="10" ry="10" width="210" height="42" fill="#0d1a3a" stroke="#5ea8ff33"/>
+                            <rect x="85" y="140" rx="10" ry="10" width="210" height="42" fill="#0d1a3a" stroke="#5ea8ff19"/>
+                            <rect x="85" y="195" rx="10" ry="10" width="210" height="42" fill="#0d1a3a" stroke="#5ea8ff19"/>
+                            <rect x="85" y="250" rx="10" ry="10" width="210" height="42" fill="#0d1a3a" stroke="#5ea8ff19"/>
+                            <!-- Main panel -->
+                            <rect x="330" y="60" rx="16" ry="16" width="560" height="180" fill="url(#g2)" stroke="#5ea8ff22" filter="url(#soft)"/>
+                            <rect x="330" y="260" rx="16" ry="16" width="560" height="220" fill="#0b1734" stroke="#5ea8ff22"/>
+                            <!-- Tabs in main -->
+                            <rect x="350" y="285" rx="9" ry="9" width="120" height="34" fill="#0e224d" stroke="#67c3ff33"/>
+                            <rect x="480" y="285" rx="9" ry="9" width="120" height="34" fill="#0a1b3f" stroke="#5ea8ff22"/>
+                            <rect x="610" y="285" rx="9" ry="9" width="120" height="34" fill="#0a1b3f" stroke="#5ea8ff22"/>
+                            <!-- Accent glow -->
+                            <circle cx="760" cy="130" r="90" fill="#22d3ee14"/>
+                            <circle cx="410" cy="110" r="70" fill="#3b82f614"/>
+                        </svg>
+                    </div>
+
+                    <div class="p-6">
+                        <h3 class="mb-4 text-2xl font-bold text-white drop-shadow-[0_0_12px_rgba(78,163,255,0.25)]">Powerful Customization</h3>
+                        <p class="mb-6 text-gray-300">
+                            Tailor the extension to your preferences with a wide range of customization options that let you
+                            adjust everything from appearance to behavior.
+                        </p>
+
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="mr-4 rounded-full bg-blue-500/15 p-2">
+                                    <Palette size={20} class="text-blue-300" />
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-white">Themes & Colors</h4>
+                                    <p class="text-sm text-gray-400">
+                                        Choose from light, dark, and system theme options with customizable accent colors
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start">
+                                <div class="mr-4 rounded-full bg-blue-500/15 p-2">
+                                    <Layers size={20} class="text-blue-300" />
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-white">Layout Options</h4>
+                                    <p class="text-sm text-gray-400">
+                                        Adjust width, position, visibility, and behavior of the tab panel
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start">
+                                <div class="mr-4 rounded-full bg-blue-500/15 p-2">
+                                    <Code size={20} class="text-blue-300" />
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-white">Custom CSS</h4>
+                                    <p class="text-sm text-gray-400">
+                                        For advanced users: apply your own CSS styles for complete visual control
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:w-1/2">
+                <div class="grid h-full grid-cols-1 gap-6 md:grid-cols-2">
+                    <div
+                        class="flex flex-col rounded-2xl border border-blue-400/20 bg-gradient-to-br from-[#0a224f]/40 to-[#06163a]/50 p-6 shadow-lg transition-transform hover:-translate-y-1"
+                    >
+                        <h3 class="mb-2 text-xl font-semibold text-white">Customizable Sidebar</h3>
+                        <p class="mb-4 flex-grow text-gray-300">
+                            Apply any background image, color, or gradient to your sidebar + much more.
+                        </p>
+                        <!-- Minimal iconographic SVG -->
+                        <svg viewBox="0 0 600 210" xmlns="http://www.w3.org/2000/svg" class="h-[210px] w-full rounded-lg">
+                            <defs>
+                                <linearGradient id="sb" x1="0" x2="1" y1="0" y2="1">
+                                    <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.25"/>
+                                    <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.18"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="600" height="210" rx="16" fill="#0b1734"/>
+                            <rect x="24" y="24" width="140" height="162" rx="14" fill="url(#sb)" stroke="#5ea8ff33"/>
+                            <rect x="184" y="24" width="392" height="60" rx="12" fill="#0f214a" stroke="#5ea8ff22"/>
+                            <rect x="184" y="94" width="392" height="92" rx="12" fill="#0f214a" stroke="#5ea8ff22"/>
+                            <circle cx="70" cy="60" r="18" fill="#22d3ee33"/>
+                            <circle cx="70" cy="100" r="12" fill="#3b82f633"/>
+                            <circle cx="70" cy="140" r="8" fill="#60a5fa33"/>
+                        </svg>
+                    </div>
+
+                    <div
+                        class="flex flex-col rounded-2xl border border-blue-400/20 bg-gradient-to-br from-[#0a224f]/40 to-[#06163a]/50 p-6 shadow-lg transition-transform hover:-translate-y-1"
+                    >
+                        <h3 class="mb-2 text-xl font-semibold text-white">Pop up & Sidebar modes</h3>
+                        <p class="mb-4 flex-grow text-gray-300">
+                            Launch the pop up quickly to search through all windows easily.
+                        </p>
+                        <svg viewBox="0 0 600 210" xmlns="http://www.w3.org/2000/svg" class="h-[210px] w-full rounded-lg">
+                            <rect width="600" height="210" rx="16" fill="#0b1734"/>
+                            <rect x="28" y="28" width="544" height="50" rx="12" fill="#0f214a" stroke="#5ea8ff22"/>
+                            <rect x="28" y="88" width="260" height="94" rx="12" fill="#0f214a" stroke="#5ea8ff22"/>
+                            <rect x="312" y="88" width="260" height="94" rx="12" fill="#0f214a" stroke="#5ea8ff22"/>
+                            <rect x="44" y="44" width="120" height="18" rx="9" fill="#3b82f633"/>
+                            <rect x="176" y="44" width="80" height="18" rx="9" fill="#22d3ee33"/>
+                        </svg>
+                    </div>
+
+                    <div
+                        class="flex flex-col rounded-2xl border border-blue-400/20 bg-gradient-to-br from-[#0a224f]/40 to-[#06163a]/50 p-6 shadow-lg transition-transform hover:-translate-y-1"
+                    >
+                        <h3 class="mb-2 text-xl font-semibold text-white">Light & Dark Theme</h3>
+                        <p class="mb-4 flex-grow text-gray-300">
+                            Easy on the eyes with a sleek dark mode for nighttime browsing.
+                        </p>
+                        <svg viewBox="0 0 600 210" xmlns="http://www.w3.org/2000/svg" class="h-[210px] w-full rounded-lg">
+                            <rect width="600" height="210" rx="16" fill="#0b1734"/>
+                            <g transform="translate(24,24)">
+                                <rect width="552" height="60" rx="12" fill="#0f214a" stroke="#5ea8ff22"/>
+                                <rect y="76" width="174" height="86" rx="12" fill="#0f214a" stroke="#5ea8ff22"/>
+                                <rect x="190" y="76" width="174" height="86" rx="12" fill="#0f214a" stroke="#5ea8ff22"/>
+                                <rect x="380" y="76" width="174" height="86" rx="12" fill="#0f214a" stroke="#5ea8ff22"/>
+                                <circle cx="28" cy="30" r="10" fill="#1f9cff"/>
+                                <circle cx="50" cy="30" r="10" fill="#15b8ff"/>
+                                <circle cx="72" cy="30" r="10" fill="#7cc7ff"/>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <div
+                        class="flex flex-col rounded-2xl border border-blue-400/20 bg-gradient-to-br from-[#0a224f]/40 to-[#06163a]/50 p-6 shadow-lg transition-transform hover:-translate-y-1"
+                    >
+                        <h3 class="mb-2 text-xl font-semibold text-white">More themes coming!</h3>
+                        <p class="mb-4 flex-grow text-gray-300">
+                            Create and save your own themes with custom colors and styling.
+                        </p>
+                        <svg viewBox="0 0 600 210" xmlns="http://www.w3.org/2000/svg" class="h-[210px] w-full rounded-lg">
+                            <defs>
+                                <linearGradient id="pills" x1="0" x2="1" y1="0" y2="0">
+                                    <stop offset="0%" stop-color="#60a5fa" stop-opacity="0.35"/>
+                                    <stop offset="100%" stop-color="#22d3ee" stop-opacity="0.25"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="600" height="210" rx="16" fill="#0b1734"/>
+                            <g transform="translate(28,42)">
+                                <rect width="160" height="44" rx="22" fill="url(#pills)"/>
+                                <rect x="176" width="160" height="44" rx="22" fill="url(#pills)" opacity=".8"/>
+                                <rect x="352" width="160" height="44" rx="22" fill="url(#pills)" opacity=".6"/>
+                                <rect y="68" width="512" height="72" rx="16" fill="#0f214a" stroke="#5ea8ff22"/>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

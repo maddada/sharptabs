@@ -1,0 +1,16 @@
+{
+    "name": "@packages/shared",
+    "version": "0.0.1",
+    "private": true,
+    "license": "GPL-3.0",
+    "type": "module",
+    "exports": {
+        "./gemini-config": "./src/gemini/config.ts"
+    },
+    "dependencies": {
+        "dedent": "^1.5.3"
+    },
+    "devDependencies": {
+        "typescript": "^5.0.0"
+    }
+}

@@ -1,0 +1,80 @@
+---
+import "../styles/global.css";
+import FAQ from "../components/FAQ.astro";
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
+import SubredditCard from "../components/SubredditCard.astro";
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+        <link rel="alternate icon" type="image/png" sizes="48x48" href="/icon48.png" />
+        <link rel="alternate icon" type="image/png" sizes="16x16" href="/icon16.png" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>Welcome to Sharp Tabs</title>
+        <meta
+            name="description"
+            content="Welcome to Sharp Tabs! Learn the most useful shortcuts and get started with the best vertical tabs extension."
+        />
+    </head>
+    <body
+        class="relative min-h-screen select-none bg-gradient-to-r from-black via-[#050c18] to-black transition-colors duration-300"
+    >
+        <Navbar />
+        <main class="container mx-auto mt-20 max-w-3xl px-4 py-16 pb-32">
+            <h1 class="mb-6 text-4xl font-bold text-white">Thank you for installing Sharp Tabs!</h1>
+            <p class="mb-10 text-xl font-semibold text-gray-300">
+                Please read the following instructions to get the most out of this extension:
+            </p>
+            <ol class="mb-12 list-inside list-decimal space-y-8 text-gray-300">
+                <li>
+                    <span class="font-semibold text-white">Sharp Tabs offers the following benefits:</span>
+                    <br />
+                    Vertical grouped tabs. Type to search tabs. Saving tabs & groups. Auto-organizing tabs.<br />Keyboard
+                    shortcuts.
+                </li>
+                <li>
+                    <span class="font-semibold text-white">Pin Sharp Tabs to the menu bar:</span>
+                    <br />
+                    Pin Sharp Tabs to the menu bar to always have it available and access it easily.
+                </li>
+                <li>
+                    <span class="font-semibold text-white">Show the popup & search instantly:</span>
+                    <br />
+                    Assign a keyboard shortcut to open the Sharp Tabs popup and start searching in all windows immediately. You can
+                    press the
+                    <kbd class="rounded bg-gray-200 px-2 py-1 text-sm">Tab</kbd> key to navigate tabs then hit enter to open it.
+                </li>
+                <li>
+                    <span class="font-semibold text-white">Modify extension settings:</span>
+                    <br />
+                    Personalize your experience by adjusting the extension settings to fit your workflow. There's a TON of features
+                    already and I will be adding more based on your requests.
+                </li>
+                <li>
+                    <span class="font-semibold text-white">Save your session:</span>
+                    <br />
+                    Make sure to save your session to avoid losing your tabs when your browser crashes. Auto saves are also enabled
+                    and run once every 10 minutes.
+                </li>
+                <li>
+                    <span class="font-semibold text-white">AI Features (Optional):</span>
+                    <br />
+                    Want AI-powered tab organization? Get a premium subscription or bring your own free Gemini API key in settings.
+                </li>
+                <li>
+                    <span class="font-semibold text-white">Join our community:</span>
+                    <br />
+                    Connect with other users, share feedback, and stay updated by joining our subreddit below.
+                </li>
+            </ol>
+            <SubredditCard />
+        </main>
+        <FAQ />
+        <div class="h-10"></div>
+        <Footer />
+    </body>
+</html>

@@ -1,0 +1,17 @@
+export const SETTINGS_SECTIONS = [
+    { id: "profile", label: "Profile Settings" },
+    { id: "messages-tips", label: "Messages & Tips" },
+    { id: "hotkeys", label: "Keyboard Shortcuts" },
+    { id: "themes", label: "Themes" },
+    { id: "design", label: "Design" },
+    { id: "workspaces", label: "Workspaces" },
+    { id: "ai-features", label: "AI Features" },
+    { id: "tabs", label: "Tabs" },
+    { id: "tab-groups", label: "Tab Groups" },
+    { id: "header", label: "Header" },
+    { id: "context-menu", label: "Context Menu" },
+    { id: "tab-suspending", label: "Tab Suspending" },
+    { id: "saved-sessions", label: "Saved Sessions" },
+    { id: "advanced", label: "Advanced" },
+    { id: "news-help", label: "News & Help" },
+] as const;

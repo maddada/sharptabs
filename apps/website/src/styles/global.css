@@ -1,0 +1,252 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Futuristic dark-blue theme enhancements */
+/* Root theme tokens */
+:root {
+  /* Even darker cosmic palette */
+  --bg-deep: #00020a;
+  --bg: #000512;
+  --bg-elev: #01102a;
+  --bg-elev-2: #04183a;
+  --text: #e6f0ff;
+  --muted: #a6c0ff;
+  --accent: #4ea3ff;
+  --accent-2: #7cc7ff;
+  --glow: 0 0 0.5rem rgba(78,163,255,.35), 0 0 2.5rem rgba(78,163,255,.15);
+}
+
+/* Prefer dark color scheme */
+:root {
+  color-scheme: dark;
+}
+
+/* Body baseline */
+body {
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Page chrome: layered background with gradient + radial vignette + subtle grid */
+.page-shell {
+  position: relative;
+  isolation: isolate;
+  min-height: 100dvh;
+  /* Darker cosmic gradient backdrop with deeper base */
+  background:
+    radial-gradient(1200px 700px at 75% -10%, rgba(12,56,140,0.24), transparent 55%),
+    radial-gradient(900px 520px at 8% 0%, rgba(4,38,110,0.24), transparent 60%),
+    linear-gradient(180deg, #00030c 0%, #000512 42%, #00020a 100%);
+  overflow: clip;
+}
+
+/* Floating aurora, orbs, and hex particles for depth */
+.page-shell::before,
+.page-shell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+}
+.page-shell::before {
+  background:
+    radial-gradient(700px 560px at 12% 18%, rgba(0,143,255,0.18), transparent 60%),
+    radial-gradient(780px 520px at 88% 8%, rgba(0,195,255,0.12), transparent 60%),
+    radial-gradient(1000px 860px at 50% 120%, rgba(0,0,0,0.75), transparent 60%);
+  animation: driftA 26s ease-in-out infinite alternate;
+}
+.page-shell::after {
+  background:
+    conic-gradient(from 200deg at 65% -12%, rgba(0,170,255,0.10), transparent 40%),
+    radial-gradient(420px 300px at 70% 35%, rgba(64,158,255,0.12), transparent 60%),
+    radial-gradient(300px 240px at 25% 60%, rgba(0,110,255,0.10), transparent 60%);
+  mix-blend-mode: screen;
+  animation: driftB 34s ease-in-out infinite alternate;
+}
+/* Hex "dust" layer */
+.page-shell > .hex-particles {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    radial-gradient(1px 1px at 20% 20%, rgba(120,170,255,0.25), transparent 60%),
+    radial-gradient(1px 1px at 80% 30%, rgba(120,170,255,0.20), transparent 60%),
+    radial-gradient(1px 1px at 40% 70%, rgba(120,170,255,0.18), transparent 60%);
+  animation: hexFloat 18s ease-in-out infinite alternate;
+  opacity: .25;
+}
+@keyframes driftA { from { transform: translate3d(0,0,0) } to { transform: translate3d(-24px,-12px,0) } }
+@keyframes driftB { from { transform: translate3d(0,0,0) rotate(0deg) } to { transform: translate3d(12px,16px,0) rotate(2deg) } }
+@keyframes hexFloat { from { transform: translateY(0) } to { transform: translateY(-10px) } }
+
+/* Soft edge vignette */
+.page-shell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, rgba(43,118,255,0.18), transparent 60%),
+    radial-gradient(900px 500px at 20% 20%, rgba(13,188,255,0.12), transparent 60%),
+    radial-gradient(1000px 900px at 50% 120%, rgba(0,0,0,0.6), transparent 50%);
+}
+
+/* Main container rhythm */
+.container-outer {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 3vw, 28px);
+}
+
+/* Subtle card elevation wrapper for sections (without altering inner content) */
+.section-wrap {
+  position: relative;
+  border: 1px solid rgba(117,179,255,0.12);
+  background: linear-gradient(180deg, rgba(12,32,82,0.28), rgba(8,24,64,0.22));
+  box-shadow: var(--glow);
+  border-radius: 18px;
+  overflow: clip;
+}
+
+/* Section separators with glow */
+.section-gap {
+  height: 96px; /* more breathing room before footer */
+  display: grid;
+  place-items: center;
+}
+.section-gap::before {
+  content: "";
+  width: min(72%, 720px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(78,163,255,0.4), transparent);
+  filter: drop-shadow(0 0 10px rgba(78,163,255,0.35));
+}
+
+/* Section-specific animated decorations */
+.block-fade { height: 56px; background: linear-gradient(180deg, rgba(7,22,61,0.0) 0%, rgba(7,22,61,0.55) 70%, rgba(7,22,61,0) 100%) }
+
+/* Features: sweeping beams */
+.features-bg {
+  position: absolute; inset: 0; pointer-events: none; z-index: -1;
+}
+.features-bg::before {
+  content: ""; position: absolute; inset: -10% -20% auto -20%;
+  height: 60%; background: linear-gradient(90deg, transparent, rgba(78,163,255,0.12), transparent 60%);
+  filter: blur(24px); transform: translateX(-10%);
+  animation: sweep 10s ease-in-out infinite alternate;
+}
+.features-bg::after {
+  content: ""; position: absolute; right: -15%; top: 20%; width: 40%; height: 45%;
+  background: radial-gradient(50% 60% at 50% 50%, rgba(0,200,255,0.12), transparent 60%);
+  filter: blur(18px); animation: float 12s ease-in-out infinite alternate;
+}
+
+/* Use-cases: concentric arcs shimmer */
+.usecases-bg { position:absolute; inset:0; pointer-events:none; z-index:-1; }
+.usecases-bg::before, .usecases-bg::after {
+  content:""; position:absolute; left:-10%; top:10%;
+  width:70%; height:55%; border-radius:9999px; border:1px solid rgba(120,180,255,0.12);
+  animation: arcPulse 14s ease-in-out infinite alternate;
+}
+.usecases-bg::after { left:auto; right:-10%; top:30%; width:50%; height:60%; border-color: rgba(120,220,255,0.10) }
+
+/* Customize: subtle orbital dots */
+.customize-bg { position:absolute; inset:0; pointer-events:none; z-index:-1; }
+.customize-bg::before {
+  content:""; position:absolute; left:10%; top:15%; width:10px; height:10px; border-radius:9999px; background:#60a5fa33;
+  animation: orbit 8s linear infinite;
+}
+.customize-bg::after {
+  content:""; position:absolute; left:calc(10% + 60px); top: calc(15% + 40px); width:8px; height:8px; border-radius:9999px; background:#22d3ee33;
+  animation: orbit 12s linear infinite reverse;
+}
+
+/* Download: rising bubbles */
+.download-bg { position:absolute; inset:0; pointer-events:none; z-index:-1; }
+.download-bg::before, .download-bg::after {
+  content:""; position:absolute; bottom:-10%; width:120px; height:120px; border-radius:9999px;
+  background: radial-gradient(closest-side, rgba(100,200,255,0.16), transparent 70%);
+  animation: rise 16s ease-in-out infinite;
+}
+.download-bg::after { left: 60%; width:160px; height:160px; animation-duration: 22s; animation-delay: -6s }
+
+@keyframes sweep { from { transform: translateX(-12%) } to { transform: translateX(12%) } }
+@keyframes float { from { transform: translateY(0) } to { transform: translateY(-10px) } }
+@keyframes arcPulse { from { opacity:.12 } to { opacity:.22 } }
+@keyframes orbit { from { transform: rotate(0deg) translateX(40px) rotate(0deg) } to { transform: rotate(360deg) translateX(40px) rotate(-360deg) } }
+@keyframes rise { from { transform: translateY(0) } to { transform: translateY(-14%) } }
+
+/* Focus states */
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(78,163,255,0.15);
+  border-radius: 10px;
+}
+
+/* Utility: glass line behind navbar */
+.glass-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: saturate(140%) blur(12px);
+  background: linear-gradient(180deg, rgba(5,16,40,0.7), rgba(5,16,40,0.35));
+  border-bottom: 1px solid rgba(117,179,255,0.14);
+}
+
+/* Soft starfield with parallax */
+.starfield {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 20% 30%, rgba(160,210,255,0.30), transparent 60%),
+    radial-gradient(1px 1px at 70% 20%, rgba(160,210,255,0.18), transparent 60%),
+    radial-gradient(1px 1px at 40% 70%, rgba(160,210,255,0.18), transparent 60%),
+    radial-gradient(2px 2px at 85% 60%, rgba(160,210,255,0.15), transparent 60%);
+  opacity: .28;
+  mask-image: radial-gradient(1200px 900px at 50% 20%, #000 40%, transparent 80%);
+  animation: parallax 22s ease-in-out infinite alternate;
+}
+@keyframes parallax {
+  from { transform: translateY(0px) }
+  to   { transform: translateY(-8px) }
+}
+
+/* Responsive video container */
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio (height / width * 100) */
+  height: 0;
+  overflow: hidden;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Reduce motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .page-shell::before,
+  .page-shell::after,
+  .starfield,
+  .hex-particles,
+  .features-bg::before,
+  .features-bg::after,
+  .usecases-bg::before,
+  .usecases-bg::after,
+  .customize-bg::before,
+  .customize-bg::after,
+  .download-bg::before,
+  .download-bg::after { animation: none }
+}

@@ -1,0 +1,127 @@
+---
+import Menu from "@lucide/astro/icons/menu";
+import X from "@lucide/astro/icons/x";
+---
+
+<nav
+    class="glass-bar fixed top-0 z-50 w-full animate-fade-in shadow-lg"
+>
+    <div class="container-outer flex items-center justify-between py-3 md:py-4">
+        <a class="flex h-10 flex-row items-center gap-2" href={Astro.url.pathname === "/" ? "#top" : "/"}>
+            <img src="/icon.svg" alt="Sharp Tabs" class="w-10" />
+            <div class="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-xl font-bold text-transparent">Sharp Tabs</div>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <div class="hidden items-center gap-2 md:flex">
+            <a
+                href="/features"
+                class="px-3 py-2 text-gray-300 transition-all duration-300 hover:text-blue-300 hover:drop-shadow"
+                >Features</a
+            >
+            <a
+                href="/free-vs-paid"
+                class="px-3 py-2 text-gray-300 transition-all duration-300 hover:text-blue-300 hover:drop-shadow"
+                >Free vs Paid</a
+            >
+            <a
+                href="/pricing"
+                class="px-3 py-2 text-gray-300 transition-all duration-300 hover:text-blue-300 hover:drop-shadow"
+                >Pricing</a
+            >
+            <a
+                href="/roadmap"
+                class="px-3 py-2 text-gray-300 transition-all duration-300 hover:text-blue-300 hover:drop-shadow"
+                >Roadmap</a
+            >
+            <a
+                href="/faq"
+                class="px-3 py-2 text-gray-300 transition-all duration-300 hover:text-blue-300 hover:drop-shadow"
+                >FAQ</a
+            >
+            <a href="https://chromewebstore.google.com/detail/sharp-tabs-the-most-polis/ooagakphldicpdeamgchdkpfbehcdjjk" target="_blank" class="rounded-lg bg-gradient-to-r from-blue-600 to-cyan-600 px-4 py-2 font-medium text-white transition-all duration-300 hover:from-blue-500 hover:to-cyan-500 hover:shadow-lg">
+                Download
+            </a>
+            <a
+                id="profile-btn-desktop"
+                href="/profile"
+                class="block h-full rounded-lg border border-blue-400/25 bg-blue-500/15 px-4 py-2 font-medium text-blue-200 transition-all duration-300 hover:border-blue-300/50 hover:bg-blue-500/25"
+            >
+                Profile
+            </a>
+        </div>
+
+        <!-- Mobile menu button -->
+        <div class="flex items-center gap-3 md:hidden">
+            <button
+                id="menu-toggle"
+                class="rounded-lg p-2 text-gray-300 transition-all duration-300 hover:bg-white/10 hover:text-blue-400 focus:outline-none"
+            >
+                <Menu size={24} class="block" />
+                <X size={24} class="hidden" />
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div
+        id="mobile-menu"
+        class="absolute left-0 top-full hidden w-full border-b border-white/5 bg-gradient-to-br from-[#000e2b]/95 to-gray-950/95 shadow-lg backdrop-blur-sm transition-colors duration-300 md:hidden"
+    >
+        <div class="container-outer mb-8 flex flex-col space-y-2 py-4" id="top">
+            <a
+                href="/features"
+                class="py-2 text-gray-300 transition-all duration-300 hover:translate-x-2 hover:text-blue-400"
+                >Features
+            </a>
+            <a
+                href="/settings"
+                class="py-2 text-gray-300 transition-all duration-300 hover:translate-x-2 hover:text-blue-400"
+                >Settings
+            </a>
+            <a
+                href="/pricing"
+                class="py-2 text-gray-300 transition-all duration-300 hover:translate-x-2 hover:text-blue-400"
+                >Pricing
+            </a>
+            <a
+                href="/roadmap"
+                class="py-2 text-gray-300 transition-all duration-300 hover:translate-x-2 hover:text-blue-400"
+                >Roadmap
+            </a>
+            <a
+                href="/faq"
+                class="py-2 text-gray-300 transition-all duration-300 hover:translate-x-2 hover:text-blue-400"
+                >FAQ
+            </a>
+            <a
+                href="https://chromewebstore.google.com/detail/sharp-tabs-the-most-polis/ooagakphldicpdeamgchdkpfbehcdjjk"
+                target="_blank"
+                class="py-2 text-gray-300 transition-all duration-300 hover:translate-x-2 hover:text-blue-400"
+            >
+                Download
+            </a>
+            <a
+                id="profile-btn-mobile"
+                href="/profile"
+                class="hidden py-2 text-gray-300 transition-all duration-300 hover:translate-x-2 hover:text-blue-400"
+            >
+                Profile
+            </a>
+        </div>
+    </div>
+</nav>
+
+<script>
+    // Mobile menu toggle
+    const menuToggle = document.getElementById("menu-toggle");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const menuIcon = menuToggle?.querySelector(".lucide-menu");
+    const closeIcon = menuToggle?.querySelector(".lucide-x");
+
+    menuToggle?.addEventListener("click", () => {
+        mobileMenu?.classList.toggle("hidden");
+        menuIcon?.classList.toggle("hidden");
+        closeIcon?.classList.toggle("hidden");
+    });
+</script>

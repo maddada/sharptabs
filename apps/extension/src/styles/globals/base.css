@@ -1,0 +1,83 @@
+@layer base {
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground;
+    }
+}
+
+.TooltipContent {
+    pointer-events: none;
+}
+
+html {
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    overflow: hidden;
+}
+
+/* Thin, theme-aware scrollbar styling */
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--foreground) / 0.1);
+    border-radius: 8px;
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--foreground) / 0.1) transparent;
+}
+
+/* OverlayScrollbars (overlayscrollbars-react) theme-aware colors */
+.os-scrollbar-handle {
+    background-color: hsl(var(--foreground) / 0.3) !important;
+    border-radius: 8px !important;
+}
+
+.os-scrollbar:hover .os-scrollbar-handle {
+    background-color: hsl(var(--foreground) / 0.6) !important;
+}
+
+/* When theme is dark, use a lighter (more visible) handle */
+.dark .os-scrollbar-handle {
+    background-color: hsl(var(--foreground) / 0.3) !important;
+}
+
+.dark .os-scrollbar:hover .os-scrollbar-handle {
+    background-color: hsl(var(--foreground) / 0.45) !important;
+}
+
+.os-theme-dark,
+.os-theme-light {
+    --os-size: 6px;
+    /* box-sizing: border-box;
+    --os-padding-perpendicular: 2px;
+    --os-padding-axis: 2px;
+    --os-track-border-radius: 10px;
+    --os-handle-interactive-area-offset: 4px;
+    --os-handle-border-radius: 10px; */
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--foreground) / 0.1) transparent;
+}
+

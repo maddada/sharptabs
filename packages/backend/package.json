@@ -1,0 +1,23 @@
+{
+  "name": "@packages/backend",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "convex dev",
+    "setup": "convex dev --until-success",
+    "deploy": "convex deploy"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "@packages/shared": "workspace:*",
+    "convex": "^1.25.0",
+    "dedent": "^1.6.0",
+    "firebase-admin": "^13.4.0",
+    "stripe": "^18.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.4",
+    "typescript": "^5.7.3"
+  }
+}
