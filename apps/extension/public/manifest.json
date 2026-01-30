@@ -1,10 +1,10 @@
 {
     "manifest_version": 3,
-    "name": "Sharp Tabs - Best Vertical Tabs Suspender & Organizer!",
-    "short_name": "Sharp Tabs",
-    "version": "2.1.8",
-    "description": "Instant Search. Advanced Suspend. AI Integrations. Auto Session Backups. Duplicates. Workspaces. Themes. and Much More!",
-    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4IJGu0yk4ns6mLily7sajg52EWpARUQKE4UmuesTcduD6YNp0fMeiSV4SwHz5InMl0VXj0l/lN6CVR4xJUi6pLiHa5EYcX9I1Lr+buVOtuwJ0yhUUzRNvc8HSydWQtS7ElLy4OmSaE0Jle26y1td1NzAgTgyxS2ah5fM3GUkHGmQIwJ8aJfZZLiAuYJm4L/kiFXiEMBcWXQ4n/BF5b8w5FVhCEAIhw+Pp0xl3ofwwf/YtmzY8LjW8WNxIbqNfqIKuDdfm2Uw9LvucN3zkz+smmbrbvcnaDWqzfjK9bHtZlwBk8HroOxmIm0Na8leq0Y0H8NQmQmDrkeTiW3E3YtiZQIDAQAB",
+    "name": "Sharp Tabs v3 - Best Open Source All-in-1 Tabs Manager (Vertical & Pop-up)!",
+    "short_name": "Sharp Tabs v3",
+    "version": "3.0.0",
+    "description": "Fully Free. Vertical Tabs. Instant Search. Advanced Suspend. AI Organize. Auto Session Backups. Duplicates. Workspaces. Much More!",
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApW4sOM5dpFyvPEhtrg1mh7+ed37ylcqoK6layVUD0r+ChA7DcSbxNTtenVle+d3uSMc0LzWyg2eGPlXqLD91x5swmdNmtTZitdhS6fFr5ptp+RDE7fO1dPZvCUJzqMCVpbXOGIOEUduhbnSyn1V0a+xBhXJrK0X8qG9ueedbeEQIiZ6//JKQTzo8qggr2j2ZxivRDsludi96rRwNFPMThYX4WxzQ+wknLVS3+Wy0NOtIHNdy90Sk6iCIOD9j9OnweptsO6B1yQItZX3y9mBuxPiMbv7Hq68cMuw0oAa8amRuEkJzwjRE99CVo7AcQ9wens2kF2GjRP6JZs0QtAVm4wIDAQAB",
     "oauth2": {
         "client_id": "1031894486726-ietdl5p4hvs1hf6ej36otjn5ung35u7c.apps.googleusercontent.com",
         "scopes": ["openid", "email", "profile"]
@@ -22,7 +22,6 @@
         "favicon",
         "bookmarks",
         "activeTab",
-        "scripting",
         "search"
     ],
     "content_scripts": [

@@ -1,9 +1,9 @@
 {
     "manifest_version": 3,
-    "name": "Sharp Tabs - Best Vertical Tabs Suspender & Organizer!",
-    "short_name": "Sharp Tabs",
-    "version": "2.1.8",
-    "description": "Instant Search. Advanced Suspend. AI Integrations. Auto Session Backups. Duplicates. Workspaces. Themes. and Much More!",
+    "name": "Sharp Tabs v3 - Best Open Source All-in-1 Tabs Manager (Vertical & Pop-up)!",
+    "short_name": "Sharp Tabs v3",
+    "version": "3.0.0",
+    "description": "Fully Free. Vertical Tabs. Instant Search. Advanced Suspend. AI Organize. Auto Session Backups. Duplicates. Workspaces. Much More!",
     "key": "__EXTENSION_KEY__",
     "oauth2": {
         "client_id": "__OAUTH_CLIENT_ID__",
@@ -22,7 +22,6 @@
         "favicon",
         "bookmarks",
         "activeTab",
-        "scripting",
         "search"
     ],
     "content_scripts": [
