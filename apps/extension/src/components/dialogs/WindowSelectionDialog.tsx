@@ -5,6 +5,7 @@ import { useTabManagerStore } from "@/stores/tabManagerStore";
 import { Tab } from "@/types/Tab";
 import { TabGroup } from "@/types/TabGroup";
 import { moveGroupToNewWindow } from "@/utils/tabs/moveGroupToNewWindow";
+import { isNewTab } from "@/utils/tabs/isNewTab";
 import { useEffect, useState } from "react";
 import { moveTabToNewWindow, moveTabToNewWindowMultiple } from "../tab-list-items/TabItemHandlers";
 import { useTabsStore } from "@/stores/tabsStore";
@@ -65,7 +66,7 @@ const handleWindowSelectGroup = async (group: TabGroup, windowId: number) => {
             setTimeout(async () => {
                 // Check if all remaining tabs are new tabs
                 const remainingTabs = await chrome.tabs.query({ windowId: currentWindowId });
-                const allNewTabs = remainingTabs.every((tab) => tab.url && tab.url.includes("://newtab"));
+                const allNewTabs = remainingTabs.every((tab) => isNewTab(tab));
 
                 if (allNewTabs && remainingTabs.length > 0) {
                     // Close the current window since all remaining tabs are new tabs
@@ -93,7 +94,7 @@ const handleWindowSelectTab = async (tab: Tab, windowId: number) => {
         setTimeout(async () => {
             // Check if all remaining tabs are new tabs
             const remainingTabs = await chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT });
-            const allNewTabs = remainingTabs.every((tab) => tab.url && tab.url.includes("://newtab"));
+            const allNewTabs = remainingTabs.every((tab) => isNewTab(tab));
 
             const currentWindowId = (await chrome.windows.getCurrent()).id;
             if (currentWindowId && allNewTabs) {
@@ -119,7 +120,7 @@ const handleWindowSelectTabs = async (tabs: Tab[], windowId: number) => {
         setTimeout(async () => {
             // Check if all remaining tabs are new tabs
             const remainingTabs = await chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT });
-            const allNewTabs = remainingTabs.every((tab) => tab.url && tab.url.includes("://newtab"));
+            const allNewTabs = remainingTabs.every((tab) => isNewTab(tab));
 
             const currentWindowId = (await chrome.windows.getCurrent()).id;
             if (currentWindowId && allNewTabs) {

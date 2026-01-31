@@ -3,6 +3,7 @@ import { Settings } from "@/types/Settings";
 import { Tab } from "@/types/Tab";
 import { cn } from "@/utils/cn";
 import { getFaviconUrl } from "@/utils/tabs/getFaviconUrl";
+import { isNewTab } from "@/utils/tabs/isNewTab";
 import { PanelTop } from "lucide-react";
 import { TabItemState } from "./TabItem";
 
@@ -83,7 +84,7 @@ export const TabFavicon = ({ tabState, tab, settings }: { tabState: TabItemState
             </div>
         );
 
-    if (tab?.url?.includes("://newtab/") && tab?.title !== "Sharp Tabs Search") {
+    if (isNewTab(tab as chrome.tabs.Tab) && tab?.title !== "Sharp Tabs Search") {
         return (
             <div
                 style={{

@@ -1,4 +1,5 @@
 import { Tab } from "@/types/Tab";
+import { isNewTab } from "./isNewTab";
 
 /**
  * Extracts a human-readable title from a tab.
@@ -51,7 +52,7 @@ export function getTabTitle(tab?: Tab): string {
     }
 
     // Handle new tab pages
-    if (tab.url?.includes("chrome://new-tab-page") || tab.url?.includes("://newtab") || tab.url?.includes("about:newtab")) {
+    if (tab.url && isNewTab(tab as chrome.tabs.Tab)) {
         return "New Tab";
     }
 

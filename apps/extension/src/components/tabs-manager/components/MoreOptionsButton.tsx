@@ -117,8 +117,6 @@ export function MoreOptionsButton() {
                     !tab.url?.startsWith("chrome://") &&
                     !tab.url?.startsWith("chrome-extension://") &&
                     !tab.url?.startsWith("edge://") &&
-                    !tab.url?.startsWith("about:blank") &&
-                    !tab.url?.startsWith("about:newtab") &&
                     !isNewTab(tab) &&
                     !tab.active
             );

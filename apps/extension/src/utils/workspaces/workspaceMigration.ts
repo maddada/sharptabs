@@ -10,6 +10,7 @@
 import { WindowWorkspaceAssignments, WorkspaceAssignments } from "@/types/Workspace";
 import { extractOriginalUrl, urlsMatch } from "./workspaceMatcher";
 import { setMigrationInProgress } from "./workspaceSync";
+import { isNewTab } from "../tabs/isNewTab";
 
 interface WindowFingerprint {
     windowId: number;
@@ -24,14 +25,7 @@ function delay(ms: number): Promise<void> {
 }
 
 function isPlaceholderUrl(url: string | undefined): boolean {
-    if (!url || url === "") return true;
-    if (url === "chrome://newtab/") return true;
-    if (url === "about:blank") return true;
-    if (url.includes("://newtab")) return true;
-    if (url.includes("://new-tab-page")) return true;
-    if (url.includes("vivaldi://startpage")) return true;
-    if (url.includes("vivaldi://vivaldi-webui/startpage")) return true;
-    return false;
+    return isNewTab({ url } as chrome.tabs.Tab);
 }
 
 function getGroupSignature(title: string | undefined, color: string): string {

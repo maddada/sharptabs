@@ -1,4 +1,5 @@
 import { Tab } from "@/types/Tab";
+import { isNewTab } from "./isNewTab";
 
 export const isSpecialBrowserTab = (tab: Tab) => {
     const specialProtocols = [
@@ -13,7 +14,7 @@ export const isSpecialBrowserTab = (tab: Tab) => {
         "edge-extension://",
     ];
 
-    if (tab.url.includes("://newtab") || specialProtocols.some((protocol) => tab.url.startsWith(protocol))) {
+    if (isNewTab(tab as chrome.tabs.Tab) || specialProtocols.some((protocol) => tab.url.startsWith(protocol))) {
         return true;
     }
 

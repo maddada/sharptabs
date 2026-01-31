@@ -4,6 +4,7 @@
  */
 
 import { addGroupToWorkspace } from "./workspaceHandlers";
+import { isNewTab } from "../tabs/isNewTab";
 import { debouncedReorderTabsByWorkspace } from "./workspaceReorder";
 
 let syncTimeout: NodeJS.Timeout | null = null;
@@ -66,14 +67,7 @@ function extractOriginalUrl(url: string): string {
  * Check if a URL is a placeholder URL (not yet loaded)
  */
 function isPlaceholderUrl(url: string | undefined): boolean {
-    if (!url || url === "") return true;
-    if (url === "chrome://newtab/") return true;
-    if (url === "about:blank") return true;
-    if (url.includes("://newtab")) return true;
-    if (url.includes("://new-tab-page")) return true;
-    if (url.includes("vivaldi://startpage")) return true;
-    if (url.includes("vivaldi://vivaldi-webui/startpage")) return true;
-    return false;
+    return isNewTab({ url } as chrome.tabs.Tab);
 }
 
 /**

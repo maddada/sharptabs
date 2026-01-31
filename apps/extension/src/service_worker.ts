@@ -28,6 +28,7 @@ import { saveLastActiveTabForWorkspace, getCurrentTabWorkspace, cleanupClosedWin
 import { handleSuspendCurrentTab } from "./service_worker/handleSuspendCurrentTab";
 import { handleSuspendGroupTabs } from "./service_worker/handleSuspendGroupTabs";
 import { handleSuspendWindowTabs } from "./service_worker/handleSuspendWindowTabs";
+import { isNewTab } from "./utils/tabs/isNewTab";
 
 console.log("Service worker loaded");
 
@@ -326,15 +327,7 @@ chrome.tabs.onCreated.addListener(async (tab) => {
             // Only assign to workspace if feature is enabled
             if (result.enableWorkspaces ?? false) {
                 // Check if this is a new tab (chrome://newtab/, about:blank, etc.)
-                const isNewTabUrl =
-                    tab.url === "chrome://newtab/" ||
-                    tab.url === "about:blank" ||
-                    tab.url?.includes("://newtab") ||
-                    tab.url?.includes("://new-tab-page") ||
-                    tab.url?.includes("vivaldi://startpage") ||
-                    tab.url?.includes("vivaldi://vivaldi-webui/startpage") ||
-                    !tab.url ||
-                    tab.url === "";
+                const isNewTabUrl = isNewTab(tab);
 
                 if (isNewTabUrl) {
                     // Default to "general" workspace if no active workspace is set for this window
@@ -392,15 +385,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
             // Only assign to workspace if feature is enabled
             if ((result.enableWorkspaces ?? false) && changeInfo.url) {
                 // Helper function to check if URL is a new tab URL
-                const isNewTabUrl = (url: string | undefined) =>
-                    url === "chrome://newtab/" ||
-                    url === "about:blank" ||
-                    url?.includes("://newtab") ||
-                    url?.includes("://new-tab-page") ||
-                    url?.includes("vivaldi://startpage") ||
-                    url?.includes("vivaldi://vivaldi-webui/startpage") ||
-                    !url ||
-                    url === "";
+                const isNewTabUrl = (url: string | undefined) => isNewTab({ url } as chrome.tabs.Tab);
 
                 // Default to "general" workspace if no active workspace is set for this window
                 const activeWorkspace = result.activeWorkspacePerWindow?.[tab.windowId] || "general";
