@@ -8,28 +8,6 @@ import { ItemType } from "@/types/CombinedItem";
 type ActiveLike = { id: string };
 type OverLike = { id: string };
 
-declare global {
-    // Provide a minimal chrome type for tests
-
-    namespace globalThis {
-        interface chrome {
-            tabs: {
-                move: ReturnType<typeof vi.fn>;
-                ungroup: ReturnType<typeof vi.fn>;
-                group: ReturnType<typeof vi.fn>;
-                get: ReturnType<typeof vi.fn>;
-                query: ReturnType<typeof vi.fn>;
-            };
-            tabGroups: {
-                move: ReturnType<typeof vi.fn>;
-                query: ReturnType<typeof vi.fn>;
-            };
-            windows: { WINDOW_ID_CURRENT: number };
-            storage: { local: { get: ReturnType<typeof vi.fn>; remove: ReturnType<typeof vi.fn> } };
-        }
-    }
-}
-
 const createTab = (overrides: Partial<Tab>): Tab => {
     return {
         id: 0,

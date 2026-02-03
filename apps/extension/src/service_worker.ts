@@ -17,6 +17,7 @@ import { getNavigationState } from "./service_worker/navigation/getNavigationSta
 import { handleNavigateBack } from "./service_worker/navigation/handleNavigateBack";
 import { handleNavigateForward } from "./service_worker/navigation/handleNavigateForward";
 import { navigationHistoryByWindow, programmaticNavigationInProgress } from "./service_worker/navigation/navigationConstants";
+import { clearNavigationLock } from "./service_worker/navigation/withNavigationLock";
 import { performSessionSave } from "./service_worker/performSessionSave";
 import { updateTabCount } from "./service_worker/updateTabCount";
 import { WorkspaceDefinition } from "./types/Workspace";
@@ -559,6 +560,7 @@ chrome.commands.onCommand.addListener(async (command, tab) => {
 // Clean up navigation history when window is closed
 chrome.windows.onRemoved.addListener((windowId) => {
     delete navigationHistoryByWindow[windowId];
+    clearNavigationLock(windowId);
 
     // Clean up any programmatic navigation flags for this window
     for (const key of programmaticNavigationInProgress) {
@@ -622,12 +624,12 @@ chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
     const navHistory = navigationHistoryByWindow[windowId];
     if (navHistory) {
         const tabIndex = navHistory.history.indexOf(tabId);
-        if (tabIndex !== 0) {
+        if (tabIndex !== -1) {
             // Remove the tab from history
             navHistory.history.splice(tabIndex, 1);
 
             // Adjust current index if needed
-            if (navHistory.currentIndex >= tabIndex && navHistory.currentIndex > 0) {
+            if (navHistory.currentIndex > tabIndex) {
                 navHistory.currentIndex--;
             }
 
@@ -642,6 +644,9 @@ chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
             broadcastNavigationStateChange(windowId);
         }
     }
+
+    // Clear any programmatic navigation flag for this tab
+    programmaticNavigationInProgress.delete(`${windowId}-${tabId}`);
 });
 // #endregion Hot Keys
 
