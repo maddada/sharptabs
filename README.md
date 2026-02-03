@@ -2,7 +2,7 @@
 
 A powerful Chrome extension for tab management with instant search, intelligent tab suspending, AI features, session backups, workspaces, and beautiful themes.
 
-**[Install from Chrome Web Store](https://sharptabs.com)** | **[r/SharpTabs](https://reddit.com/r/SharpTabs)**
+**[Install on sharptabs.com](https://sharptabs.com)** | **[r/SharpTabs](https://reddit.com/r/SharpTabs)**
 
 ## Features
 
@@ -45,11 +45,6 @@ A powerful Chrome extension for tab management with instant search, intelligent 
 - Multi-select and drag & drop
 - Recent Tabs Navigation (Alt+Tab for browser tabs)
 - Two modes: Popup for quick actions, Sidebar for involved usage
-
-## Free vs Paid
-
-Almost all features are free and don't require signing in.
-Learn more: [sharptabs.com/free-vs-paid](https://sharptabs.com/free-vs-paid)
 
 ## Development
 
