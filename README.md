@@ -4,6 +4,10 @@ A powerful Chrome extension for tab management with instant search, intelligent 
 
 **[Install on sharptabs.com](https://sharptabs.com)** | **[r/SharpTabs](https://reddit.com/r/SharpTabs)**
 
+
+https://github.com/user-attachments/assets/41a499e9-5743-4cf5-bd18-0220bd55d1a7
+
+
 ## Features
 
 ### Search
