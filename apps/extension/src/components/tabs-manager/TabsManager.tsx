@@ -37,7 +37,7 @@ import {
 } from "@dnd-kit/core";
 import { restrictToHorizontalAxis, restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import Fuse from "fuse.js";
-import { RefObject, useCallback, useEffect, useEffect as useReactEffect, useRef, useState } from "react";
+import { RefObject, useCallback, useEffect, useEffect as useReactEffect, useMemo, useRef, useState } from "react";
 import { AddToGroupDialog } from "../dialogs/AddToGroupDialog";
 import { AutoOrganizeDialog } from "../dialogs/AutoOrganizeDialog";
 import { BulkOpenLinksDialog } from "../dialogs/BulkOpenLinksDialog";
@@ -147,6 +147,7 @@ export function TabsManager({
         setShowBackgroundImage,
         setWorkspaceAssignments,
         setOtherWindowsData,
+        setDuplicateTabsCount,
     } = useTabManagerStore((s) => s.actions);
 
     useEffect(() => {
@@ -549,22 +550,20 @@ export function TabsManager({
     );
     // #endregion
 
-    // Calculate if there are duplicate tabs for the footer button
-    const allTabs = [...pinnedTabs, ...regularTabs, ...tabGroups.flatMap((g) => g.tabs)];
-    const duplicateTabIds = findDuplicateTabs(allTabs, settings.strictDuplicateChecking);
+    const scopeItemsForDuplicateCheck = useMemo(() => {
+        if (inNewTab && settings.minimalNewTabsPage) {
+            return searchTerm ? filteredItemsForRender(searchTerm) : [];
+        }
 
-    let itemsToRender;
-    if (!inNewTab || !settings.minimalNewTabsPage) {
-        itemsToRender = searchTerm ? filteredItemsForRender(searchTerm) : allItemsForRender;
+        let scopedItems = searchTerm ? filteredItemsForRender(searchTerm) : allItemsForRender;
 
-        // Apply workspace filtering if enabled
-        if (settings.enableWorkspaces && activeWorkspaceId) {
-            // Skip workspace filtering if searching and searchInAllWorkspaces is enabled
+        // In duplicate mode, show duplicates across all workspaces.
+        if (!isDuplicateCheckMode && settings.enableWorkspaces && activeWorkspaceId) {
             if (!(searchTerm && settings.searchInAllWorkspaces)) {
                 const activeWorkspace = workspaces.find((w) => w.id === activeWorkspaceId);
                 if (activeWorkspace) {
-                    itemsToRender = filterItemsByWorkspace(
-                        itemsToRender,
+                    scopedItems = filterItemsByWorkspace(
+                        scopedItems,
                         activeWorkspace,
                         workspaceAssignments,
                         workspaces,
@@ -575,34 +574,80 @@ export function TabsManager({
             }
         }
 
-        // Apply duplicate filtering if in duplicate check mode
-        if (isDuplicateCheckMode) {
-            itemsToRender = itemsToRender
-                .map((item) => {
-                    if (item.type === ItemType.PINNED || item.type === ItemType.REGULAR) {
-                        // Filter out non-duplicate tabs
-                        const tab = item.data as Tab;
-                        if (!duplicateTabIds.has(tab.id)) {
-                            return null;
-                        }
-                    } else if (item.type === ItemType.GROUP) {
-                        // Filter tabs within groups
-                        const group = item.data as TabGroup;
-                        const filteredTabs = group.tabs.filter((tab) => duplicateTabIds.has(tab.id));
-                        if (filteredTabs.length === 0) {
-                            return null; // Remove empty groups
-                        }
-                        return {
-                            ...item,
-                            data: { ...group, tabs: filteredTabs },
-                        };
+        return scopedItems;
+    }, [
+        inNewTab,
+        settings.minimalNewTabsPage,
+        searchTerm,
+        filteredItemsForRender,
+        allItemsForRender,
+        settings.enableWorkspaces,
+        activeWorkspaceId,
+        isDuplicateCheckMode,
+        settings.searchInAllWorkspaces,
+        workspaces,
+        workspaceAssignments,
+        settings.sharePinnedTabsBetweenWorkspaces,
+        fallbackAssignedIdentifiers,
+    ]);
+
+    const scopedTabsForDuplicateCheck = useMemo(
+        () =>
+            scopeItemsForDuplicateCheck.flatMap((item) => {
+                if (item.type === ItemType.GROUP) {
+                    return (item.data as TabGroup).tabs;
+                }
+                if (item.type === ItemType.PINNED || item.type === ItemType.REGULAR) {
+                    return [item.data as Tab];
+                }
+                return [];
+            }),
+        [scopeItemsForDuplicateCheck]
+    );
+
+    const duplicateTabIds = useMemo(
+        () => findDuplicateTabs(scopedTabsForDuplicateCheck, settings.strictDuplicateChecking),
+        [scopedTabsForDuplicateCheck, settings.strictDuplicateChecking]
+    );
+
+    const allTabsForDuplicateCount = useMemo(
+        () => [...pinnedTabs, ...regularTabs, ...tabGroups.flatMap((group) => group.tabs)],
+        [pinnedTabs, regularTabs, tabGroups]
+    );
+
+    const globalDuplicateTabIds = useMemo(
+        () => findDuplicateTabs(allTabsForDuplicateCount, settings.strictDuplicateChecking),
+        [allTabsForDuplicateCount, settings.strictDuplicateChecking]
+    );
+
+    useEffect(() => {
+        setDuplicateTabsCount(globalDuplicateTabIds.size);
+    }, [globalDuplicateTabIds.size, setDuplicateTabsCount]);
+
+    let itemsToRender: CombinedItem[] = scopeItemsForDuplicateCheck;
+
+    if (isDuplicateCheckMode) {
+        itemsToRender = itemsToRender
+            .map((item) => {
+                if (item.type === ItemType.PINNED || item.type === ItemType.REGULAR) {
+                    const tab = item.data as Tab;
+                    if (!duplicateTabIds.has(tab.id)) {
+                        return null;
                     }
-                    return item;
-                })
-                .filter(Boolean) as CombinedItem[];
-        }
-    } else {
-        itemsToRender = searchTerm ? filteredItemsForRender(searchTerm) : [];
+                } else if (item.type === ItemType.GROUP) {
+                    const group = item.data as TabGroup;
+                    const filteredTabs = group.tabs.filter((tab) => duplicateTabIds.has(tab.id));
+                    if (filteredTabs.length === 0) {
+                        return null;
+                    }
+                    return {
+                        ...item,
+                        data: { ...group, tabs: filteredTabs },
+                    };
+                }
+                return item;
+            })
+            .filter(Boolean) as CombinedItem[];
     }
 
     const hasPinned = itemsToRender.some((item) => item.type === ItemType.PINNED);

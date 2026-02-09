@@ -1,10 +1,8 @@
 import { useTabManagerStore } from "@/stores/tabManagerStore";
 import { useTabsStore } from "@/stores/tabsStore";
-import { useSettingsStore } from "@/stores/settingsStore";
 import { Tab } from "@/types/Tab";
 import { debounce } from "lodash-es";
 import { collapseAllGroupsExceptActive } from "./collapseAllGroupsExceptActive";
-import { findDuplicateTabs } from "@/utils/tabs/findDuplicateTabs";
 import { syncGroupedTabsWithWorkspaces } from "./syncGroupedTabsWithWorkspaces";
 
 // Define the original async function logic internally
@@ -118,9 +116,6 @@ const _loadTabs = async (cameFrom: string) => {
         // Sync grouped tabs with their parent group's workspace assignments
         await syncGroupedTabsWithWorkspaces(groupsWithTabs);
 
-        // Check for duplicates after tab data is updated
-        checkForDuplicates();
-
         if (isInitialMount) {
             setIsInitialMount(false);
             // console.groupEnd();
@@ -131,32 +126,6 @@ const _loadTabs = async (cameFrom: string) => {
     }
     // console.groupEnd();
 };
-
-// Function to check for duplicate tabs with debounce
-const _checkForDuplicates = () => {
-    try {
-        const { pinnedTabs, regularTabs, tabGroups } = useTabsStore.getState();
-        const { setDuplicateTabsCount } = useTabManagerStore.getState().actions;
-        const { strictDuplicateChecking } = useSettingsStore.getState().settings;
-
-        // Collect all tabs for duplicate checking
-        const allTabs: Tab[] = [...pinnedTabs, ...regularTabs, ...tabGroups.flatMap((g) => g.tabs)];
-        const duplicateTabIds = findDuplicateTabs(allTabs, strictDuplicateChecking);
-
-        // Update the duplicate count
-        setDuplicateTabsCount(duplicateTabIds.size);
-
-        console.log(`[LOADTABS] Found ${duplicateTabIds.size} duplicate tabs`);
-    } catch (error) {
-        console.log("Error checking for duplicates:", error);
-    }
-};
-
-// Create debounced version for duplicate checking
-export const checkForDuplicates = debounce(_checkForDuplicates, 500, {
-    leading: false, // Execute immediately
-    trailing: true, // Execute after the wait time
-});
 
 // Create and export the debounced version
 export const loadTabs = debounce(_loadTabs, 100, {
