@@ -2,10 +2,8 @@ name: Publish Extension to Chrome Web Store
 
 on:
   push:
-    branches: [main]
-    paths:
-      - 'apps/extension/**'
-      - '!apps/extension/.ignore/**'
+    tags:
+      - 'v*'
   workflow_dispatch:
 
 jobs:
@@ -15,6 +13,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            VERSION="${GITHUB_REF#refs/tags/v}"
+          else
+            VERSION=$(node -e "console.log(JSON.parse(require('fs').readFileSync('apps/extension/public/manifest.template.json','utf8')).version)")
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Version: $VERSION"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -29,87 +38,26 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Read local version from manifest template
-        id: local_version
-        run: |
-          VERSION=$(node -e "console.log(JSON.parse(require('fs').readFileSync('apps/extension/public/manifest.template.json','utf8')).version)")
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "Local manifest version: $VERSION"
-
-      - name: Fetch published version from Chrome Web Store
-        id: published_version
-        env:
-          CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
-          CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
-          CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
-          CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
-          CHROME_PUBLISHER_ID: ${{ secrets.CHROME_PUBLISHER_ID }}
-        run: |
-          # Exchange refresh token for access token
-          TOKEN_RESPONSE=$(curl -s -X POST https://oauth2.googleapis.com/token \
-            -d "client_id=${CHROME_CLIENT_ID}" \
-            -d "client_secret=${CHROME_CLIENT_SECRET}" \
-            -d "refresh_token=${CHROME_REFRESH_TOKEN}" \
-            -d "grant_type=refresh_token")
-
-          ACCESS_TOKEN=$(echo "$TOKEN_RESPONSE" | node -e "
-            const data = JSON.parse(require('fs').readFileSync('/dev/stdin','utf8'));
-            if (data.error) { console.error('Token error:', data.error_description || data.error); process.exit(1); }
-            console.log(data.access_token);
-          ")
-
-          # Fetch current item status via v2 API
-          ITEM_RESPONSE=$(curl -s \
-            -H "Authorization: Bearer ${ACCESS_TOKEN}" \
-            "https://chromewebstore.googleapis.com/v2/publishers/${CHROME_PUBLISHER_ID}/items/${CHROME_EXTENSION_ID}:fetchStatus")
-
-          PUBLISHED_VERSION=$(echo "$ITEM_RESPONSE" | node -e "
-            const data = JSON.parse(require('fs').readFileSync('/dev/stdin','utf8'));
-            const channels = data.publishedItemRevisionStatus?.distributionChannels;
-            const version = (channels && channels.length > 0) ? channels[0].crxVersion : (data.crxVersion || 'unknown');
-            console.log(version);
-          ")
-
-          echo "version=$PUBLISHED_VERSION" >> "$GITHUB_OUTPUT"
-          echo "Published version: $PUBLISHED_VERSION"
-
-      - name: Compare versions
-        id: should_publish
-        run: |
-          LOCAL="${{ steps.local_version.outputs.version }}"
-          PUBLISHED="${{ steps.published_version.outputs.version }}"
-          if [ "$LOCAL" = "$PUBLISHED" ]; then
-            echo "publish=false" >> "$GITHUB_OUTPUT"
-            echo "Versions match ($LOCAL). Skipping publish."
-          else
-            echo "publish=true" >> "$GITHUB_OUTPUT"
-            echo "Version changed: $PUBLISHED -> $LOCAL. Will publish."
-          fi
-
       - name: Create extension .env
-        if: steps.should_publish.outputs.publish == 'true'
         run: |
-          cat > apps/extension/.env <<EOF
-          VITE_EXTENSION_KEY=${{ secrets.VITE_EXTENSION_KEY }}
-          VITE_OAUTH_CLIENT_ID=${{ secrets.VITE_OAUTH_CLIENT_ID }}
-          VITE_PEXELS_API_KEY=${{ secrets.VITE_PEXELS_API_KEY }}
-          VITE_APP_FIREBASE_API_KEY=${{ secrets.VITE_APP_FIREBASE_API_KEY }}
-          VITE_APP_FIREBASE_AUTH_DOMAIN=${{ secrets.VITE_APP_FIREBASE_AUTH_DOMAIN }}
-          VITE_APP_FIREBASE_PROJECT_ID=${{ secrets.VITE_APP_FIREBASE_PROJECT_ID }}
-          VITE_APP_FIREBASE_STORAGE_BUCKET=${{ secrets.VITE_APP_FIREBASE_STORAGE_BUCKET }}
-          VITE_APP_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.VITE_APP_FIREBASE_MESSAGING_SENDER_ID }}
-          VITE_APP_FIREBASE_APP_ID=${{ secrets.VITE_APP_FIREBASE_APP_ID }}
-          EOF
+          printf '%s\n' \
+            "VITE_EXTENSION_KEY=${{ secrets.VITE_EXTENSION_KEY }}" \
+            "VITE_OAUTH_CLIENT_ID=${{ secrets.VITE_OAUTH_CLIENT_ID }}" \
+            "VITE_PEXELS_API_KEY=${{ secrets.VITE_PEXELS_API_KEY }}" \
+            "VITE_APP_FIREBASE_API_KEY=${{ secrets.VITE_APP_FIREBASE_API_KEY }}" \
+            "VITE_APP_FIREBASE_AUTH_DOMAIN=${{ secrets.VITE_APP_FIREBASE_AUTH_DOMAIN }}" \
+            "VITE_APP_FIREBASE_PROJECT_ID=${{ secrets.VITE_APP_FIREBASE_PROJECT_ID }}" \
+            "VITE_APP_FIREBASE_STORAGE_BUCKET=${{ secrets.VITE_APP_FIREBASE_STORAGE_BUCKET }}" \
+            "VITE_APP_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.VITE_APP_FIREBASE_MESSAGING_SENDER_ID }}" \
+            "VITE_APP_FIREBASE_APP_ID=${{ secrets.VITE_APP_FIREBASE_APP_ID }}" \
+            > apps/extension/.env
 
       - name: Build extension
-        if: steps.should_publish.outputs.publish == 'true'
         run: pnpm --filter @apps/extension build
 
       - name: Create ZIP (strip manifest key)
-        if: steps.should_publish.outputs.publish == 'true'
         run: |
           cd apps/extension/dist
-          # Remove "key" field from manifest.json for Web Store upload
           node -e "
             const fs = require('fs');
             const m = JSON.parse(fs.readFileSync('manifest.json','utf8'));
@@ -118,14 +66,12 @@ jobs:
           "
           zip -r ../dist.zip ./*
 
-      - name: Upload to Chrome Web Store (v2 API)
-        if: steps.should_publish.outputs.publish == 'true'
+      - name: Upload and publish to Chrome Web Store
         env:
           CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
           CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
           CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
           CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
-          CHROME_PUBLISHER_ID: ${{ secrets.CHROME_PUBLISHER_ID }}
         run: |
           # Exchange refresh token for access token
           TOKEN_RESPONSE=$(curl -s -X POST https://oauth2.googleapis.com/token \
@@ -140,45 +86,43 @@ jobs:
             console.log(data.access_token);
           ")
 
-          # Upload ZIP via v2 API
+          # Upload ZIP via v1.1 API (accepts ZIP format)
           echo "Uploading extension..."
           UPLOAD_RESPONSE=$(curl -s \
             -H "Authorization: Bearer ${ACCESS_TOKEN}" \
-            -H "Content-Type: application/zip" \
-            -X POST \
-            --data-binary @apps/extension/dist.zip \
-            "https://chromewebstore.googleapis.com/upload/v2/publishers/${CHROME_PUBLISHER_ID}/items/${CHROME_EXTENSION_ID}:upload")
+            -H "x-goog-api-version: 2" \
+            -X PUT \
+            -T "apps/extension/dist.zip" \
+            "https://www.googleapis.com/upload/chromewebstore/v1.1/items/${CHROME_EXTENSION_ID}")
 
           echo "Upload response:"
           echo "$UPLOAD_RESPONSE" | node -e "
             const data = JSON.parse(require('fs').readFileSync('/dev/stdin','utf8'));
             console.log(JSON.stringify(data, null, 2));
-            const state = data.uploadState || data.itemRevisionState;
-            if (state !== 'SUCCESS' && state !== 'SUCCEEDED') {
-              if (data.error) { console.error('Upload error:', data.error.message || JSON.stringify(data.error)); process.exit(1); }
-              if (data.itemErrors && data.itemErrors.length > 0) { console.error('Item errors:', JSON.stringify(data.itemErrors)); process.exit(1); }
-            }
-          "
-
-          # Publish via v2 API
-          echo "Publishing extension..."
-          PUBLISH_RESPONSE=$(curl -s \
-            -H "Authorization: Bearer ${ACCESS_TOKEN}" \
-            -H "Content-Length: 0" \
-            -X POST \
-            "https://chromewebstore.googleapis.com/v2/publishers/${CHROME_PUBLISHER_ID}/items/${CHROME_EXTENSION_ID}:publish")
-
-          echo "$PUBLISH_RESPONSE" | node -e "
-            const data = JSON.parse(require('fs').readFileSync('/dev/stdin','utf8'));
-            console.log('Publish response:', JSON.stringify(data, null, 2));
-            const state = data.status || data.publishStatus;
-            const successStates = ['PUBLISHED', 'PENDING_REVIEW', 'PUBLISHED_TO_TESTERS', 'STAGED', 'OK'];
-            const statuses = Array.isArray(state) ? state : [state];
-            const isSuccess = statuses.some(s => successStates.includes(s));
-            if (!isSuccess) {
-              console.error('Unexpected publish state:', state);
+            if (data.uploadState !== 'SUCCESS') {
+              console.error('Upload failed:', data.uploadState);
+              if (data.itemError) console.error(JSON.stringify(data.itemError));
               process.exit(1);
             }
           "
 
-          echo "Extension submitted. Version: ${{ steps.local_version.outputs.version }}"
+          # Publish via v1.1 API
+          echo "Publishing extension..."
+          PUBLISH_RESPONSE=$(curl -s \
+            -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+            -H "x-goog-api-version: 2" \
+            -H "Content-Length: 0" \
+            -X POST \
+            "https://www.googleapis.com/chromewebstore/v1.1/items/${CHROME_EXTENSION_ID}/publish")
+
+          echo "$PUBLISH_RESPONSE" | node -e "
+            const data = JSON.parse(require('fs').readFileSync('/dev/stdin','utf8'));
+            console.log('Publish response:', JSON.stringify(data, null, 2));
+            const status = data.status || [];
+            if (!status.includes('OK') && !status.includes('PUBLISHED_WITH_FRICTION_WARNING')) {
+              console.error('Unexpected publish status:', status);
+              process.exit(1);
+            }
+          "
+
+          echo "Extension published. Version: ${{ steps.version.outputs.version }}"
