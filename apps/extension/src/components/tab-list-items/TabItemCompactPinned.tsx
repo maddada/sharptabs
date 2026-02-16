@@ -140,6 +140,10 @@ export const TabItemCompactPinned = ({ tab, isOverlay = false, onSelect, selecte
                             if (e.key === "Enter" || e.key === " ") {
                                 e.preventDefault();
                                 if (onSelect) onSelect(tab.id, e);
+
+                                if (useTabManagerStore.getState().inPopup) {
+                                    window.close();
+                                }
                             }
                         }}
                         {...listeners}

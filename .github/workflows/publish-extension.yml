@@ -69,43 +69,41 @@ jobs:
           CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
           CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
         run: |
-          node -e "
-            const chromeWebstoreUpload = require('chrome-webstore-upload');
-            const fs = require('fs');
+          node --input-type=module -e "
+            import chromeWebstoreUpload from 'chrome-webstore-upload';
+            import fs from 'fs';
 
-            (async () => {
-              const store = chromeWebstoreUpload({
-                extensionId: process.env.CHROME_EXTENSION_ID,
-                clientId: process.env.CHROME_CLIENT_ID,
-                clientSecret: process.env.CHROME_CLIENT_SECRET,
-                refreshToken: process.env.CHROME_REFRESH_TOKEN,
-              });
+            const store = chromeWebstoreUpload({
+              extensionId: process.env.CHROME_EXTENSION_ID,
+              clientId: process.env.CHROME_CLIENT_ID,
+              clientSecret: process.env.CHROME_CLIENT_SECRET,
+              refreshToken: process.env.CHROME_REFRESH_TOKEN,
+            });
 
-              console.log('Fetching access token...');
-              const token = await store.fetchToken();
+            console.log('Fetching access token...');
+            const token = await store.fetchToken();
 
-              console.log('Uploading CRX...');
-              const uploadRes = await store.uploadExisting(
-                fs.createReadStream('apps/extension/dist.crx'),
-                token
-              );
-              console.log('Upload response:', JSON.stringify(uploadRes, null, 2));
+            console.log('Uploading CRX...');
+            const uploadRes = await store.uploadExisting(
+              fs.createReadStream('apps/extension/dist.crx'),
+              token
+            );
+            console.log('Upload response:', JSON.stringify(uploadRes, null, 2));
 
-              if (uploadRes.uploadState === 'FAILURE') {
-                console.error('Upload failed:', JSON.stringify(uploadRes.itemError));
-                process.exit(1);
-              }
+            if (uploadRes.uploadState === 'FAILURE') {
+              console.error('Upload failed:', JSON.stringify(uploadRes.itemError));
+              process.exit(1);
+            }
 
-              console.log('Publishing...');
-              const publishRes = await store.publish('default', token);
-              console.log('Publish response:', JSON.stringify(publishRes, null, 2));
+            console.log('Publishing...');
+            const publishRes = await store.publish('default', token);
+            console.log('Publish response:', JSON.stringify(publishRes, null, 2));
 
-              const status = publishRes.status || [];
-              if (!status.includes('OK') && !status.includes('PUBLISHED_WITH_FRICTION_WARNING')) {
-                console.error('Unexpected publish status:', status);
-                process.exit(1);
-              }
+            const status = publishRes.status || [];
+            if (!status.includes('OK') && !status.includes('PUBLISHED_WITH_FRICTION_WARNING')) {
+              console.error('Unexpected publish status:', status);
+              process.exit(1);
+            }
 
-              console.log('Extension published successfully!');
-            })();
+            console.log('Extension published successfully! Version: ${{ steps.version.outputs.version }}');
           "

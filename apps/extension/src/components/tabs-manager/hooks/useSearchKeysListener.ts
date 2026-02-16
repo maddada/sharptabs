@@ -19,7 +19,7 @@ export function useSearchKeysListener(
                 e.preventDefault();
 
                 // Get all focusable tab elements (both tab items and group headers)
-                const tabElements = document.querySelectorAll("div[data-tab-id], button[id^='group-']");
+                const tabElements = document.querySelectorAll("[data-tab-id], button[id^='group-']");
                 const focusableElements = Array.from(tabElements).filter((el) => {
                     const element = el as HTMLElement;
                     return (

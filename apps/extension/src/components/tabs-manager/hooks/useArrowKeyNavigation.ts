@@ -84,7 +84,7 @@ export function useArrowKeyNavigation() {
             return elementsCache.current.elements;
         }
 
-        const tabElements = document.querySelectorAll("div[data-tab-id], button[id^='group-']");
+        const tabElements = document.querySelectorAll("[data-tab-id], button[id^='group-']");
         const focusableElements = Array.from(tabElements).filter((el) => {
             const element = el as HTMLElement;
             return element.offsetParent !== null && !element.hasAttribute("disabled") && element.getAttribute("tabindex") !== "-1";
