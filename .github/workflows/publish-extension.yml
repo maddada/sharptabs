@@ -55,16 +55,12 @@ jobs:
       - name: Build extension
         run: pnpm --filter @apps/extension build
 
-      - name: Create ZIP (strip manifest key)
+      - name: Write private key and create CRX
         run: |
-          cd apps/extension/dist
-          node -e "
-            const fs = require('fs');
-            const m = JSON.parse(fs.readFileSync('manifest.json','utf8'));
-            delete m.key;
-            fs.writeFileSync('manifest.json', JSON.stringify(m, null, 4) + '\n');
-          "
-          zip -r ../dist.zip ./*
+          echo "${{ secrets.CHROME_PRIVATE_KEY }}" | base64 -d > /tmp/extension.pem
+          npm install -g crx3
+          crx3 apps/extension/dist -p /tmp/extension.pem -o apps/extension/dist.crx
+          rm /tmp/extension.pem
 
       - name: Upload and publish to Chrome Web Store
         env:
@@ -86,13 +82,13 @@ jobs:
             console.log(data.access_token);
           ")
 
-          # Upload ZIP via v1.1 API (accepts ZIP format)
-          echo "Uploading extension..."
+          # Upload CRX via v1.1 API
+          echo "Uploading CRX..."
           UPLOAD_RESPONSE=$(curl -s \
             -H "Authorization: Bearer ${ACCESS_TOKEN}" \
             -H "x-goog-api-version: 2" \
             -X PUT \
-            -T "apps/extension/dist.zip" \
+            -T "apps/extension/dist.crx" \
             "https://www.googleapis.com/upload/chromewebstore/v1.1/items/${CHROME_EXTENSION_ID}")
 
           echo "Upload response:"
@@ -106,7 +102,7 @@ jobs:
             }
           "
 
-          # Publish via v1.1 API
+          # Publish
           echo "Publishing extension..."
           PUBLISH_RESPONSE=$(curl -s \
             -H "Authorization: Bearer ${ACCESS_TOKEN}" \
