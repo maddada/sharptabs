@@ -71,7 +71,6 @@ jobs:
         run: |
           node --input-type=module -e "
             import chromeWebstoreUpload from 'chrome-webstore-upload';
-            import fs from 'fs';
 
             const store = chromeWebstoreUpload({
               extensionId: process.env.CHROME_EXTENSION_ID,
@@ -83,11 +82,9 @@ jobs:
             console.log('Fetching access token...');
             const token = await store.fetchToken();
 
+            // Pass file path as string so the package sets X-Goog-Upload-File-Name to 'extension.crx'
             console.log('Uploading CRX...');
-            const uploadRes = await store.uploadExisting(
-              fs.createReadStream('apps/extension/dist.crx'),
-              token
-            );
+            const uploadRes = await store.uploadExisting('apps/extension/dist.crx', token);
             console.log('Upload response:', JSON.stringify(uploadRes, null, 2));
 
             if (uploadRes.uploadState === 'FAILURE') {
