@@ -63,7 +63,7 @@ export const TabFavicon = ({ tabState, tab, settings }: { tabState: TabItemState
                         )}
                     >
                         <img
-                            src="https://discord.com/assets/favicon.ico"
+                            src={faviconURL("https://discord.com")}
                             alt=""
                             style={{ filter: settings?.shadowForTabFavicon ? `drop-shadow( 1px 1px 1px ${settings?.shadowColor})` : "" }}
                             className="h-full w-full"
@@ -114,7 +114,7 @@ export const TabFavicon = ({ tabState, tab, settings }: { tabState: TabItemState
         if (fallbackFaviconUrl !== "/icons/file.svg") {
             return (
                 <div className="flex h-full min-w-full select-none items-center justify-center justify-self-start">
-                    <img src={fallbackFaviconUrl} alt="" className="h-full w-full" />
+                    <img src={fallbackFaviconUrl.endsWith(".ico") ? faviconURL(tab.url) : fallbackFaviconUrl} alt="" className="h-full w-full" />
                 </div>
             );
         }

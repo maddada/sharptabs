@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Sharp Tabs v3 - Best Open Source All-in-1 Tabs Manager (Vertical & Pop-up)!",
     "short_name": "Sharp Tabs v3",
-    "version": "3.0.0",
+    "version": "3.1.0",
     "description": "Fully Free. Vertical Tabs. Instant Search. Advanced Suspend. AI Organize. Auto Session Backups. Duplicates. Workspaces. Much More!",
     "key": "__EXTENSION_KEY__",
     "oauth2": {

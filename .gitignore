@@ -73,6 +73,7 @@ dist-ssr
 .env
 .env.*
 !.env.example
+!.env.publish.example
 
 # Coverage directory
 coverage

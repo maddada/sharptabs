@@ -25,7 +25,11 @@
         "upload:extension:bash": "source .env.publish && node scripts/upload-to-webstore.mjs",
         "upload:extension:bump:bash": "source .env.publish && node scripts/upload-to-webstore.mjs --increment-version",
         "upload:extension:publish:bash": "source .env.publish && node scripts/upload-to-webstore.mjs --increment-version --publish",
-        "setup:chrome-api": "node scripts/get-refresh-token.js"
+        "setup:chrome-api": "node scripts/get-refresh-token.js",
+        "cws:status": "dotenv -e .env.publish -- node scripts/cws-status.mjs",
+        "cws:status:json": "dotenv -e .env.publish -- node scripts/cws-status.mjs --json",
+        "cws:upload-secrets": "./scripts/upload-secrets.sh",
+        "cws:upload-secrets:dry": "./scripts/upload-secrets.sh --dry-run"
     },
     "devDependencies": {
         "chrome-webstore-upload": "^4.0.3",
