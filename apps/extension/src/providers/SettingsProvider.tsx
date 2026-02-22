@@ -246,6 +246,48 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
                 needsUpdate = true;
             }
 
+            // Migration: Add muteTab context menu item for existing users
+            if (storedSettings.tabItemContextMenu && !storedSettings.tabItemContextMenu.some((item) => item.id === "muteTab")) {
+                const suspendTabIndex = storedSettings.tabItemContextMenu.findIndex((item) => item.id === "suspendTab");
+                if (suspendTabIndex !== -1) {
+                    storedSettings.tabItemContextMenu.splice(suspendTabIndex + 1, 0, {
+                        id: "muteTab",
+                        type: "item",
+                        label: "Mute",
+                        visible: false,
+                    });
+                } else {
+                    storedSettings.tabItemContextMenu.push({
+                        id: "muteTab",
+                        type: "item",
+                        label: "Mute",
+                        visible: false,
+                    });
+                }
+                needsUpdate = true;
+            }
+
+            // Migration: Add muteAllTabs context menu item for existing group menu users
+            if (storedSettings.groupItemContextMenu && !storedSettings.groupItemContextMenu.some((item) => item.id === "muteAllTabs")) {
+                const suspendAllTabsIndex = storedSettings.groupItemContextMenu.findIndex((item) => item.id === "suspendAllTabs");
+                if (suspendAllTabsIndex !== -1) {
+                    storedSettings.groupItemContextMenu.splice(suspendAllTabsIndex + 1, 0, {
+                        id: "muteAllTabs",
+                        type: "item",
+                        label: "Mute All",
+                        visible: false,
+                    });
+                } else {
+                    storedSettings.groupItemContextMenu.push({
+                        id: "muteAllTabs",
+                        type: "item",
+                        label: "Mute All",
+                        visible: false,
+                    });
+                }
+                needsUpdate = true;
+            }
+
             // Save migrated context menus if needed
             if (needsUpdate) {
                 chrome.storage.local.set({
