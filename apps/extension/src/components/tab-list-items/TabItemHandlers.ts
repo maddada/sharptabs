@@ -41,6 +41,15 @@ export const toggleMute = async (e: React.MouseEvent, tab: Tab, tabState: TabIte
     }
 };
 
+export const handleMuteTab = async (e: React.MouseEvent, tab: Tab, muted: boolean) => {
+    e.stopPropagation();
+    try {
+        await chrome.tabs.update(tab.id, { muted });
+    } catch (error) {
+        console.log("Error toggling mute:", error);
+    }
+};
+
 export const handlePin = async (e: React.MouseEvent, tab: Tab) => {
     e?.stopPropagation();
     try {

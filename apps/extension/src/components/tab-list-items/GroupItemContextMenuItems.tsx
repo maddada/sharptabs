@@ -3,7 +3,7 @@ import { colorMap } from "@/constants/colorMap";
 import { useSettingsStore } from "@/stores/settingsStore";
 import { useTabManagerStore } from "@/stores/tabManagerStore";
 import { ColorEnum, TabGroup } from "@/types/TabGroup";
-import { Bookmark, Copy, ExternalLink, FolderInput, Moon, Pencil, Ungroup, X, XCircle } from "lucide-react";
+import { Bookmark, Copy, ExternalLink, FolderInput, Moon, Pencil, Ungroup, Volume2, VolumeX, X, XCircle } from "lucide-react";
 import React, { useState } from "react";
 import {
     handleBookmarkAll,
@@ -12,6 +12,7 @@ import {
     handleCopyUrls,
     handleDiscardAllTabs,
     handleMoveGroupToAnotherWindow,
+    handleMuteAllTabs,
     handleUngroupTabs,
 } from "./GroupItemHandlers";
 import { WorkspacePickerDialog } from "@/components/dialogs/WorkspacePickerDialog";
@@ -62,6 +63,17 @@ export const GroupItemContextMenuItems: React.FC<GroupItemContextMenuItemsProps>
                 </ContextMenuShortcut>
             </ContextMenuItem>
         ),
+        muteAllTabs: () => {
+            const allMuted = group.tabs.every((tab) => tab.mutedInfo?.muted);
+            return (
+                <ContextMenuItem onClick={() => handleMuteAllTabs(group, !allMuted)}>
+                    {allMuted ? "Unmute All" : "Mute All"}
+                    <ContextMenuShortcut>
+                        {allMuted ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
+                    </ContextMenuShortcut>
+                </ContextMenuItem>
+            );
+        },
         ungroupTabs: () => (
             <ContextMenuItem onClick={() => handleUngroupTabs(group)}>
                 Ungroup

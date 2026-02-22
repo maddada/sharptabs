@@ -88,6 +88,16 @@ export const handleMoveGroupToAnotherWindow = async (group: TabGroup, setIsWindo
     }
 };
 
+export const handleMuteAllTabs = async (group: TabGroup, muted: boolean) => {
+    try {
+        for (const tab of group.tabs) {
+            await chrome.tabs.update(tab.id, { muted });
+        }
+    } catch (error) {
+        console.log("Error toggling mute for group:", error);
+    }
+};
+
 export const handleCopyUrls = async (group: TabGroup) => {
     try {
         const urls = group.tabs.map((tab) => tab.url).join("\n");

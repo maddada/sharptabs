@@ -19,6 +19,8 @@ import {
     Plus,
     RefreshCcw,
     RotateCw,
+    Volume2,
+    VolumeX,
     X,
     XCircle,
 } from "lucide-react";
@@ -30,6 +32,7 @@ import {
     handleDuplicateTab,
     handleMoveToOtherWindow,
     handleMoveToOtherWindowMultiple,
+    handleMuteTab,
     handleNewTabBelow,
     handlePin,
     handleReloadTab,
@@ -170,6 +173,21 @@ export function ContextMenuItems({ tab }: { tab: Tab }) {
                 {/* Tab{selectedTabIds?.size > 1 ? "s" : ""} */}
                 <ContextMenuShortcut>
                     <Moon className="h-4 w-4" />
+                </ContextMenuShortcut>
+            </ContextMenuItem>
+        ),
+        muteTab: () => (
+            <ContextMenuItem
+                onClick={async (e) => {
+                    e.stopPropagation();
+                    const muted = !(tab.mutedInfo?.muted ?? false);
+                    const ids = getTabsForAction();
+                    for (const id of ids) await handleMuteTab(e, { ...tab, id }, muted);
+                }}
+            >
+                {tab.mutedInfo?.muted ? "Unmute" : "Mute"}
+                <ContextMenuShortcut>
+                    {tab.mutedInfo?.muted ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
                 </ContextMenuShortcut>
             </ContextMenuItem>
         ),
