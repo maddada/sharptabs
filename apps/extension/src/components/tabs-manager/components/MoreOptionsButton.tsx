@@ -50,7 +50,8 @@ export function MoreOptionsButton() {
     const { isPremium } = usePremiumStatus();
     const user = useAuthStore((state) => state.user);
     const geminiApiKey = settings.geminiApiKey;
-    const hasOwnApiKey = Boolean(geminiApiKey);
+    const normalizedGeminiApiKey = geminiApiKey?.trim();
+    const hasOwnApiKey = Boolean(normalizedGeminiApiKey);
 
     // Workspace logic for scroll to current tab
     const { workspaces, actions: workspaceActions } = useWorkspaceStore();
@@ -144,7 +145,7 @@ export function MoreOptionsButton() {
             });
             return;
         }
-        handleAutoOrganize(isPremium, user?.email, geminiApiKey);
+        handleAutoOrganize(isPremium, user?.email, normalizedGeminiApiKey);
     };
 
     const handleDeleteUselessTabsClick = async () => {
@@ -155,7 +156,7 @@ export function MoreOptionsButton() {
             });
             return;
         }
-        handleDeleteUselessTabs(isPremium, user?.email, geminiApiKey);
+        handleDeleteUselessTabs(isPremium, user?.email, normalizedGeminiApiKey);
     };
 
     return (

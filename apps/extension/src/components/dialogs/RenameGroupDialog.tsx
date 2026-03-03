@@ -9,6 +9,7 @@ import { useTabManagerStore } from "@/stores/tabManagerStore";
 import { TabGroup } from "@/types/TabGroup";
 import { cn } from "@/utils/cn";
 import { callGeminiDirect } from "@/utils/geminiDirectCall";
+import { getConvexProxyUrl } from "@/utils/getConvexProxyUrl";
 import { getGenerateGroupNamePrompt } from "@/utils/tabs/getGroupingPrompts";
 import { Check, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -24,7 +25,9 @@ async function generateNewAiName(
     setDisableGenerateNewAiName: (disable: boolean) => void,
     setIsGenerating: (generating: boolean) => void
 ) {
-    const hasOwnApiKey = Boolean(geminiApiKey);
+    const normalizedGeminiApiKey = geminiApiKey?.trim();
+    const hasOwnApiKey = Boolean(normalizedGeminiApiKey);
+    const shouldUseDirectByok = hasOwnApiKey && (!isPremium || !userEmail);
 
     if (!isPremium && !hasOwnApiKey) {
         toast.error("This feature requires a premium subscription or your own Gemini API key");
@@ -46,12 +49,12 @@ async function generateNewAiName(
 
         let responseText: string;
 
-        if (hasOwnApiKey && geminiApiKey) {
+        if (shouldUseDirectByok && normalizedGeminiApiKey) {
             // BYOK: Call Gemini API directly from frontend
-            responseText = await callGeminiDirect(geminiApiKey, prompt, "nameGroup");
+            responseText = await callGeminiDirect(normalizedGeminiApiKey, prompt, "nameGroup");
         } else {
             // Premium: Use backend proxy
-            const convexUrl = import.meta.env.VITE_PUBLIC_CONVEX_URL;
+            const convexUrl = getConvexProxyUrl();
 
             if (!convexUrl) {
                 toast.error("Configuration error: Convex URL not available");
@@ -111,7 +114,7 @@ export function RenameGroupDialog() {
     const user = useAuthStore((state) => state.user);
     const aiAutoGroupNaming = useSettingsStore((state) => state.settings.aiAutoGroupNaming);
     const geminiApiKey = useSettingsStore((state) => state.settings.geminiApiKey);
-    const hasOwnApiKey = Boolean(geminiApiKey);
+    const hasOwnApiKey = Boolean(geminiApiKey?.trim());
     const canUseAI = (isPremium || hasOwnApiKey) && aiAutoGroupNaming;
 
     useEffect(() => {

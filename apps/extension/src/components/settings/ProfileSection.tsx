@@ -70,9 +70,13 @@ export function ProfileSection({ loading, error }: ProfileSectionProps) {
     const { actions } = useAuthStore();
     const user = useAuthStore((s) => s.user);
     const [isWaitingForAuth, setIsWaitingForAuth] = useState(false);
+    const shouldSkipSubscriptionQuery = !isConvexAvailable || !user?.uid;
 
     // Fetch subscription status from Convex
-    const subscriptionData = useQuery(api.stripe.getSubscriptionStatusByAuthId, user?.uid ? { authId: user.uid } : "skip") as
+    const subscriptionData = useQuery(
+        api.stripe.getSubscriptionStatusByAuthId,
+        shouldSkipSubscriptionQuery ? "skip" : { authId: user.uid }
+    ) as
         | SubscriptionData
         | undefined;
 
@@ -215,10 +219,20 @@ export function ProfileSection({ loading, error }: ProfileSectionProps) {
 
     const getSubscriptionStatusDisplay = () => {
         if (!subscriptionData) {
+            if (!shouldSkipSubscriptionQuery) {
+                return {
+                    title: "Loading...",
+                    description: "",
+                    icon: "🔄",
+                    bgColor: "bg-neutral-100 dark:bg-neutral-900/30",
+                    textColor: "text-neutral-900 dark:text-neutral-100",
+                };
+            }
+
             return {
-                title: "Loading...",
-                description: "",
-                icon: "🔄",
+                title: "Free Plan",
+                description: "Upgrade to unlock premium features and support development!",
+                icon: "⚠️",
                 bgColor: "bg-neutral-100 dark:bg-neutral-900/30",
                 textColor: "text-neutral-900 dark:text-neutral-100",
             };

@@ -68,6 +68,10 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
                 chrome.storage.local.set({ showGroupTitleTooltip: true });
                 storedSettings.showGroupTitleTooltip = true;
             }
+            if (typeof storedSettings.syncChromeTabGroupCollapseState === "undefined") {
+                chrome.storage.local.set({ syncChromeTabGroupCollapseState: false });
+                storedSettings.syncChromeTabGroupCollapseState = false;
+            }
             if (typeof storedSettings.sharePinnedTabsBetweenWorkspaces === "undefined") {
                 chrome.storage.local.set({ sharePinnedTabsBetweenWorkspaces: false });
                 storedSettings.sharePinnedTabsBetweenWorkspaces = false;
@@ -391,6 +395,7 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
             if (changes.ensureOnlyOneNewTab) updates.ensureOnlyOneNewTab = changes.ensureOnlyOneNewTab.newValue;
             if (changes.minimalNewTabsPage) updates.minimalNewTabsPage = changes.minimalNewTabsPage.newValue;
             if (changes.keepChromeTabGroupsCollapsed) updates.keepChromeTabGroupsCollapsed = changes.keepChromeTabGroupsCollapsed.newValue;
+            if (changes.syncChromeTabGroupCollapseState) updates.syncChromeTabGroupCollapseState = changes.syncChromeTabGroupCollapseState.newValue;
             if (changes.compactPinnedTabs) updates.compactPinnedTabs = changes.compactPinnedTabs.newValue;
             if (changes.headerFooterOpacity) updates.headerFooterOpacity = changes.headerFooterOpacity.newValue;
             if (changes.tabRoundness) updates.tabRoundness = changes.tabRoundness.newValue;

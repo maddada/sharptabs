@@ -111,6 +111,14 @@ export const TabGroupsSection = ({
             </div>
         )}
         <SettingsToggle
+            label="Sync Group Collapse State with Chrome"
+            description="When you collapse or expand groups in Sharp Tabs, mirror the same collapse state in native Chrome/Edge tab groups."
+            settingKey="syncChromeTabGroupCollapseState"
+            checked={settings.syncChromeTabGroupCollapseState}
+            defaultValue={defaultSettings.syncChromeTabGroupCollapseState}
+            updateSetting={updateSetting}
+        />
+        <SettingsToggle
             label="Automatically collapse original browser tab groups"
             description="Chrome/Edge groups are collapsed every 5 seconds to maintain a clean browser interface.\nOnly happens when the sidebar is open."
             disableHoverableDescription={true}

@@ -22,9 +22,18 @@ export function usePremiumStatus(): PremiumStatus {
     // Query backend for subscription status
     const subscriptionData = useQuery(api.stripe.getSubscriptionStatusByAuthId, shouldSkip ? "skip" : { authId: user.uid });
 
-    const loading = subscriptionData === undefined;
+    const loading = !shouldSkip && subscriptionData === undefined;
 
-    if (loading || !user) {
+    if (!user || shouldSkip) {
+        return {
+            isPremium: false,
+            hasActiveSubscription: false,
+            subscriptionStatus: "none",
+            loading: false,
+        };
+    }
+
+    if (loading) {
         return {
             isPremium: false,
             hasActiveSubscription: false,
@@ -35,7 +44,9 @@ export function usePremiumStatus(): PremiumStatus {
 
     // Check if user has an active subscription
     const hasActiveSubscription =
-        subscriptionData?.hasSubscription && subscriptionData?.status === "active" && (subscriptionData?.currentPeriodEnd || 0) > Date.now() / 1000;
+        subscriptionData?.hasSubscription === true &&
+        subscriptionData?.status === "active" &&
+        (subscriptionData?.currentPeriodEnd || 0) > Date.now() / 1000;
 
     // Check if user has lifetime license
     const hasLifetimeLicense = subscriptionData?.hasLifetimeLicense === true;

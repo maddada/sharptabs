@@ -1,6 +1,7 @@
 import { useTabManagerStore } from "@/stores/tabManagerStore";
 import { useTabsStore } from "@/stores/tabsStore";
 import { callGeminiDirect } from "@/utils/geminiDirectCall";
+import { getConvexProxyUrl } from "@/utils/getConvexProxyUrl";
 import { getDeleteUselessTabsPrompt } from "@/utils/tabs/getGroupingPrompts";
 import { toast } from "sonner";
 import { loadTabs } from "./loadTabs";
@@ -18,7 +19,9 @@ export async function handleDeleteUselessTabs(isPremium: boolean, userEmail?: st
 
     setIsDeleteUselessTabsLoading(true);
 
-    const hasOwnApiKey = Boolean(geminiApiKey);
+    const normalizedGeminiApiKey = geminiApiKey?.trim();
+    const hasOwnApiKey = Boolean(normalizedGeminiApiKey);
+    const shouldUseDirectByok = hasOwnApiKey && (!isPremium || !userEmail);
 
     try {
         if (!isPremium && !hasOwnApiKey) {
@@ -73,12 +76,12 @@ export async function handleDeleteUselessTabs(isPremium: boolean, userEmail?: st
         const aiPromise = async () => {
             let responseText: string;
 
-            if (hasOwnApiKey && geminiApiKey) {
+            if (shouldUseDirectByok && normalizedGeminiApiKey) {
                 // BYOK: Call Gemini API directly from frontend
-                responseText = await callGeminiDirect(geminiApiKey, prompt, "deleteUseless");
+                responseText = await callGeminiDirect(normalizedGeminiApiKey, prompt, "deleteUseless");
             } else {
                 // Premium: Use backend proxy
-                const convexUrl = import.meta.env.VITE_PUBLIC_CONVEX_URL;
+                const convexUrl = getConvexProxyUrl();
 
                 if (!convexUrl) {
                     throw new Error("Convex URL not configured");

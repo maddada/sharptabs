@@ -5,7 +5,7 @@ export async function handleSuspendWindowTabs() {
     console.log(`[Suspend] handleSuspendWindowTabs called`);
 
     const tabs = await chrome.tabs.query({ currentWindow: true });
-    const tabsToSuspend = tabs.filter((tab) => !isNewTab(tab));
+    const tabsToSuspend = tabs.filter((tab) => !tab.active && !isNewTab(tab));
 
     console.log(`[Suspend] Found ${tabsToSuspend.length} tab(s) to suspend in window`);
 

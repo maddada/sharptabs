@@ -112,6 +112,7 @@ export type Settings = {
     minimalNewTabsPage: boolean;
     seenMessages: string[];
     keepChromeTabGroupsCollapsed: boolean;
+    syncChromeTabGroupCollapseState: boolean;
     compactPinnedTabs: boolean;
     disableMiddleClickAndCloseButtonOnPinnedTabs: boolean;
     hidePinButtonOnPinnedTabs: boolean;

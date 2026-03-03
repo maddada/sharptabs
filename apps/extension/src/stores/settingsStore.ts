@@ -129,6 +129,7 @@ export const defaultSettings: Settings = {
     minimalNewTabsPage: true,
     seenMessages: [],
     keepChromeTabGroupsCollapsed: true,
+    syncChromeTabGroupCollapseState: false,
     compactPinnedTabs: true,
     disableMiddleClickAndCloseButtonOnPinnedTabs: false,
     hidePinButtonOnPinnedTabs: false,

@@ -21,7 +21,7 @@ export function useResetPremiumFeatures(loading: boolean, isPremium: boolean, se
 
         const checkAndResetAIFeatures = () => {
             // Check if user has their own Gemini API key - if so, they can use AI features
-            const hasOwnApiKey = Boolean(settings.geminiApiKey);
+            const hasOwnApiKey = Boolean(settings.geminiApiKey?.trim());
 
             // Skip reset if user has their own API key
             if (hasOwnApiKey) return;

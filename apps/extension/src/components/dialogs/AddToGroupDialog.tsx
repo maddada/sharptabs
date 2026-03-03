@@ -8,6 +8,7 @@ import { useSelectionStore } from "@/stores/selectionStore";
 import { useSettingsStore } from "@/stores/settingsStore";
 import { ColorEnum } from "@/types/TabGroup";
 import { callGeminiDirect } from "@/utils/geminiDirectCall";
+import { getConvexProxyUrl } from "@/utils/getConvexProxyUrl";
 import { getGenerateGroupNamePrompt } from "@/utils/tabs/getGroupingPrompts";
 import { Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -39,7 +40,8 @@ export function AddToGroupDialog({ isOpen, onClose }: AddToGroupDialogProps) {
     const { isPremium } = usePremiumStatus();
     const user = useAuthStore((state) => state.user);
 
-    const hasOwnApiKey = Boolean(geminiApiKey);
+    const normalizedGeminiApiKey = geminiApiKey?.trim();
+    const hasOwnApiKey = Boolean(normalizedGeminiApiKey);
     const canUseAI = (isPremium || hasOwnApiKey) && aiAutoGroupNaming;
 
     useEffect(() => {
@@ -59,12 +61,14 @@ export function AddToGroupDialog({ isOpen, onClose }: AddToGroupDialogProps) {
                 const prompt = getGenerateGroupNamePrompt(selectedTabs);
                 let responseText: string;
 
-                if (hasOwnApiKey && geminiApiKey) {
+                const shouldUseDirectByok = hasOwnApiKey && (!isPremium || !user?.email);
+
+                if (shouldUseDirectByok && normalizedGeminiApiKey) {
                     // BYOK: Call Gemini API directly from frontend
-                    responseText = await callGeminiDirect(geminiApiKey, prompt, "nameGroup");
+                    responseText = await callGeminiDirect(normalizedGeminiApiKey, prompt, "nameGroup");
                 } else {
                     // Premium: Use backend proxy
-                    const convexUrl = import.meta.env.VITE_PUBLIC_CONVEX_URL;
+                    const convexUrl = getConvexProxyUrl();
 
                     if (!convexUrl) {
                         console.log("Convex URL not configured");
@@ -113,7 +117,7 @@ export function AddToGroupDialog({ isOpen, onClose }: AddToGroupDialogProps) {
         }
 
         run();
-    }, [isOpen, canUseAI, hasOwnApiKey, geminiApiKey, user, selectedTabs]);
+    }, [isOpen, canUseAI, hasOwnApiKey, isPremium, normalizedGeminiApiKey, user, selectedTabs]);
 
     useEffect(() => {
         const loadGroups = async () => {

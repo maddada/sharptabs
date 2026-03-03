@@ -6,6 +6,7 @@ import { getAutoOrganizePrompt } from "@/utils/tabs/getGroupingPrompts";
 import { toast } from "sonner";
 import { loadTabs } from "./loadTabs";
 import { chromeTabsGroup } from "@/utils/tabs/chromeTabsGroup";
+import { getConvexProxyUrl } from "@/utils/getConvexProxyUrl";
 
 export async function handleAutoOrganize(isPremium: boolean, userEmail?: string | null, geminiApiKey?: string) {
     const regularTabs = useTabsStore.getState().regularTabs;
@@ -13,7 +14,9 @@ export async function handleAutoOrganize(isPremium: boolean, userEmail?: string 
 
     setIsAutoOrganizeLoading(true);
 
-    const hasOwnApiKey = Boolean(geminiApiKey);
+    const normalizedGeminiApiKey = geminiApiKey?.trim();
+    const hasOwnApiKey = Boolean(normalizedGeminiApiKey);
+    const shouldUseDirectByok = hasOwnApiKey && (!isPremium || !userEmail);
 
     try {
         if (!isPremium && !hasOwnApiKey) {
@@ -68,12 +71,12 @@ export async function handleAutoOrganize(isPremium: boolean, userEmail?: string 
         const aiPromise = async () => {
             let responseText: string;
 
-            if (hasOwnApiKey && geminiApiKey) {
+            if (shouldUseDirectByok && normalizedGeminiApiKey) {
                 // BYOK: Call Gemini API directly from frontend
-                responseText = await callGeminiDirect(geminiApiKey, prompt, "organize");
+                responseText = await callGeminiDirect(normalizedGeminiApiKey, prompt, "organize");
             } else {
                 // Premium: Use backend proxy
-                const convexUrl = import.meta.env.VITE_PUBLIC_CONVEX_URL;
+                const convexUrl = getConvexProxyUrl();
 
                 if (!convexUrl) {
                     throw new Error("Convex URL not configured");

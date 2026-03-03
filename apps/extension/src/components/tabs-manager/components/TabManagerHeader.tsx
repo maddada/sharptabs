@@ -44,13 +44,16 @@ export function TabManagerHeader() {
     const settings = useSettingsStore((state) => state.settings);
 
     // Collapse/Expand all logic
+    const activeTabId = useTabsStore((s) => s.activeTabId);
     const tabGroups = useTabsStore((s) => s.tabGroups);
     const collapsedGroups = useTabsStore((s) => s.collapsedGroups);
     const { setCollapsedGroups } = useTabsStore((s) => s.actions);
     const setSkipAnimation = useTabManagerStore((s) => s.actions.setSkipAnimation);
 
     const allGroupIds = tabGroups.map((group) => group.id);
-    const areAllCollapsed = allGroupIds.length > 0 && allGroupIds.every((id) => collapsedGroups.has(id));
+    const activeTabGroupId = tabGroups.find((group) => group.tabs.some((tab) => tab.id === activeTabId))?.id;
+    const collapsibleGroupIds = allGroupIds.filter((id) => id !== activeTabGroupId);
+    const areAllCollapsed = collapsibleGroupIds.length > 0 && collapsibleGroupIds.every((id) => collapsedGroups.has(id));
 
     // Get handlers from parent component via a custom hook or import them as utility functions
     // For now, we'll create them inline using store values
@@ -280,7 +283,7 @@ export function TabManagerHeader() {
         if (areAllCollapsed) {
             setCollapsedGroups(new Set());
         } else {
-            setCollapsedGroups(new Set(allGroupIds));
+            setCollapsedGroups(new Set(collapsibleGroupIds));
         }
     };
 
@@ -357,7 +360,7 @@ export function TabManagerHeader() {
                                     id="header-collapse-expand-all"
                                     variant="ghost"
                                     className="h-6 px-2"
-                                    disabled={allGroupIds.length === 0}
+                                    disabled={collapsibleGroupIds.length === 0}
                                     onClick={handleCollapseExpandAll}
                                     tabIndex={-1}
                                 >
