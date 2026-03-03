@@ -1,0 +1,68 @@
+name: Chrome Web Store Token Keepalive
+
+on:
+  schedule:
+    # Monthly keepalive to avoid refresh-token inactivity revocation.
+    - cron: '0 0 1 * *'
+  workflow_dispatch:
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Refresh token and verify Chrome Web Store access
+        env:
+          CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
+          CHROME_PUBLISHER_ID: ${{ secrets.CHROME_PUBLISHER_ID }}
+          CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
+          CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
+          CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+        run: |
+          node --input-type=module <<'NODE'
+          const required = [
+            'CHROME_EXTENSION_ID',
+            'CHROME_PUBLISHER_ID',
+            'CHROME_CLIENT_ID',
+            'CHROME_CLIENT_SECRET',
+            'CHROME_REFRESH_TOKEN',
+          ];
+
+          const missing = required.filter((key) => !process.env[key]);
+          if (missing.length > 0) {
+            console.error(`Missing required secrets: ${missing.join(', ')}`);
+            process.exit(1);
+          }
+
+          const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+              client_id: process.env.CHROME_CLIENT_ID,
+              client_secret: process.env.CHROME_CLIENT_SECRET,
+              refresh_token: process.env.CHROME_REFRESH_TOKEN,
+              grant_type: 'refresh_token',
+            }),
+          });
+
+          const tokenPayload = await tokenRes.json();
+          if (!tokenRes.ok || !tokenPayload.access_token) {
+            console.error('Failed to refresh token:', JSON.stringify(tokenPayload));
+            process.exit(1);
+          }
+
+          const statusUrl = `https://chromewebstore.googleapis.com/v2/publishers/${process.env.CHROME_PUBLISHER_ID}/items/${process.env.CHROME_EXTENSION_ID}:fetchStatus`;
+          const statusRes = await fetch(statusUrl, {
+            headers: { Authorization: `Bearer ${tokenPayload.access_token}` },
+          });
+
+          if (!statusRes.ok) {
+            const errorText = await statusRes.text();
+            console.error(`Chrome Web Store status check failed (${statusRes.status}): ${errorText}`);
+            process.exit(1);
+          }
+
+          const statusPayload = await statusRes.json();
+          const publishedVersion =
+            statusPayload?.publishedItemRevisionStatus?.distributionChannels?.[0]?.crxVersion || 'unknown';
+          console.log(`Keepalive OK. Published version: ${publishedVersion}`);
+          NODE
