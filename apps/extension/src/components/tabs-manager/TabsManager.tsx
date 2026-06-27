@@ -53,6 +53,7 @@ import { WindowsDropZone } from "./components/WindowsDropZone";
 import { getDndItems } from "./helpers/dragAndDrop/getDndItems";
 import { getDraggedItemData } from "./helpers/dragAndDrop/getDraggedItemData";
 import { handleDragEnd } from "./helpers/dragAndDrop/handleDragEnd";
+import { parseOtherWindowDndId } from "./helpers/dragAndDrop/otherWindowDnd";
 import { useArrowKeyNavigation } from "./hooks/useArrowKeyNavigation";
 import { useFilterOtherWindows } from "./hooks/useFilterOtherWindows";
 import { useKeepChromeGroupsCollapsed } from "./hooks/useKeepChromeGroupsCollapsed";
@@ -335,7 +336,7 @@ export function TabsManager({
     const otherWindowsData = useTabManagerStore((s) => s.otherWindowsData);
 
     // Use hook to update other windows data
-    const [hookOtherWindowsData] = useFilterOtherWindows(searchTerm);
+    const [hookOtherWindowsData] = useFilterOtherWindows(searchTerm, inPopup);
 
     // Update store when hook data changes
     useEffect(() => {
@@ -412,7 +413,18 @@ export function TabsManager({
 
     // Shorthand for handling the drag end event
     function _handleDragEnd(e: DragEndEvent) {
-        handleDragEnd(e.active, e.over, pinnedTabs, regularTabs, tabGroups, collapsedGroups, setActiveDndId, setDropTargetId, setRecentlyDraggedItem);
+        handleDragEnd(
+            e.active,
+            e.over,
+            pinnedTabs,
+            regularTabs,
+            tabGroups,
+            collapsedGroups,
+            setActiveDndId,
+            setDropTargetId,
+            setRecentlyDraggedItem,
+            otherWindowsData
+        );
     }
 
     // #endregion Helper Functions + Drag & Drop Handlers
@@ -651,7 +663,7 @@ export function TabsManager({
     }
 
     const hasPinned = itemsToRender.some((item) => item.type === ItemType.PINNED);
-    const draggedItem = getDraggedItemData(activeDndId, pinnedTabs, regularTabs, tabGroups);
+    const draggedItem = getDraggedItemData(activeDndId, pinnedTabs, regularTabs, tabGroups, otherWindowsData);
 
     // Show background image after a short delay to avoid conflict between newTab & normal background images
     useEffect(() => {
@@ -819,9 +831,11 @@ export function TabsManager({
                                     return null;
                                 }
 
+                                const otherWindowDrag = parseOtherWindowDndId(activeDndId);
+
                                 if (activeDndId.split("-")[0] === ItemType.CPINNED) {
                                     return <TabItemCompactPinned tab={draggedItem as Tab} isOverlay={true} />;
-                                } else if (activeDndId.split("-")[0] === ItemType.GROUP) {
+                                } else if (activeDndId.split("-")[0] === ItemType.GROUP || otherWindowDrag?.type === "group") {
                                     return (
                                         <GroupItem
                                             isOverlay={true}

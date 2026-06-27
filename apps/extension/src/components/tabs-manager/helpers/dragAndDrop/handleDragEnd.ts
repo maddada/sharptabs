@@ -1,6 +1,6 @@
 import { useSelectionStore } from "@/stores/selectionStore";
 import { useWorkspaceStore } from "@/stores/workspaceStore";
-import { ItemType } from "@/types/CombinedItem";
+import { CombinedItem, ItemType } from "@/types/CombinedItem";
 import { Tab } from "@/types/Tab";
 import { TabGroup } from "@/types/TabGroup";
 import { Active, Over } from "@dnd-kit/core";
@@ -15,8 +15,303 @@ import { handleMovingGroup } from "./handleMovingGroup";
 import { handleMovingMultipleSelectedTabs } from "./handleMovingMultipleSelectedTabs";
 import { handleWorkspaceDrop } from "./handleWorkspaceDrop";
 import { logDragOperation } from "./logDragOperation";
+import { ParsedOtherWindowDndId, parseOtherWindowDndId } from "./otherWindowDnd";
 import { parseDndId } from "./parseDndId";
 import { redirectESeparator } from "./redirectESeparator";
+
+type OtherWindowsData = Array<{ windowId: number; items: CombinedItem[] }>;
+
+type InlineWindowDropTarget = {
+    windowId: number;
+    index: number;
+    groupId: number | null;
+};
+
+function findOtherWindowItem(parsed: ParsedOtherWindowDndId, otherWindowsData: OtherWindowsData): Tab | TabGroup | null {
+    const windowData = otherWindowsData.find((w) => w.windowId === parsed.windowId);
+    if (!windowData || parsed.id == null) return null;
+
+    for (const item of windowData.items) {
+        if (parsed.type === "group" && item.type === ItemType.GROUP && item.data.id === parsed.id) {
+            return item.data as TabGroup;
+        }
+
+        if (item.type === ItemType.GROUP) {
+            const tab = (item.data as TabGroup).tabs.find((groupTab) => groupTab.id === parsed.id);
+            if (parsed.type === "tab" && tab) return tab;
+            continue;
+        }
+
+        if (parsed.type === "tab" && (item.type === ItemType.PINNED || item.type === ItemType.REGULAR) && item.data.id === parsed.id) {
+            return item.data as Tab;
+        }
+    }
+
+    return null;
+}
+
+function findOtherWindowTab(windowId: number, tabId: number, otherWindowsData: OtherWindowsData): Tab | null {
+    const item = findOtherWindowItem({ type: "tab", windowId, id: tabId }, otherWindowsData);
+    return item && "url" in item ? item : null;
+}
+
+function findOtherWindowGroup(windowId: number, groupId: number, otherWindowsData: OtherWindowsData): TabGroup | null {
+    const item = findOtherWindowItem({ type: "group", windowId, id: groupId }, otherWindowsData);
+    return item && "tabs" in item ? item : null;
+}
+
+function getOtherWindowDropTarget(parsed: ParsedOtherWindowDndId, otherWindowsData: OtherWindowsData): InlineWindowDropTarget | null {
+    if (parsed.type === "window" || parsed.type === "end") {
+        return { windowId: parsed.windowId, index: -1, groupId: null };
+    }
+
+    if (parsed.type === "tab" && parsed.id != null) {
+        const tab = findOtherWindowTab(parsed.windowId, parsed.id, otherWindowsData);
+        if (!tab) return null;
+        return {
+            windowId: parsed.windowId,
+            index: tab.index + 1,
+            groupId: tab.groupId !== -1 ? tab.groupId : null,
+        };
+    }
+
+    if (parsed.type === "group" && parsed.id != null) {
+        const group = findOtherWindowGroup(parsed.windowId, parsed.id, otherWindowsData);
+        if (!group) return null;
+        return {
+            windowId: parsed.windowId,
+            index: group.index + group.tabs.length,
+            groupId: group.id,
+        };
+    }
+
+    return null;
+}
+
+function getCurrentWindowDropTarget(
+    overParsed: ReturnType<typeof parseDndId>,
+    pinnedTabs: Tab[],
+    regularTabs: Tab[],
+    tabGroups: TabGroup[],
+    currentWindowId: number
+): InlineWindowDropTarget | null {
+    if (!overParsed) return null;
+
+    if (overParsed.type === ItemType.ESEPARATOR) {
+        return { windowId: currentWindowId, index: -1, groupId: null };
+    }
+
+    if (overParsed.type === ItemType.PSEPARATOR) {
+        return { windowId: currentWindowId, index: pinnedTabs.length, groupId: null };
+    }
+
+    if (overParsed.type === ItemType.PINNED || overParsed.type === ItemType.CPINNED) {
+        const tab = pinnedTabs.find((t) => t.id === overParsed.id);
+        return { windowId: currentWindowId, index: (tab?.index ?? pinnedTabs.length) + 1, groupId: null };
+    }
+
+    if (overParsed.type === ItemType.REGULAR) {
+        const tab = regularTabs.find((t) => t.id === overParsed.id);
+        return { windowId: currentWindowId, index: (tab?.index ?? -1) + 1, groupId: null };
+    }
+
+    if (overParsed.type === ItemType.GROUP) {
+        const group = tabGroups.find((g) => g.id === overParsed.id);
+        if (!group) return null;
+        return { windowId: currentWindowId, index: group.index + group.tabs.length, groupId: group.id };
+    }
+
+    if (overParsed.type === ItemType.GTAB) {
+        const group = tabGroups.find((g) => g.tabs.some((tab) => tab.id === overParsed.id));
+        const tab = group?.tabs.find((groupTab) => groupTab.id === overParsed.id);
+        if (!group || !tab) return null;
+        return { windowId: currentWindowId, index: tab.index + 1, groupId: group.id };
+    }
+
+    if (overParsed.type === ItemType.GSEPARATOR) {
+        const group = tabGroups.find((g) => g.id === overParsed.id);
+        if (!group) return null;
+        return { windowId: currentWindowId, index: group.index + group.tabs.length, groupId: null };
+    }
+
+    return null;
+}
+
+async function resolveTargetIndex(target: InlineWindowDropTarget): Promise<number> {
+    if (target.index !== -1) return target.index;
+
+    const targetWindowTabs = await chrome.tabs.query({ windowId: target.windowId });
+    return targetWindowTabs.length;
+}
+
+async function moveTabToInlineWindowTarget(tab: Tab, target: InlineWindowDropTarget): Promise<void> {
+    const targetGroupId = tab.pinned ? null : target.groupId;
+    const targetIndex = await resolveTargetIndex(target);
+
+    if (tab.groupId !== -1 && tab.groupId !== targetGroupId) {
+        await chrome.tabs.ungroup(tab.id);
+    }
+
+    await chrome.tabs.move(tab.id, { windowId: target.windowId, index: targetIndex });
+
+    if (tab.pinned) {
+        await chrome.tabs.update(tab.id, { pinned: true });
+        return;
+    }
+
+    if (targetGroupId != null) {
+        await chrome.tabs.group({ tabIds: [tab.id], groupId: targetGroupId });
+        await chrome.tabs.move(tab.id, { windowId: target.windowId, index: targetIndex });
+    }
+}
+
+async function moveTabsToInlineWindowTarget(tabs: Tab[], target: InlineWindowDropTarget): Promise<void> {
+    let targetIndex = await resolveTargetIndex(target);
+
+    for (const tab of tabs) {
+        await moveTabToInlineWindowTarget(tab, { ...target, index: targetIndex });
+        targetIndex++;
+    }
+}
+
+async function moveGroupToInlineWindowTarget(group: TabGroup, target: InlineWindowDropTarget): Promise<void> {
+    const groupTitle = group.title;
+    const groupColor = group.color;
+    const groupTabs = [...group.tabs].sort((a, b) => a.index - b.index);
+    const tabIds = groupTabs.map((tab) => tab.id);
+    let targetIndex = await resolveTargetIndex(target);
+
+    await chrome.tabs.ungroup(tabIds);
+
+    for (const tabId of tabIds) {
+        await chrome.tabs.move(tabId, { windowId: target.windowId, index: targetIndex });
+        targetIndex++;
+    }
+
+    const newGroupId = await chrome.tabs.group({
+        tabIds,
+        createProperties: { windowId: target.windowId },
+    });
+
+    await chrome.tabGroups.update(newGroupId, {
+        title: groupTitle,
+        color: groupColor,
+    });
+}
+
+async function handleInlineCrossWindowDrop({
+    active,
+    over,
+    pinnedTabs,
+    regularTabs,
+    tabGroups,
+    otherWindowsData,
+    isMultipleSelection,
+    selectedTabsStore,
+}: {
+    active: Active;
+    over: Over;
+    pinnedTabs: Tab[];
+    regularTabs: Tab[];
+    tabGroups: TabGroup[];
+    otherWindowsData: OtherWindowsData;
+    isMultipleSelection: boolean;
+    selectedTabsStore: ReturnType<typeof useSelectionStore.getState>;
+}): Promise<boolean> {
+    const activeOtherParsed = parseOtherWindowDndId(active.id.toString());
+    const overOtherParsed = parseOtherWindowDndId(over.id.toString());
+
+    if (!activeOtherParsed && !overOtherParsed) return false;
+
+    const currentWindow = await chrome.windows.getCurrent();
+    if (!currentWindow.id) {
+        logDragOperation("ERROR", { message: "Could not get current window ID for inline window drop" });
+        return true;
+    }
+
+    const activeParsed = activeOtherParsed ? null : parseDndId(active.id.toString());
+    const overParsed = overOtherParsed ? null : parseDndId(over.id.toString());
+
+    const activeItemData = activeOtherParsed
+        ? findOtherWindowItem(activeOtherParsed, otherWindowsData)
+        : findItemData(activeParsed, pinnedTabs, regularTabs, tabGroups);
+
+    if (!activeItemData) {
+        logDragOperation("ERROR", {
+            message: "Could not find active item data for inline window drop",
+            activeId: active.id,
+        });
+        return true;
+    }
+
+    const target = overOtherParsed
+        ? getOtherWindowDropTarget(overOtherParsed, otherWindowsData)
+        : getCurrentWindowDropTarget(overParsed, pinnedTabs, regularTabs, tabGroups, currentWindow.id);
+
+    if (!target) {
+        logDragOperation("ERROR", {
+            message: "Could not find target data for inline window drop",
+            overId: over.id,
+        });
+        return true;
+    }
+
+    const sourceWindowId = activeOtherParsed ? activeOtherParsed.windowId : currentWindow.id;
+    if (sourceWindowId === target.windowId) {
+        logDragOperation("CANCELLED", {
+            reason: "inline window drop stayed inside the same window",
+            activeId: active.id,
+            overId: over.id,
+        });
+        return true;
+    }
+
+    const isGroupMove = activeOtherParsed?.type === "group" || activeParsed?.type === ItemType.GROUP;
+
+    try {
+        logDragOperation("INLINE-WINDOW-DROP-DETECTED", {
+            sourceWindowId,
+            targetWindowId: target.windowId,
+            targetIndex: target.index,
+            targetGroupId: target.groupId,
+            activeId: active.id,
+            overId: over.id,
+        });
+
+        if (isGroupMove) {
+            await moveGroupToInlineWindowTarget(activeItemData as TabGroup, { ...target, groupId: null });
+        } else if (!activeOtherParsed && isMultipleSelection && selectedTabsStore.selectedTabIds.size > 1) {
+            const sortedTabs = selectedTabsStore.selectedTabs.toSorted((a, b) => a.index - b.index);
+            if (sortedTabs.length > 0) {
+                await moveTabsToInlineWindowTarget(sortedTabs, target);
+                selectedTabsStore.actions.clearSelection();
+            } else {
+                await moveTabToInlineWindowTarget(activeItemData as Tab, target);
+            }
+        } else {
+            await moveTabToInlineWindowTarget(activeItemData as Tab, target);
+        }
+
+        await loadTabs("inline cross-window drop");
+
+        logDragOperation("INLINE-WINDOW-DROP-SUCCESS", {
+            sourceWindowId,
+            targetWindowId: target.windowId,
+            activeId: active.id,
+            overId: over.id,
+        });
+    } catch (error) {
+        logDragOperation("ERROR", {
+            message: "Error during inline cross-window drop",
+            error,
+            activeId: active.id,
+            overId: over.id,
+        });
+        await loadTabs("inline cross-window drop error");
+    }
+
+    return true;
+}
 
 /**
  * Handles the end of a drag operation for tabs and tab groups
@@ -54,7 +349,8 @@ export async function handleDragEnd(
     collapsedGroups: Set<number>,
     setActiveDndId: (id: string | null) => void,
     setDropTargetId: (id: string | null) => void,
-    setRecentlyDraggedItem: (id: number | null) => void
+    setRecentlyDraggedItem: (id: number | null) => void,
+    otherWindowsData: OtherWindowsData = []
 ): Promise<void> {
     //#region Early Validation and Setup
     logDragOperation("START", {
@@ -177,6 +473,21 @@ export async function handleDragEnd(
             activeId: activeParsed.id,
         });
 
+        return;
+    }
+
+    const handledInlineCrossWindowDrop = await handleInlineCrossWindowDrop({
+        active,
+        over,
+        pinnedTabs,
+        regularTabs,
+        tabGroups,
+        otherWindowsData,
+        isMultipleSelection,
+        selectedTabsStore,
+    });
+
+    if (handledInlineCrossWindowDrop) {
         return;
     }
 

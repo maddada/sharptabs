@@ -4,6 +4,7 @@ import type { Tab } from "@/types/Tab";
 import type { TabGroup } from "@/types/TabGroup";
 import { useSelectionStore } from "@/stores/selectionStore";
 import { ItemType } from "@/types/CombinedItem";
+import { createOtherWindowEndDndId, createOtherWindowTabDndId } from "@/components/tabs-manager/helpers/dragAndDrop/otherWindowDnd";
 
 type ActiveLike = { id: string };
 type OverLike = { id: string };
@@ -44,12 +45,18 @@ const setupChromeMocks = () => {
             group: vi.fn(),
             get: vi.fn(),
             query: vi.fn().mockResolvedValue([]),
+            update: vi.fn(),
         },
         tabGroups: {
             move: vi.fn(),
             query: vi.fn().mockResolvedValue([]),
+            update: vi.fn(),
         },
-        windows: { WINDOW_ID_CURRENT: 1 },
+        windows: {
+            WINDOW_ID_CURRENT: 1,
+            getCurrent: vi.fn().mockResolvedValue({ id: 1 }),
+            update: vi.fn(),
+        },
         storage: { local: { get: vi.fn(), remove: vi.fn() } },
     } as unknown as globalThis.chrome;
 };
@@ -1111,5 +1118,53 @@ describe("handleDragEnd movement targets", () => {
         // Should ungroup and move after pinned tabs
         expect(globalThis.chrome.tabs.ungroup).toHaveBeenCalledWith(41);
         expect(globalThis.chrome.tabs.move).toHaveBeenCalledWith(41, { index: 1 });
+    });
+
+    it("moves a current-window tab to the inline other-window section without focusing that window", async () => {
+        const regularTabs: Tab[] = [createTab({ id: 10, index: 0, windowId: 1 })];
+        const otherWindowsData = [{ windowId: 2, windowTitle: "Window 2", items: [] }];
+
+        await handleDragEnd(
+            makeActive(`${ItemType.REGULAR}-10`) as unknown as any,
+            makeOver(createOtherWindowEndDndId(2)) as unknown as any,
+            [],
+            regularTabs,
+            [],
+            new Set(),
+            setActiveDndId,
+            setDropTargetId,
+            setRecentlyDraggedItem,
+            otherWindowsData
+        );
+
+        expect(globalThis.chrome.tabs.move).toHaveBeenCalledWith(10, { windowId: 2, index: 0 });
+        expect(globalThis.chrome.windows.update).not.toHaveBeenCalled();
+    });
+
+    it("moves an inline other-window tab into the current window", async () => {
+        const currentRegularTabs: Tab[] = [createTab({ id: 10, index: 0, windowId: 1 })];
+        const otherTab = createTab({ id: 20, index: 0, windowId: 2 });
+        const otherWindowsData = [
+            {
+                windowId: 2,
+                windowTitle: "Window 2",
+                items: [{ type: ItemType.REGULAR, data: otherTab, index: otherTab.index, dndId: createOtherWindowTabDndId(2, otherTab.id) }],
+            },
+        ];
+
+        await handleDragEnd(
+            makeActive(createOtherWindowTabDndId(2, 20)) as unknown as any,
+            makeOver(`${ItemType.REGULAR}-10`) as unknown as any,
+            [],
+            currentRegularTabs,
+            [],
+            new Set(),
+            setActiveDndId,
+            setDropTargetId,
+            setRecentlyDraggedItem,
+            otherWindowsData
+        );
+
+        expect(globalThis.chrome.tabs.move).toHaveBeenCalledWith(20, { windowId: 1, index: 1 });
     });
 });
