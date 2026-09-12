@@ -84,6 +84,7 @@ __snapshots__/
 # Chrome Extension
 *.crx
 *.pem
+releases/*/sharp-tabs-*/
 apps/extension/public/manifest.json
 
 apps/extension/.ignore

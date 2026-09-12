@@ -1,0 +1,11 @@
+Version 3.3.0 - September 12, 2026
+
+- New Prompt to organize: describe how to group your tabs in a short prompt, review the suggested groups, and apply them.
+- Improved prompt dialog rendering and keyboard handling while typing.
+- Improved matching for prompts such as "group YouTube links".
+- Simpler default appearance: no background image, a plain dark (#0d0d0d) or near-white (#fafafa) background, and automatic system color scheme.
+- Added Merge All Windows to the options menu.
+
+Release verification: 101 automated tests passed and production build passed. Tested character-by-character prompt typing, matching two YouTube tabs, preview, and applying the group in Chrome stable with the unpacked 3.3.0 build. Plain light/dark backgrounds and System setting were verified in the browser.
+
+Store release: description saved with the September 12 release notes. This listing requires verified CRX uploads, so Chrome's Pack extension tool signed the tested package with the existing private key. CRX integrity checks passed. The Web Store API accepted the signed CRX (uploadState SUCCESS) and submission (status OK). Follow-up status confirmed PENDING_REVIEW; published version remains 3.2.0 until approval. Private keys and generated release archives are excluded from Git. Convex has not been deployed in this session.
