@@ -17,19 +17,17 @@ export const applyTheme = (themeType: ThemeType | null, theme: Theme | null) => 
     const { settings } = useSettingsStore.getState();
 
     const rawThemeType = themeType || settings.themeType;
-    const activeThemeType = resolveThemeType(rawThemeType);
+    const activeThemeType = window.location.href.includes("settings.html") ? "dark" : resolveThemeType(rawThemeType);
     const activeTheme = theme || settings.theme;
 
     if (!document.documentElement.classList.contains(activeThemeType) || !document.documentElement.classList.contains(activeTheme)) {
         resetThemeClasses();
 
-        if (window.location.href.includes("settings.html")) {
-            document.documentElement.classList.add("dark", activeTheme);
-        } else {
-            document.documentElement.classList.add(activeThemeType, activeTheme);
-        }
+        document.documentElement.classList.add(activeThemeType, activeTheme);
     }
 
-    localStorage.setItem("themeType", activeThemeType);
+    document.documentElement.style.colorScheme = activeThemeType;
+    document.documentElement.style.backgroundColor = activeThemeType === "dark" ? "#0d0d0d" : "#fafafa";
+    localStorage.setItem("themeType", rawThemeType);
     localStorage.setItem("theme", activeTheme);
 };

@@ -328,6 +328,7 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
             }
 
             setSettings(storedSettings);
+            applyTheme(storedSettings.themeType, storedSettings.theme);
         });
 
         // INIT $$ 3: SettingsProvider → Add listener to chrome local storage changes and update the zustand store automatically

@@ -13,17 +13,17 @@ export const getDefaultNewTabLink = async (): Promise<string> => {
 };
 
 export const defaultSettings: Settings = {
-    themeType: "dark",
+    themeType: "system",
     theme: "gray",
     groupBgOpacity: 40,
 
     backgroundEnabled: false,
-    backgroundImageEnabled: true,
-    backgroundColor: "radial-gradient(circle, rgba(20,54,79,1) 0%, RGBA(1,5,7,1) 76%)",
+    backgroundImageEnabled: false,
+    backgroundColor: "#0d0d0d",
 
     newTabBackgroundEnabled: false,
-    newTabBackgroundImageEnabled: true,
-    newTabBackgroundColor: "linear-gradient(110deg, rgba(7,9,11,1) 0%, RGB(13, 49, 84) 100%)",
+    newTabBackgroundImageEnabled: false,
+    newTabBackgroundColor: "#0d0d0d",
 
     backgroundImageOpacity: 0.7,
     backgroundImageSaturation: 0.9,
@@ -33,7 +33,7 @@ export const defaultSettings: Settings = {
     backgroundImageSize: 790,
     backgroundImagePositionX: 85,
     backgroundImagePositionY: 50,
-    backgroundImageUrl: "https://images.pexels.com/photos/2156881/pexels-photo-2156881.jpeg?auto=compress&cs=tinysrgb&h=1500",
+    backgroundImageUrl: null,
 
     newTabBackgroundImageOpacity: 0.65,
     newTabBackgroundImageSaturation: 0.65,
@@ -43,13 +43,13 @@ export const defaultSettings: Settings = {
     newTabBackgroundImageSize: 390,
     newTabBackgroundImagePositionX: 100,
     newTabBackgroundImagePositionY: 100,
-    newTabBackgroundImageUrl: "https://images.pexels.com/photos/2156881/pexels-photo-2156881.jpeg?auto=compress&cs=tinysrgb&h=1500",
+    newTabBackgroundImageUrl: null,
 
-    // Light theme background settings (light-friendly defaults: less blur, higher opacity)
+    // Plain backgrounds by default; photos remain available as an opt-in.
     light_backgroundEnabled: false,
-    light_backgroundColor: "radial-gradient(circle, rgba(200,220,240,1) 0%, rgba(240,245,250,1) 76%)",
-    light_backgroundImageEnabled: true,
-    light_backgroundImageUrl: "https://images.pexels.com/photos/2156881/pexels-photo-2156881.jpeg?auto=compress&cs=tinysrgb&h=1500",
+    light_backgroundColor: "#fafafa",
+    light_backgroundImageEnabled: false,
+    light_backgroundImageUrl: null,
     light_backgroundImageOpacity: 0.3,
     light_backgroundImageSaturation: 0.6,
     light_backgroundImageBlur: 40,
@@ -59,11 +59,11 @@ export const defaultSettings: Settings = {
     light_backgroundImagePositionX: 85,
     light_backgroundImagePositionY: 50,
 
-    // Dark theme background settings (same as current dark defaults)
+    // Dark theme background settings
     dark_backgroundEnabled: false,
-    dark_backgroundColor: "radial-gradient(circle, rgba(20,54,79,1) 0%, RGBA(1,5,7,1) 76%)",
-    dark_backgroundImageEnabled: true,
-    dark_backgroundImageUrl: "https://images.pexels.com/photos/2156881/pexels-photo-2156881.jpeg?auto=compress&cs=tinysrgb&h=1500",
+    dark_backgroundColor: "#0d0d0d",
+    dark_backgroundImageEnabled: false,
+    dark_backgroundImageUrl: null,
     dark_backgroundImageOpacity: 0.7,
     dark_backgroundImageSaturation: 0.9,
     dark_backgroundImageBlur: 32,

@@ -360,15 +360,6 @@ export function TabsManager({
         activeDndId,
     });
 
-    // Set default theme if not set
-    // eslint-disable-next-line react-you-might-not-need-an-effect/no-empty-effect
-    useEffect(() => {
-        if (localStorage.getItem("themeType") == null) {
-            localStorage.setItem("themeType", "dark");
-            localStorage.setItem("theme", "blue");
-        }
-    }, []);
-
     // Handle messages from service worker (e.g., for hotkey suspend functionality)
     useEffect(() => {
         const handleMessage = (message: any, sender: any, sendResponse: (response?: any) => void) => {
