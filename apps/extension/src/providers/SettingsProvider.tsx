@@ -107,6 +107,32 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
                 }
             }
 
+            // Migration: Add mergeAllWindows menu item for existing users
+            if (storedSettings.headerDropdownMenu && !storedSettings.headerDropdownMenu.some((item: any) => item.id === "mergeAllWindows")) {
+                const bulkOpenLinksIndex = storedSettings.headerDropdownMenu.findIndex((item: any) => item.id === "bulkOpenLinks");
+                const insertIndex = bulkOpenLinksIndex === -1 ? storedSettings.headerDropdownMenu.length : bulkOpenLinksIndex;
+                storedSettings.headerDropdownMenu.splice(insertIndex, 0, {
+                    id: "mergeAllWindows",
+                    type: "item",
+                    label: "Merge All Windows",
+                    visible: true,
+                });
+                chrome.storage.local.set({ headerDropdownMenu: storedSettings.headerDropdownMenu });
+            }
+
+            // Migration: Add Prompt to organize menu item for existing users
+            if (storedSettings.headerDropdownMenu && !storedSettings.headerDropdownMenu.some((item: any) => item.id === "aiPromptToOrganize")) {
+                const aiAutoGroupIndex = storedSettings.headerDropdownMenu.findIndex((item: any) => item.id === "aiAutoGroup");
+                const insertIndex = aiAutoGroupIndex === -1 ? storedSettings.headerDropdownMenu.length : aiAutoGroupIndex;
+                storedSettings.headerDropdownMenu.splice(insertIndex, 0, {
+                    id: "aiPromptToOrganize",
+                    type: "item",
+                    label: "Prompt to organize",
+                    visible: true,
+                });
+                chrome.storage.local.set({ headerDropdownMenu: storedSettings.headerDropdownMenu });
+            }
+
             // Migration: Add bulkOpenLinksBaseUrl and bulkOpenLinksTerms for existing users
             if (typeof storedSettings.bulkOpenLinksBaseUrl === "undefined") {
                 chrome.storage.local.set({ bulkOpenLinksBaseUrl: "" });
@@ -378,6 +404,7 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
             if (changes.tabItemContextMenu) updates.tabItemContextMenu = changes.tabItemContextMenu.newValue;
             if (changes.groupItemContextMenu) updates.groupItemContextMenu = changes.groupItemContextMenu.newValue;
             if (changes.aiAutoOrganizeTabs) updates.aiAutoOrganizeTabs = changes.aiAutoOrganizeTabs.newValue;
+            if (changes.aiPromptToOrganize) updates.aiPromptToOrganize = changes.aiPromptToOrganize.newValue;
             if (changes.aiAutoGroupNaming) updates.aiAutoGroupNaming = changes.aiAutoGroupNaming.newValue;
             if (changes.geminiApiKey) updates.geminiApiKey = changes.geminiApiKey.newValue;
             if (changes.autoOrganizePrompt) updates.autoOrganizePrompt = changes.autoOrganizePrompt.newValue;

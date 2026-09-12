@@ -860,11 +860,11 @@ export function TabsManager({
                         </DragOverlay>
                     </div>
                 </DndContext>
-                {settings.aiAutoOrganizeTabs && (
+                {(settings.aiAutoOrganizeTabs || settings.aiPromptToOrganize) && (
                     <AutoOrganizeDialog
                         open={isAutoOrganizeDialogOpen}
                         onClose={() => setIsAutoOrganizeDialogOpen(false)}
-                        tabsById={Object.fromEntries(regularTabs.map((t) => [t.id, t]))}
+                        tabsById={Object.fromEntries([...regularTabs, ...tabGroups.flatMap((group) => group.tabs)].map((tab) => [tab.id, tab]))}
                         loading={isAutoOrganizeLoading}
                     />
                 )}

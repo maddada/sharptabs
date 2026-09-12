@@ -79,10 +79,12 @@ export function AutoOrganizeDialog({ open, onClose, tabsById, loading }: AutoOrg
             >
                 <style>{`button:has(> svg.lucide-x) { display: none; }`}</style>
                 <AlertDialogHeader>
-                    <AlertDialogTitle>Auto Organize Tabs</AlertDialogTitle>
+                    <AlertDialogTitle>Organize Tabs</AlertDialogTitle>
                 </AlertDialogHeader>
                 <AlertDialogDescription>
-                    <span className="text-sm text-muted-foreground">Select a tab group colors and accept to apply the organization!</span>
+                    <span className="text-sm text-muted-foreground">
+                        Review the suggested groups, choose their colors, then apply the organization.
+                    </span>
                 </AlertDialogDescription>
                 {loading ? (
                     <div className="py-8 text-center text-muted-foreground">Analyzing tabs and generating groups...</div>

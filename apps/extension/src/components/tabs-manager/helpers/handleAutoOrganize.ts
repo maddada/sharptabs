@@ -2,15 +2,25 @@ import { useTabManagerStore } from "@/stores/tabManagerStore";
 import { useTabsStore } from "@/stores/tabsStore";
 import { ColorEnum } from "@/types/TabGroup";
 import { callGeminiDirect } from "@/utils/geminiDirectCall";
-import { getAutoOrganizePrompt } from "@/utils/tabs/getGroupingPrompts";
+import { getAutoOrganizePrompt, getPromptToOrganizePrompt } from "@/utils/tabs/getGroupingPrompts";
+import { getPromptOrganizationFallback } from "@/utils/tabs/getPromptOrganizationFallback";
+import type { PromptType } from "@packages/shared/gemini-config";
 import { toast } from "sonner";
 import { loadTabs } from "./loadTabs";
 import { chromeTabsGroup } from "@/utils/tabs/chromeTabsGroup";
 import { getConvexProxyUrl } from "@/utils/getConvexProxyUrl";
 
-export async function handleAutoOrganize(isPremium: boolean, userEmail?: string | null, geminiApiKey?: string) {
-    const regularTabs = useTabsStore.getState().regularTabs;
+interface SuggestedGroup {
+    name: string;
+    color: ColorEnum;
+    tabIds: number[];
+}
+
+export async function handleAutoOrganize(isPremium: boolean, userEmail?: string | null, geminiApiKey?: string, organizationInstruction?: string) {
+    const { regularTabs, tabGroups } = useTabsStore.getState();
     const { setToastDuration, setIsAutoOrganizeDialogOpen, setAutoOrganizeGroups, setIsAutoOrganizeLoading } = useTabManagerStore.getState().actions;
+    const normalizedInstruction = organizationInstruction?.trim();
+    const isPromptOrganize = Boolean(normalizedInstruction);
 
     setIsAutoOrganizeLoading(true);
 
@@ -31,8 +41,9 @@ export async function handleAutoOrganize(isPremium: boolean, userEmail?: string 
             return;
         }
 
-        // Gather ungrouped (regular) tabs
-        const ungroupedTabs = regularTabs.map((tab) => {
+        // Auto Group works on ungrouped tabs. A user prompt may also move tabs
+        // out of existing groups, so make all non-pinned tabs available to it.
+        const tabsToAnalyze = (isPromptOrganize ? [...regularTabs, ...tabGroups.flatMap((group) => group.tabs)] : regularTabs).map((tab) => {
             let url = tab.url;
             let title = tab.title;
 
@@ -57,15 +68,18 @@ export async function handleAutoOrganize(isPremium: boolean, userEmail?: string 
             };
         });
 
-        if (ungroupedTabs.length === 0) {
-            toast.error("No ungrouped tabs to organize.");
+        if (tabsToAnalyze.length === 0) {
+            toast.error(isPromptOrganize ? "No tabs to organize." : "No ungrouped tabs to organize.");
             setIsAutoOrganizeLoading(false);
             return;
         }
 
         // Build prompt
-        const prompt = getAutoOrganizePrompt(ungroupedTabs);
-        console.log("prompt to auto organize:", prompt);
+        const prompt = isPromptOrganize
+            ? getPromptToOrganizePrompt(tabsToAnalyze, normalizedInstruction ?? "")
+            : getAutoOrganizePrompt(tabsToAnalyze);
+        const promptType: PromptType = isPromptOrganize ? "promptOrganize" : "organize";
+        console.log("prompt to organize:", prompt);
 
         // Create the AI promise - use direct call for BYOK, proxy for premium
         const aiPromise = async () => {
@@ -73,7 +87,7 @@ export async function handleAutoOrganize(isPremium: boolean, userEmail?: string 
 
             if (shouldUseDirectByok && normalizedGeminiApiKey) {
                 // BYOK: Call Gemini API directly from frontend
-                responseText = await callGeminiDirect(normalizedGeminiApiKey, prompt, "organize");
+                responseText = await callGeminiDirect(normalizedGeminiApiKey, prompt, promptType);
             } else {
                 // Premium: Use backend proxy
                 const convexUrl = getConvexProxyUrl();
@@ -90,6 +104,8 @@ export async function handleAutoOrganize(isPremium: boolean, userEmail?: string 
                     body: JSON.stringify({
                         email: userEmail,
                         prompt: prompt,
+                        promptType,
+                        ...(isPromptOrganize ? { userInstruction: normalizedInstruction } : {}),
                     }),
                 });
 
@@ -112,14 +128,30 @@ export async function handleAutoOrganize(isPremium: boolean, userEmail?: string 
             // Parse JSON from response
             const jsonStart = responseText.indexOf("[");
             const jsonEnd = responseText.lastIndexOf("]");
-            let groups = [];
+            const fallbackGroup =
+                isPromptOrganize && normalizedInstruction ? getPromptOrganizationFallback(tabsToAnalyze, normalizedInstruction) : null;
+            let groups: SuggestedGroup[] = [];
             if (jsonStart !== -1 && jsonEnd !== -1) {
-                groups = JSON.parse(responseText.slice(jsonStart, jsonEnd + 1));
-            } else {
+                try {
+                    const parsedGroups: unknown = JSON.parse(responseText.slice(jsonStart, jsonEnd + 1));
+                    groups = validateSuggestedGroups(parsedGroups, new Set(tabsToAnalyze.map((tab) => tab.id)));
+                } catch (error) {
+                    if (!fallbackGroup) throw error;
+                }
+            } else if (!fallbackGroup) {
                 throw new Error("AI did not return a valid JSON array.");
             }
 
-            return { groups, tabCount: ungroupedTabs.length };
+            if (groups.length === 0 && fallbackGroup) {
+                console.log("AI returned no usable matching tabs, using local prompt matching:", fallbackGroup);
+                groups = [fallbackGroup];
+            }
+
+            return {
+                groups,
+                analyzedTabCount: tabsToAnalyze.length,
+                matchedTabCount: groups.reduce((total, group) => total + group.tabIds.length, 0),
+            };
         };
 
         // Execute the promise and show toast feedback
@@ -128,11 +160,17 @@ export async function handleAutoOrganize(isPremium: boolean, userEmail?: string 
         // Use toast.promise for automatic loading/success/error handling
         toast.promise(promise, {
             position: "top-center",
-            loading: `Analyzing ungrouped tabs (${ungroupedTabs.length}) and organizing them by topic...`,
+            loading: isPromptOrganize
+                ? `Finding tabs that match your prompt (${tabsToAnalyze.length})...`
+                : `Analyzing ungrouped tabs (${tabsToAnalyze.length}) and organizing them by topic...`,
             closeButton: true,
             duration: 3000,
             success: (data) => {
-                return `Successfully organized ${data.tabCount} tabs into ${data.groups.length} groups`;
+                if (isPromptOrganize) {
+                    if (data.groups.length === 0) return "No tabs matched your prompt";
+                    return `Found ${data.matchedTabCount} tabs for ${data.groups.length} ${data.groups.length === 1 ? "group" : "groups"}`;
+                }
+                return `Successfully organized ${data.analyzedTabCount} tabs into ${data.groups.length} groups`;
             },
             error: (error) => {
                 // Don't show error if it's because the tab is in the middle of another group
@@ -149,7 +187,7 @@ export async function handleAutoOrganize(isPremium: boolean, userEmail?: string 
         const { groups } = await promise;
 
         setAutoOrganizeGroups(groups);
-        setIsAutoOrganizeDialogOpen(true);
+        if (groups.length > 0) setIsAutoOrganizeDialogOpen(true);
     } catch (error: unknown) {
         const errorMessage = error instanceof Error ? error.message : "Unknown error";
         console.log("Failed to get AI grouping: ", errorMessage);
@@ -157,6 +195,35 @@ export async function handleAutoOrganize(isPremium: boolean, userEmail?: string 
         setIsAutoOrganizeLoading(false);
         setToastDuration(4000);
     }
+}
+
+function validateSuggestedGroups(value: unknown, availableTabIds: Set<number>): SuggestedGroup[] {
+    if (!Array.isArray(value)) throw new Error("AI did not return a valid list of groups.");
+
+    const seenTabIds = new Set<number>();
+
+    return value
+        .map((group): SuggestedGroup | null => {
+            if (!group || typeof group !== "object") return null;
+
+            const candidate = group as { name?: unknown; color?: unknown; tabIds?: unknown };
+            if (typeof candidate.name !== "string" || !Array.isArray(candidate.tabIds)) return null;
+
+            const tabIds = candidate.tabIds.filter((tabId): tabId is number => {
+                if (typeof tabId !== "number" || !availableTabIds.has(tabId) || seenTabIds.has(tabId)) return false;
+                seenTabIds.add(tabId);
+                return true;
+            });
+
+            if (tabIds.length === 0) return null;
+
+            return {
+                name: candidate.name.trim().slice(0, 14) || "Organized",
+                color: verifyAllowedColor(typeof candidate.color === "string" ? candidate.color : "blue"),
+                tabIds,
+            };
+        })
+        .filter((group): group is SuggestedGroup => group !== null);
 }
 
 const sleep = async (ms: number) => {

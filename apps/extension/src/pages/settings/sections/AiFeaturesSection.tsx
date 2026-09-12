@@ -72,6 +72,16 @@ export const AiFeaturesSection = ({ settings, updateSetting, isPremium, debounce
                 disabled={!isPremium && !hasOwnApiKey}
             />
             <SettingsToggle
+                label="Prompt to organize"
+                description="Organize matching tabs with a short, one-off AI prompt"
+                settingKey="aiPromptToOrganize"
+                checked={settings.aiPromptToOrganize}
+                defaultValue={defaultSettings.aiPromptToOrganize}
+                updateSetting={updateSetting}
+                premiumFeature={!hasOwnApiKey}
+                disabled={!isPremium && !hasOwnApiKey}
+            />
+            <SettingsToggle
                 label="Auto Group"
                 description="Automatically organize your tabs using AI"
                 settingKey="aiAutoOrganizeTabs"

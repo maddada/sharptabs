@@ -32,9 +32,7 @@ export function NewTabButtonDropTarget({ activeDndId, dropTargetId, id }: { acti
             <Button
                 id={id}
                 variant="ghost"
-                className={cn(
-                    "w-[calc(100%-8px)] hover:bg-slate-200/20 transition-opacity mx-[4px] duration-300 border-0 h-[45px] pointer-events-auto rounded-md cursor-default"
-                )}
+                className="mx-[4px] h-[45px] w-[calc(100%-8px)] cursor-default rounded-md border-0 pointer-events-auto hover:bg-slate-200/20"
                 onClick={() => createNewTab({ active: true }, { workspaceId: activeWorkspaceId ?? undefined })}
                 onAuxClick={middleClickOpensNewTab}
                 tabIndex={-1}

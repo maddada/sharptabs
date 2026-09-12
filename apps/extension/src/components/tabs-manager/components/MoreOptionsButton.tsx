@@ -1,4 +1,5 @@
 import { ConfirmUngroupAllDialog } from "@/components/dialogs/ConfirmUngroupAllDialog";
+import { PromptToOrganizeDialog } from "@/components/dialogs/PromptToOrganizeDialog";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useAuthStore } from "@/stores/authStore";
@@ -18,32 +19,76 @@ import {
     Link2,
     Loader2,
     MapPin,
+    MessageSquareText,
     Moon,
+    PanelsTopLeft,
     RefreshCcw,
     Save,
     SettingsIcon,
     Sparkles,
     Undo2,
 } from "lucide-react";
-import { useState } from "react";
+import { ReactNode, RefObject, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { toast } from "sonner";
 import { handleAutoOrganize } from "../helpers/handleAutoOrganize";
 import { handleDeleteUselessTabs } from "../helpers/handleDeleteUselessTabs";
 import { handleUngroupAllTabs } from "../helpers/handleUngroupAllTabs";
+import { mergeAllWindows } from "../helpers/mergeAllWindows";
 
 import { getOpacityClass } from "@/utils/getOpacityClass";
 import { expandAndScrollToActiveTab } from "@/utils/tabs/expandAndScrollToActiveTab";
 import { handleSaveSession as handleSaveSessionUtil } from "../../sessions/sessionHandlers";
 import { useTabManagerStore } from "@/stores/tabManagerStore";
 
+function MoreOptionsMenuContent({
+    children,
+    inPopup,
+    isOpen,
+    popupMenuRef,
+}: {
+    children: ReactNode;
+    inPopup: boolean;
+    isOpen: boolean;
+    popupMenuRef: RefObject<HTMLDivElement | null>;
+}) {
+    if (inPopup) {
+        if (!isOpen) return null;
+
+        return createPortal(
+            <div
+                ref={popupMenuRef}
+                id="options-menu-popover"
+                role="dialog"
+                aria-label="More options"
+                className="fixed right-2 top-8 z-50 w-fit rounded-md border bg-popover p-1 text-popover-foreground shadow-md outline-none"
+            >
+                {children}
+            </div>,
+            document.body
+        );
+    }
+
+    return (
+        <PopoverContent id="options-menu-popover" className="mr-4 w-fit p-1">
+            {children}
+        </PopoverContent>
+    );
+}
+
 export function MoreOptionsButton() {
     // Get values from stores
     const isAutoOrganizeLoading = useTabManagerStore((state) => state.isAutoOrganizeLoading);
     const isDeleteUselessTabsLoading = useTabManagerStore((state) => state.isDeleteUselessTabsLoading);
+    const inPopup = useTabManagerStore((state) => state.inPopup);
     const { setIsRestoreDialogOpen, setIsBulkOpenLinksDialogOpen } = useTabManagerStore((state) => state.actions);
     const [isUngroupDialogOpen, setIsUngroupDialogOpen] = useState(false);
     const [isUngrouping, setIsUngrouping] = useState(false);
+    const [isMergingWindows, setIsMergingWindows] = useState(false);
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+    const [isPromptToOrganizeDialogOpen, setIsPromptToOrganizeDialogOpen] = useState(false);
+    const popupMenuRef = useRef<HTMLDivElement>(null);
+    const triggerRef = useRef<HTMLButtonElement>(null);
     const settings = useSettingsStore((state) => state.settings);
     const opacityClass = getOpacityClass(settings.headerFooterOpacity);
 
@@ -55,6 +100,27 @@ export function MoreOptionsButton() {
 
     // Workspace logic for scroll to current tab
     const { workspaces, actions: workspaceActions } = useWorkspaceStore();
+
+    useEffect(() => {
+        if (!inPopup || !isPopoverOpen) return;
+
+        const handlePointerDown = (event: PointerEvent) => {
+            const target = event.target as Node;
+            if (!triggerRef.current?.contains(target) && !popupMenuRef.current?.contains(target)) {
+                setIsPopoverOpen(false);
+            }
+        };
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") setIsPopoverOpen(false);
+        };
+
+        document.addEventListener("pointerdown", handlePointerDown);
+        document.addEventListener("keydown", handleKeyDown);
+        return () => {
+            document.removeEventListener("pointerdown", handlePointerDown);
+            document.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [inPopup, isPopoverOpen]);
 
     const handleScrollToCurrentTab = async () => {
         setIsPopoverOpen(false);
@@ -137,6 +203,25 @@ export function MoreOptionsButton() {
         setIsRestoreDialogOpen(true);
     };
 
+    const handleMergeAllWindows = async () => {
+        setIsPopoverOpen(false);
+        setIsMergingWindows(true);
+
+        try {
+            const mergedTabCount = await mergeAllWindows();
+            if (mergedTabCount === 0) {
+                toast.info("All tabs are already in this window.");
+            } else {
+                toast.success(`Merged ${mergedTabCount} tab${mergedTabCount === 1 ? "" : "s"} into this window.`);
+            }
+        } catch (error) {
+            console.error("Error merging browser windows:", error);
+            toast.error("Could not merge all browser windows.");
+        } finally {
+            setIsMergingWindows(false);
+        }
+    };
+
     const handleAutoOrganizeClick = async () => {
         setIsPopoverOpen(false);
         if (!isPremium && !hasOwnApiKey) {
@@ -146,6 +231,21 @@ export function MoreOptionsButton() {
             return;
         }
         handleAutoOrganize(isPremium, user?.email, normalizedGeminiApiKey);
+    };
+
+    const handlePromptToOrganizeClick = () => {
+        setIsPopoverOpen(false);
+        if (!isPremium && !hasOwnApiKey) {
+            toast.error("Prompt to organize requires a premium subscription or your own Gemini API key. Set your key in Settings > AI Features.", {
+                position: "top-center",
+            });
+            return;
+        }
+        setIsPromptToOrganizeDialogOpen(true);
+    };
+
+    const handlePromptToOrganizeSubmit = (prompt: string) => {
+        handleAutoOrganize(isPremium, user?.email, normalizedGeminiApiKey, prompt);
     };
 
     const handleDeleteUselessTabsClick = async () => {
@@ -163,13 +263,18 @@ export function MoreOptionsButton() {
         <>
             <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
                 <PopoverTrigger asChild>
-                    <div className={cn("header-menu-trigger", opacityClass)}>
-                        <Button id="header-options-menu" variant="ghost" className="menu-button h-6 px-2" tabIndex={-1}>
-                            <Ellipsis className="h-4 w-4" />
-                        </Button>
-                    </div>
+                    <Button
+                        ref={triggerRef}
+                        id="header-options-menu"
+                        aria-label="More options"
+                        variant="ghost"
+                        className={cn("header-menu-trigger menu-button h-6 px-2", opacityClass)}
+                        tabIndex={-1}
+                    >
+                        <Ellipsis className="h-4 w-4" />
+                    </Button>
                 </PopoverTrigger>
-                <PopoverContent id="options-menu-popover" className="mr-4 w-fit p-1">
+                <MoreOptionsMenuContent inPopup={inPopup} isOpen={isPopoverOpen} popupMenuRef={popupMenuRef}>
                     <div className="flex flex-col space-y-1">
                         {/* Only show reload extension button in development mode */}
                         {process.env.NODE_ENV === "development" && (
@@ -269,6 +374,25 @@ export function MoreOptionsButton() {
                                         </Button>
                                     );
 
+                                case "aiPromptToOrganize":
+                                    if (!settings.aiPromptToOrganize) return null;
+                                    return (
+                                        <Button
+                                            key={item.id}
+                                            variant="ghost"
+                                            className="h-8 w-full justify-start px-2 text-base font-normal hover:bg-gray-300 dark:hover:bg-gray-600"
+                                            disabled={isAutoOrganizeLoading}
+                                            onClick={handlePromptToOrganizeClick}
+                                        >
+                                            {isAutoOrganizeLoading ? (
+                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            ) : (
+                                                <MessageSquareText className="mr-2 h-4 w-4" />
+                                            )}
+                                            Prompt to organize
+                                        </Button>
+                                    );
+
                                 case "aiAutoClean":
                                     if (!settings.aiAutoCleaner) return null;
                                     return (
@@ -333,6 +457,24 @@ export function MoreOptionsButton() {
                                         </Button>
                                     );
 
+                                case "mergeAllWindows":
+                                    return (
+                                        <Button
+                                            key={item.id}
+                                            variant="ghost"
+                                            className="h-8 w-full justify-start px-2 text-base font-normal hover:bg-gray-300 dark:hover:bg-gray-600"
+                                            disabled={isMergingWindows}
+                                            onClick={handleMergeAllWindows}
+                                        >
+                                            {isMergingWindows ? (
+                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            ) : (
+                                                <PanelsTopLeft className="mr-2 h-4 w-4" />
+                                            )}
+                                            Merge All Windows
+                                        </Button>
+                                    );
+
                                 case "settings":
                                     return (
                                         <Button
@@ -355,7 +497,7 @@ export function MoreOptionsButton() {
                             }
                         })}
                     </div>
-                </PopoverContent>
+                </MoreOptionsMenuContent>
             </Popover>
 
             <ConfirmUngroupAllDialog
@@ -364,6 +506,12 @@ export function MoreOptionsButton() {
                 onConfirmUngroup={onConfirmUngroup}
                 isUngrouping={isUngrouping}
                 setIsPopoverOpen={setIsPopoverOpen}
+            />
+
+            <PromptToOrganizeDialog
+                open={isPromptToOrganizeDialogOpen}
+                onOpenChange={setIsPromptToOrganizeDialogOpen}
+                onSubmit={handlePromptToOrganizeSubmit}
             />
         </>
     );

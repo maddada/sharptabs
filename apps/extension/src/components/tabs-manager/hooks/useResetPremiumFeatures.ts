@@ -11,7 +11,7 @@ export function useResetPremiumFeatures(loading: boolean, isPremium: boolean, se
 
     // Only AI features are premium-gated
     // Non-AI settings are free for all users
-    const aiFeaturesRef = useRef(["aiAutoOrganizeTabs", "aiAutoGroupNaming", "aiAutoCleaner"] as const);
+    const aiFeaturesRef = useRef(["aiAutoOrganizeTabs", "aiPromptToOrganize", "aiAutoGroupNaming", "aiAutoCleaner"] as const);
 
     useEffect(() => {
         let timeoutId: NodeJS.Timeout;
@@ -41,6 +41,7 @@ export function useResetPremiumFeatures(loading: boolean, isPremium: boolean, se
                 // Only reset AI features - non-AI settings are free
                 updateSettings({
                     aiAutoOrganizeTabs: false,
+                    aiPromptToOrganize: false,
                     aiAutoGroupNaming: false,
                     aiAutoCleaner: false,
                 });

@@ -94,6 +94,16 @@ div[role="dialog"] div:has(> #rbgcp-color-picker-dark) {
     will-change: opacity;
 }
 
+/* Chrome extension popups can flicker when always-visible regions are forced
+   onto separate opacity-composited layers. The narrow-width fade is only
+   useful in the side panel, so keep popup rendering on the normal paint path. */
+.popup-root #tabs-manager-header,
+.popup-root #workspace-bar-container,
+.popup-root #tabs-manager-footer > * {
+    transition: none;
+    will-change: auto;
+}
+
 @media screen and (max-width: 198px) {
     #workspace-bar-container {
         opacity: 0;

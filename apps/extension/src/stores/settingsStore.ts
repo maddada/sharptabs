@@ -111,6 +111,7 @@ export const defaultSettings: Settings = {
     highlightHighTabCountThreshold: 20,
 
     aiAutoOrganizeTabs: true,
+    aiPromptToOrganize: true,
     aiAutoGroupNaming: true,
     aiAutoCleaner: true,
     geminiApiKey: "",
@@ -201,8 +202,10 @@ export const defaultSettings: Settings = {
         { id: "saveSession", type: "item", label: "Save Session", visible: true },
         { id: "restoreSession", type: "item", label: "Restore Session", visible: true },
         { id: "suspendAll", type: "item", label: "Suspend All", visible: true },
+        { id: "mergeAllWindows", type: "item", label: "Merge All Windows", visible: true },
         { id: "bulkOpenLinks", type: "item", label: "Bulk Open Links", visible: true },
         { id: "separator-2", type: "separator", visible: true },
+        { id: "aiPromptToOrganize", type: "item", label: "Prompt to organize", visible: true },
         { id: "aiAutoGroup", type: "item", label: "AI Auto Group", visible: true },
         { id: "aiAutoClean", type: "item", label: "AI Auto Clean", visible: true },
         { id: "collapseExpandAll", type: "item", label: "Collapse/Expand All", visible: false },

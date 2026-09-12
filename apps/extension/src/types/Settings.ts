@@ -94,6 +94,7 @@ export type Settings = {
     highlightHighTabCountEnabled: boolean;
     highlightHighTabCountThreshold: number;
     aiAutoOrganizeTabs: boolean;
+    aiPromptToOrganize: boolean;
     aiAutoGroupNaming: boolean;
     aiAutoCleaner: boolean;
     geminiApiKey: string;
