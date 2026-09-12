@@ -7,7 +7,16 @@ import {
     deleteUselessTabsSchema,
     getSchemaAndPromptSuffix,
     buildGenerationConfig,
+    PROMPT_TO_ORGANIZE_MAX_LENGTH,
+    type PromptType,
 } from "@packages/shared/gemini-config";
+
+const supportedPromptTypes: PromptType[] = [
+    "organize",
+    "promptOrganize",
+    "nameGroup",
+    "deleteUseless",
+];
 
 // Helper function to create CORS headers
 function corsHeaders(request?: Request) {
@@ -46,7 +55,12 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const geminiProxy = httpAction(async (ctx, request) => {
     // Parse prompt from request
-    let body: { email: string; prompt: string };
+    let body: {
+        email: string;
+        prompt: string;
+        promptType?: PromptType;
+        userInstruction?: string;
+    };
     try {
         body = await request.json();
     } catch {
@@ -60,6 +74,26 @@ export const geminiProxy = httpAction(async (ctx, request) => {
             status: 400,
             headers: corsHeaders(request),
         });
+    }
+    if (body.promptType && !supportedPromptTypes.includes(body.promptType)) {
+        return new Response("Invalid prompt type", {
+            status: 400,
+            headers: corsHeaders(request),
+        });
+    }
+    if (
+        body.promptType === "promptOrganize" &&
+        (typeof body.userInstruction !== "string" ||
+            !body.userInstruction.trim() ||
+            body.userInstruction.length > PROMPT_TO_ORGANIZE_MAX_LENGTH)
+    ) {
+        return new Response(
+            `Organization instructions must be between 1 and ${PROMPT_TO_ORGANIZE_MAX_LENGTH} characters`,
+            {
+                status: 400,
+                headers: corsHeaders(request),
+            },
+        );
     }
 
     // Check if user is premium (use a query, not ctx.db)
@@ -98,7 +132,10 @@ export const geminiProxy = httpAction(async (ctx, request) => {
     }
 
     // Determine the response schema and prompt suffix based on prompt content
-    const { schema: responseSchema, promptSuffix } = getSchemaAndPromptSuffix(null, body.prompt);
+    const { schema: responseSchema, promptSuffix } = getSchemaAndPromptSuffix(
+        body.promptType ?? null,
+        body.prompt,
+    );
 
     if (promptSuffix) {
         body.prompt = body.prompt + "\n\n" + promptSuffix;
@@ -124,7 +161,9 @@ export const geminiProxy = httpAction(async (ctx, request) => {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    contents: [{ role: "user", parts: [{ text: body.prompt }] }],
+                    contents: [
+                        { role: "user", parts: [{ text: body.prompt }] },
+                    ],
                     generationConfig,
                 }),
             },
@@ -183,7 +222,10 @@ export const geminiProxy = httpAction(async (ctx, request) => {
             if (responseSchema === nameGroupSchema) {
                 // Frontend expects "name|color" format
                 transformedText = `${parsed.name}|${parsed.color}`;
-            } else if (responseSchema === organizeTabsSchema || responseSchema === deleteUselessTabsSchema) {
+            } else if (
+                responseSchema === organizeTabsSchema ||
+                responseSchema === deleteUselessTabsSchema
+            ) {
                 // Frontend expects a JSON array, extract groups array from { groups: [...] }
                 transformedText = JSON.stringify(parsed.groups);
             } else {

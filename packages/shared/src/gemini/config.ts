@@ -9,6 +9,8 @@ export const GEMINI_MODELS = {
     fallback: "gemini-3.1-flash-lite",
 } as const;
 
+export const PROMPT_TO_ORGANIZE_MAX_LENGTH = 160;
+
 // ============================================================================
 // Response Schemas for Structured Output
 // ============================================================================
@@ -25,7 +27,17 @@ export const organizeTabsSchema = {
                     name: { type: "string" },
                     color: {
                         type: "string",
-                        enum: ["blue", "cyan", "green", "orange", "pink", "purple", "red", "yellow", "grey"],
+                        enum: [
+                            "blue",
+                            "cyan",
+                            "green",
+                            "orange",
+                            "pink",
+                            "purple",
+                            "red",
+                            "yellow",
+                            "grey",
+                        ],
                     },
                     tabIds: {
                         type: "array",
@@ -48,7 +60,17 @@ export const nameGroupSchema = {
         name: { type: "string" },
         color: {
             type: "string",
-            enum: ["blue", "cyan", "green", "orange", "pink", "purple", "red", "yellow", "grey"],
+            enum: [
+                "blue",
+                "cyan",
+                "green",
+                "orange",
+                "pink",
+                "purple",
+                "red",
+                "yellow",
+                "grey",
+            ],
         },
     },
     required: ["name", "color"],
@@ -109,6 +131,21 @@ export const organizingPrompt = dedent`
     - ALL given tab IDs must be included, no extras
 `;
 
+/** Prompt suffix for organizing only the tabs selected by a user's instruction */
+export const promptOrganizingPrompt = dedent`
+    Follow the user's organization instruction using only the supplied tabs.
+
+    Rules:
+    - Include only tabs that should be moved to satisfy the user's instruction
+    - Leave unrelated tabs out of the response
+    - Each included tab ID may appear in only one group
+    - Use only supplied tab IDs, with no extras
+    - Return an empty groups array when no tabs match
+    - Max 14 characters per group name
+    - Color should match website branding when possible
+    - If unsure about color, pick from: yellow, pink, cyan, green
+`;
+
 /** Prompt suffix for identifying useless tabs to delete */
 export const deleteUselessTabsPrompt = dedent`
     Identify useless tabs that should be deleted.
@@ -142,9 +179,16 @@ export const baseGenerationConfig = {
 // Types
 // ============================================================================
 
-export type PromptType = "organize" | "nameGroup" | "deleteUseless";
+export type PromptType =
+    | "organize"
+    | "promptOrganize"
+    | "nameGroup"
+    | "deleteUseless";
 
-export type GeminiSchema = typeof organizeTabsSchema | typeof nameGroupSchema | typeof deleteUselessTabsSchema;
+export type GeminiSchema =
+    | typeof organizeTabsSchema
+    | typeof nameGroupSchema
+    | typeof deleteUselessTabsSchema;
 
 // ============================================================================
 // Helper Functions
@@ -153,7 +197,10 @@ export type GeminiSchema = typeof organizeTabsSchema | typeof nameGroupSchema | 
 /**
  * Get the appropriate schema and prompt suffix based on the prompt type or content
  */
-export function getSchemaAndPromptSuffix(promptType: PromptType | null, promptContent: string): {
+export function getSchemaAndPromptSuffix(
+    promptType: PromptType | null,
+    promptContent: string,
+): {
     schema: GeminiSchema | null;
     promptSuffix: string;
 } {
@@ -164,8 +211,17 @@ export function getSchemaAndPromptSuffix(promptType: PromptType | null, promptCo
     if (promptType === "organize") {
         return { schema: organizeTabsSchema, promptSuffix: organizingPrompt };
     }
+    if (promptType === "promptOrganize") {
+        return {
+            schema: organizeTabsSchema,
+            promptSuffix: promptOrganizingPrompt,
+        };
+    }
     if (promptType === "deleteUseless") {
-        return { schema: deleteUselessTabsSchema, promptSuffix: deleteUselessTabsPrompt };
+        return {
+            schema: deleteUselessTabsSchema,
+            promptSuffix: deleteUselessTabsPrompt,
+        };
     }
 
     // Fall back to detecting by prompt content
@@ -175,8 +231,21 @@ export function getSchemaAndPromptSuffix(promptType: PromptType | null, promptCo
     if (promptContent.startsWith("Goal: Organize my tabs into groups")) {
         return { schema: organizeTabsSchema, promptSuffix: organizingPrompt };
     }
+    if (
+        promptContent.startsWith(
+            "Goal: Organize tabs according to my instruction",
+        )
+    ) {
+        return {
+            schema: organizeTabsSchema,
+            promptSuffix: promptOrganizingPrompt,
+        };
+    }
     if (promptContent.startsWith("Goal: Suggest tabs that could be removed")) {
-        return { schema: deleteUselessTabsSchema, promptSuffix: deleteUselessTabsPrompt };
+        return {
+            schema: deleteUselessTabsSchema,
+            promptSuffix: deleteUselessTabsPrompt,
+        };
     }
 
     return { schema: null, promptSuffix: "" };
@@ -185,7 +254,9 @@ export function getSchemaAndPromptSuffix(promptType: PromptType | null, promptCo
 /**
  * Build the full generation config with optional schema for structured output
  */
-export function buildGenerationConfig(schema: GeminiSchema | null): Record<string, unknown> {
+export function buildGenerationConfig(
+    schema: GeminiSchema | null,
+): Record<string, unknown> {
     const config: Record<string, unknown> = { ...baseGenerationConfig };
 
     if (schema) {
