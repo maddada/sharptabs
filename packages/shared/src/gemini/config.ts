@@ -5,7 +5,7 @@ import dedent from "dedent";
 // ============================================================================
 
 export const GEMINI_MODELS = {
-    primary: "gemini-3.5-flash",
+    primary: "gemini-3.5-flash-lite",
     fallback: "gemini-3.1-flash-lite",
 } as const;
 
