@@ -17,10 +17,10 @@ export const AiFeaturesSection = ({ settings, updateSetting, isPremium, debounce
         <section id="ai-features" className="scroll-mt-24 rounded-2xl bg-muted/40 p-6 shadow">
             <h2 className="mb-4 text-xl font-bold">AI Features</h2>
             <div className="mb-2 text-sm text-muted-foreground">
-                AI features require either a premium subscription or your own Gemini API key.
+                AI features call an AI model, so they need either your own Gemini API key or the optional Sharp Tabs AI subscription. Every other feature is free and needs no account.
                 <br />
-                Only the names of the tabs and the beginning of their URLs are sent to Gemini's API with a prompt to organize the tabs or name the
-                group.
+                Only the names of the tabs, the beginning of their URLs and, for Prompt to organize, the instruction you type are sent to Gemini's API to
+                organize the tabs or name the group.
                 <br />
                 <br />
                 <b>Nothing else is sent to Gemini. Nothing is logged or stored at all. Nothing is ever sent to the developer.</b>
@@ -37,7 +37,7 @@ export const AiFeaturesSection = ({ settings, updateSetting, isPremium, debounce
                     <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" className="text-primary underline">
                         Google AI Studio
                     </a>
-                    . With your own key, AI features work without a premium subscription.
+                    . With your own key, AI features work without an account or subscription.
                 </div>
                 <input
                     id="geminiApiKey"

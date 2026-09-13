@@ -4,6 +4,7 @@
 @import "./globals/theme-base.css";
 @import "./globals/theme-variants-a.css";
 @import "./globals/theme-variants-b.css";
+@import "./globals/group-colors.css";
 
 @tailwind base;
 @tailwind components;

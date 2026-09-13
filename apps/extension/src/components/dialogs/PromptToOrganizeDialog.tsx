@@ -32,9 +32,8 @@ export function PromptToOrganizeDialog({ open, onOpenChange, onSubmit }: PromptT
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
             <DialogContent
-                // Center with layout instead of a transformed animation layer. Chrome
-                // popups can repaint that layer when the input caret changes.
-                className="inset-0 m-auto h-fit max-h-[calc(100%-2rem)] max-w-[calc(100vw-2rem)] transform-none overflow-y-auto rounded-lg px-4 data-[state=open]:animate-none data-[state=closed]:animate-none sm:w-[440px] sm:max-w-[calc(100vw-2rem)] sm:px-6"
+                animated={false}
+                className="max-h-[calc(100%-2rem)] max-w-[calc(100vw-2rem)] overflow-y-auto rounded-lg px-4 sm:w-[440px] sm:max-w-[calc(100vw-2rem)] sm:px-6"
                 onOpenAutoFocus={(event) => {
                     event.preventDefault();
                     inputRef.current?.focus({ preventScroll: true });

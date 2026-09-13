@@ -225,7 +225,7 @@ export function MoreOptionsButton() {
     const handleAutoOrganizeClick = async () => {
         setIsPopoverOpen(false);
         if (!isPremium && !hasOwnApiKey) {
-            toast.error("AI Auto Group requires a premium subscription or your own Gemini API key. Set your key in Settings > AI Features.", {
+            toast.error("AI Auto Group requires your own Gemini API key or the optional AI subscription. Set your key in Settings > AI Features.", {
                 position: "top-center",
             });
             return;
@@ -236,7 +236,7 @@ export function MoreOptionsButton() {
     const handlePromptToOrganizeClick = () => {
         setIsPopoverOpen(false);
         if (!isPremium && !hasOwnApiKey) {
-            toast.error("Prompt to organize requires a premium subscription or your own Gemini API key. Set your key in Settings > AI Features.", {
+            toast.error("Prompt to organize requires your own Gemini API key or the optional AI subscription. Set your key in Settings > AI Features.", {
                 position: "top-center",
             });
             return;
@@ -251,7 +251,7 @@ export function MoreOptionsButton() {
     const handleDeleteUselessTabsClick = async () => {
         setIsPopoverOpen(false);
         if (!isPremium && !hasOwnApiKey) {
-            toast.error("AI Auto Clean requires a premium subscription or your own Gemini API key. Set your key in Settings > AI Features.", {
+            toast.error("AI Auto Clean requires your own Gemini API key or the optional AI subscription. Set your key in Settings > AI Features.", {
                 position: "top-center",
             });
             return;

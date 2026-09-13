@@ -1,0 +1,44 @@
+/* Tab group colors, matching Chrome's own tab group palette (RGB channels so Tailwind opacity modifiers work) */
+@layer base {
+    :root, .light {
+        --group-grey: 95 99 104;
+        --group-grey-deep: 60 64 67;
+        --group-blue: 26 115 232;
+        --group-blue-deep: 25 103 210;
+        --group-red: 217 48 37;
+        --group-red-deep: 197 34 31;
+        --group-yellow: 249 171 0;
+        --group-yellow-deep: 242 153 0;
+        --group-green: 24 128 56;
+        --group-green-deep: 19 115 51;
+        --group-pink: 208 24 132;
+        --group-pink-deep: 184 6 114;
+        --group-purple: 161 66 244;
+        --group-purple-deep: 147 52 230;
+        --group-cyan: 0 123 131;
+        --group-cyan-deep: 0 101 107;
+        --group-orange: 250 144 62;
+        --group-orange-deep: 250 123 23;
+    }
+
+    .dark {
+        --group-grey: 218 220 224;
+        --group-grey-deep: 189 193 198;
+        --group-blue: 138 180 248;
+        --group-blue-deep: 102 157 246;
+        --group-red: 242 139 130;
+        --group-red-deep: 238 103 92;
+        --group-yellow: 253 214 99;
+        --group-yellow-deep: 252 201 52;
+        --group-green: 129 201 149;
+        --group-green-deep: 91 185 116;
+        --group-pink: 255 139 203;
+        --group-pink-deep: 255 99 184;
+        --group-purple: 197 138 249;
+        --group-purple-deep: 175 92 247;
+        --group-cyan: 120 217 236;
+        --group-cyan-deep: 78 205 230;
+        --group-orange: 252 173 112;
+        --group-orange-deep: 250 144 62;
+    }
+}

@@ -3,6 +3,19 @@ import { describe, expect, it, vi } from "vitest";
 import { PromptToOrganizeDialog } from "@/components/dialogs/PromptToOrganizeDialog";
 
 describe("PromptToOrganizeDialog", () => {
+    it("does not inherit entrance animations or translated positioning on either modal layer", () => {
+        render(<PromptToOrganizeDialog open onOpenChange={vi.fn()} onSubmit={vi.fn()} />);
+        const dialog = screen.getByRole("dialog");
+        const layers = document.querySelectorAll('[data-state="open"].fixed');
+
+        expect(layers).toHaveLength(2);
+        for (const layer of layers) {
+            expect(layer.className).not.toMatch(/animate-|fade-|zoom-|slide-/);
+        }
+        expect(dialog.className).not.toMatch(/translate-[xy]-/);
+        expect(dialog).toHaveClass("inset-0", "m-auto");
+    });
+
     it("keeps the same focused input while typing and isolates tab shortcuts", () => {
         const onOpenChange = vi.fn();
         const onSubmit = vi.fn();

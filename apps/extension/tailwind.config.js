@@ -23,6 +23,44 @@ export default {
         },
         extend: {
             colors: {
+                group: {
+                    grey: {
+                        DEFAULT: "rgb(var(--group-grey) / <alpha-value>)",
+                        deep: "rgb(var(--group-grey-deep) / <alpha-value>)",
+                    },
+                    blue: {
+                        DEFAULT: "rgb(var(--group-blue) / <alpha-value>)",
+                        deep: "rgb(var(--group-blue-deep) / <alpha-value>)",
+                    },
+                    red: {
+                        DEFAULT: "rgb(var(--group-red) / <alpha-value>)",
+                        deep: "rgb(var(--group-red-deep) / <alpha-value>)",
+                    },
+                    yellow: {
+                        DEFAULT: "rgb(var(--group-yellow) / <alpha-value>)",
+                        deep: "rgb(var(--group-yellow-deep) / <alpha-value>)",
+                    },
+                    green: {
+                        DEFAULT: "rgb(var(--group-green) / <alpha-value>)",
+                        deep: "rgb(var(--group-green-deep) / <alpha-value>)",
+                    },
+                    pink: {
+                        DEFAULT: "rgb(var(--group-pink) / <alpha-value>)",
+                        deep: "rgb(var(--group-pink-deep) / <alpha-value>)",
+                    },
+                    purple: {
+                        DEFAULT: "rgb(var(--group-purple) / <alpha-value>)",
+                        deep: "rgb(var(--group-purple-deep) / <alpha-value>)",
+                    },
+                    cyan: {
+                        DEFAULT: "rgb(var(--group-cyan) / <alpha-value>)",
+                        deep: "rgb(var(--group-cyan-deep) / <alpha-value>)",
+                    },
+                    orange: {
+                        DEFAULT: "rgb(var(--group-orange) / <alpha-value>)",
+                        deep: "rgb(var(--group-orange-deep) / <alpha-value>)",
+                    },
+                },
                 border: "hsl(var(--border))",
                 input: "hsl(var(--input))",
                 ring: "hsl(var(--ring))",

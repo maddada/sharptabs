@@ -225,13 +225,13 @@ export function SessionRestoreDetailDialog({ session, isOpen, onClose }: Session
 
 // Helper function to extract gradient class - might need adjustment based on actual export
 const colorMapGradient: Record<string, string> = {
-    grey: "bg-gradient-to-r from-gray-500/50 to-gray-600/40",
-    blue: "bg-gradient-to-r from-blue-500/50 to-blue-600/40",
-    red: "bg-gradient-to-r from-red-500/50 to-red-600/40",
-    yellow: "bg-gradient-to-r from-yellow-500/50 to-yellow-600/40",
-    green: "bg-gradient-to-r from-green-500/50 to-green-600/40",
-    pink: "bg-gradient-to-r from-pink-500/50 to-pink-600/40",
-    purple: "bg-gradient-to-r from-purple-500/50 to-purple-600/40",
-    cyan: "bg-gradient-to-r from-cyan-500/50 to-cyan-600/40",
-    orange: "bg-gradient-to-r from-orange-500/50 to-orange-600/40",
+    grey: "bg-gradient-to-r from-group-grey/50 to-group-grey-deep/40",
+    blue: "bg-gradient-to-r from-group-blue/50 to-group-blue-deep/40",
+    red: "bg-gradient-to-r from-group-red/50 to-group-red-deep/40",
+    yellow: "bg-gradient-to-r from-group-yellow/50 to-group-yellow-deep/40",
+    green: "bg-gradient-to-r from-group-green/50 to-group-green-deep/40",
+    pink: "bg-gradient-to-r from-group-pink/50 to-group-pink-deep/40",
+    purple: "bg-gradient-to-r from-group-purple/50 to-group-purple-deep/40",
+    cyan: "bg-gradient-to-r from-group-cyan/50 to-group-cyan-deep/40",
+    orange: "bg-gradient-to-r from-group-orange/50 to-group-orange-deep/40",
 };

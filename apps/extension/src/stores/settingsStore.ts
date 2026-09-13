@@ -104,7 +104,7 @@ export const defaultSettings: Settings = {
     savedSessions: [],
     customCss: "",
     enableCustomCss: false,
-    groupsGradientBackground: true,
+    groupsGradientBackground: false,
     showGroupTabCount: false,
     showGroupTitleTooltip: true,
     highlightHighTabCountEnabled: true,
@@ -180,7 +180,7 @@ export const defaultSettings: Settings = {
     savedThemePreset: null,
     savedThemePresetLight: null,
     savedThemePresetDark: null,
-    strictDuplicateChecking: false,
+    strictDuplicateChecking: true,
     duplicateCloseKeep: "first",
 
     // Disabled because people are uninstalling due to a warning about sharptabs hijacking the new tab page

@@ -12,7 +12,6 @@ import { AdvancedSection } from "./sections/AdvancedSection";
 import { DesignSection } from "./sections/DesignSection";
 import { DisabledNewTabSection } from "./sections/DisabledNewTabSection";
 import { MessagesTipsSection } from "./sections/MessagesTipsSection";
-import { NewsHelpSection } from "./sections/NewsHelpSection";
 import { SavedSessionsSection } from "./sections/SavedSessionsSection";
 import { TabGroupsSection } from "./sections/TabGroupsSection";
 import { TabsSettingsSection } from "./sections/TabsSettingsSection";
@@ -101,7 +100,6 @@ export const SettingsContent = ({
         )}
         <SavedSessionsSection settings={settings} updateSetting={updateSetting} sessionsFileInputRef={sessionsFileInputRef} />
         <AdvancedSection settings={settings} updateSetting={updateSetting} updateSettings={updateSettings} fileInputRef={fileInputRef} />
-        <NewsHelpSection />
         <div className="h-[200px]" />
     </>
 );

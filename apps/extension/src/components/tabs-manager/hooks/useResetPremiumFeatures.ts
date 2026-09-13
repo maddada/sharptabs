@@ -1,7 +1,6 @@
 import { useSettingsStore } from "@/stores/settingsStore";
 import { useEffect, useRef } from "react";
 import { Settings } from "@/types/Settings";
-import { toast } from "sonner";
 import { useAuthStore } from "@/stores/authStore";
 
 export function useResetPremiumFeatures(loading: boolean, isPremium: boolean, settings: Settings) {
@@ -46,8 +45,8 @@ export function useResetPremiumFeatures(loading: boolean, isPremium: boolean, se
                     aiAutoCleaner: false,
                 });
 
-                toast.error("Disabling AI features (premium required or use your own API key)");
-
+                // Startup entitlement checks are silent. Explain requirements only
+                // when the user explicitly attempts an unavailable AI action.
                 console.log("AI features require premium or own API key. Resetting these settings.");
             }
 

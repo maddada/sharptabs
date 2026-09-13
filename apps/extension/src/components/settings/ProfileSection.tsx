@@ -9,19 +9,12 @@ import { getAdditionalUserInfo, isSignInWithEmailLink, signInWithEmailLink } fro
 import {
     AlertTriangle,
     CheckCircle2,
-    ChevronDown,
-    ChevronUp,
     Crown,
     ExternalLink,
     Gem,
-    HelpCircle,
     LogOut,
-    Palette,
-    Settings as SettingsIcon,
     Sparkles,
-    Star,
     User,
-    Wand2,
 } from "lucide-react";
 import { useEffect, useEffectEvent, useState } from "react";
 import { toast } from "sonner";
@@ -230,8 +223,8 @@ export function ProfileSection({ loading, error }: ProfileSectionProps) {
             }
 
             return {
-                title: "Free Plan",
-                description: "Upgrade to unlock premium features and support development!",
+                title: "Free",
+                description: "Every feature is free. Subscribe only to use AI features without your own API key.",
                 icon: "⚠️",
                 bgColor: "bg-neutral-100 dark:bg-neutral-900/30",
                 textColor: "text-neutral-900 dark:text-neutral-100",
@@ -245,7 +238,7 @@ export function ProfileSection({ loading, error }: ProfileSectionProps) {
                 : null;
 
             return {
-                title: "Premium Plan Active",
+                title: "AI Subscription Active",
                 description: renewalDate
                     ? `Renews on ${renewalDate}${subscriptionData.cancelAtPeriodEnd ? " (Cancels at period end)" : ""}`
                     : "Active subscription",
@@ -265,7 +258,7 @@ export function ProfileSection({ loading, error }: ProfileSectionProps) {
                 title: "Lifetime License Active",
                 description: purchaseDate
                     ? `Purchased on ${purchaseDate} | Thank you for supporting Sharp Tabs!`
-                    : "Lifetime access to all premium features",
+                    : "Lifetime access to AI features",
                 icon: "💎",
                 bgColor: "bg-green-100/10 dark:bg-green-800/30",
                 textColor: "text-green-900 dark:text-green-100",
@@ -274,8 +267,8 @@ export function ProfileSection({ loading, error }: ProfileSectionProps) {
 
         // Default free plan
         return {
-            title: "Free Plan",
-            description: "Upgrade to unlock premium features and support development!",
+            title: "Free",
+            description: "Every feature is free. Subscribe only to use AI features without your own API key.",
             icon: "⚠️",
             bgColor: "bg-neutral-100 dark:bg-neutral-900/30",
             textColor: "text-neutral-900 dark:text-neutral-100",
@@ -283,9 +276,6 @@ export function ProfileSection({ loading, error }: ProfileSectionProps) {
     };
 
     const statusDisplay = getSubscriptionStatusDisplay();
-
-    // UI-only local state for premium section accordion
-    const [showPremium, setShowPremium] = useState(false);
 
     return (
         <section id="profile" className="scroll-mt-24 rounded-2xl border border-primary/30 bg-muted/40 p-6 shadow-2xl">
@@ -337,7 +327,7 @@ export function ProfileSection({ loading, error }: ProfileSectionProps) {
                                                 if (statusDisplay.title?.toLowerCase().includes("lifetime")) {
                                                     return <Gem className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />;
                                                 }
-                                                if (statusDisplay.title?.toLowerCase().includes("premium")) {
+                                                if (statusDisplay.title?.toLowerCase().includes("subscription")) {
                                                     return <CheckCircle2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />;
                                                 }
                                                 if (statusDisplay.title?.toLowerCase().includes("free")) {
@@ -362,7 +352,7 @@ export function ProfileSection({ loading, error }: ProfileSectionProps) {
                                                 className="ml-4 shadow-md"
                                             >
                                                 <Crown className="mr-2 h-4 w-4" />
-                                                Upgrade to Premium
+                                                Get AI Subscription
                                             </Button>
                                         )}
                                 </div>
@@ -374,16 +364,16 @@ export function ProfileSection({ loading, error }: ProfileSectionProps) {
                     {!loading && !user && !window.location.href.includes("apiKey=") && (
                         <div className="space-y-6">
                             {/* Welcome Header */}
-                            <div className="group relative flex flex-row items-center justify-between overflow-hidden rounded-xl border border-primary/20 bg-primary/10 p-5 text-center transition-all duration-300 hover:scale-[1.005]">
-                                <div className="width-fit flex flex-row justify-start gap-3 text-left align-middle">
-                                    <div className="mb-3 flex h-14 min-w-14 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg">
+                            <div className="group relative flex flex-col items-start justify-between gap-5 overflow-hidden rounded-xl border border-primary/20 bg-primary/10 p-5 text-left sm:flex-row sm:items-center">
+                                <div className="flex min-w-0 flex-1 items-center gap-3">
+                                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg">
                                         <User className="h-6 w-6" />
                                     </div>
-                                    <div className="flex flex-col justify-center gap-0.5">
+                                    <div className="flex min-w-0 flex-col justify-center gap-0.5">
                                         <h3 className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-xl font-bold text-transparent">
                                             Sign In
                                         </h3>
-                                        <p className="mb-3 text-base text-gray-300">
+                                        <p className="text-base text-muted-foreground">
                                             The extension is fully free to use. Sign in only to unlock AI-powered features, or use your own API key in settings.
                                         </p>
                                     </div>
@@ -391,7 +381,7 @@ export function ProfileSection({ loading, error }: ProfileSectionProps) {
                                 <Button
                                     onClick={handleSignInOnWebsite}
                                     size="lg"
-                                    className="sharp-tabs-signin-button h-12 min-w-[180px] text-base font-semibold shadow-md"
+                                    className="sharp-tabs-signin-button h-12 w-full shrink-0 text-base font-semibold shadow-md sm:w-auto sm:min-w-[180px]"
                                     disabled={isWaitingForAuth}
                                 >
                                     {isWaitingForAuth ? (
@@ -407,224 +397,6 @@ export function ProfileSection({ loading, error }: ProfileSectionProps) {
                                     )}
                                 </Button>
                             </div>
-
-                            {/* Premium Features Accordion */}
-                            <div className="space-y-3">
-                                {!showPremium && (
-                                    <div className="flex justify-center">
-                                        <Button
-                                            onClick={() => setShowPremium(true)}
-                                            className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 px-4 py-2 text-lg text-white shadow-lg hover:from-blue-500 hover:to-cyan-500"
-                                        >
-                                            <Gem className="h-4 w-4" />
-                                            <span>See Premium Features</span>
-                                            <ChevronDown className="h-4 w-4" />
-                                        </Button>
-                                    </div>
-                                )}
-
-                                {showPremium && (
-                                    <div className="space-y-4">
-                                        <div className="flex items-center justify-between">
-                                            <h4 className="flex-1 text-center text-xl font-bold text-white">Premium Features</h4>
-                                            <Button onClick={() => setShowPremium(false)} variant="outline" className="ml-3 flex items-center gap-2">
-                                                <ChevronUp className="h-4 w-4" />
-                                                Hide
-                                            </Button>
-                                        </div>
-
-                                        <div className="grid grid-cols-3 gap-4">
-                                            {/* AI Features */}
-                                            <div className="group relative overflow-hidden rounded-2xl border border-purple-200/50 bg-gradient-to-br from-purple-50 to-indigo-50 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-purple-700/50 dark:from-purple-900/20 dark:to-indigo-900/20">
-                                                <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-indigo-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-                                                <div className="relative">
-                                                    <div className="mb-4 flex items-center">
-                                                        <div className="rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 p-3 text-white">
-                                                            <Sparkles className="h-6 w-6" />
-                                                        </div>
-                                                        <h3 className="ml-3 text-xl font-bold text-white">AI-Powered Features</h3>
-                                                    </div>
-                                                    <ul className="space-y-3">
-                                                        <li className="flex items-start gap-3">
-                                                            <div className="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
-                                                            <span className="text-lg leading-relaxed text-gray-300">
-                                                                Automatic AI group naming and coloring
-                                                            </span>
-                                                        </li>
-                                                        <li className="flex items-start gap-3">
-                                                            <div className="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
-                                                            <span className="text-lg leading-relaxed text-gray-300">Intelligent tab grouping</span>
-                                                        </li>
-                                                        <li className="flex items-start gap-3">
-                                                            <div className="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
-                                                            <span className="text-lg leading-relaxed text-gray-300">Automatic Tabs Cleanup</span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-
-                                            {/* Advanced Styling */}
-                                            <div className="group relative overflow-hidden rounded-2xl border border-orange-200/50 bg-gradient-to-br from-orange-50 to-red-50 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-orange-700/50 dark:from-orange-900/20 dark:to-red-900/20">
-                                                <div className="absolute inset-0 bg-gradient-to-br from-orange-600/10 to-red-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-                                                <div className="relative">
-                                                    <div className="mb-4 flex items-center">
-                                                        <div className="rounded-full bg-gradient-to-r from-orange-500 to-red-500 p-3 text-white">
-                                                            <Wand2 className="h-6 w-6" />
-                                                        </div>
-                                                        <h3 className="ml-3 text-xl font-bold text-white">Advanced Styling</h3>
-                                                    </div>
-                                                    <ul className="space-y-3">
-                                                        <li className="flex items-start gap-3">
-                                                            <div className="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-orange-400"></div>
-                                                            <span className="text-lg leading-relaxed text-gray-300">
-                                                                Custom tab heights and styles
-                                                            </span>
-                                                        </li>
-                                                        <li className="flex items-start gap-3">
-                                                            <div className="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-orange-400"></div>
-                                                            <span className="text-lg leading-relaxed text-gray-300">Outline tabs style</span>
-                                                        </li>
-                                                        <li className="flex items-start gap-3">
-                                                            <div className="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-orange-400"></div>
-                                                            <span className="text-lg leading-relaxed text-gray-300">
-                                                                Premium style customizations
-                                                            </span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-
-                                            {/* Theming & Design */}
-                                            <div className="group relative overflow-hidden rounded-2xl border border-emerald-200/50 bg-gradient-to-br from-emerald-50 to-teal-50 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-emerald-700/50 dark:from-emerald-900/20 dark:to-teal-900/20">
-                                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/10 to-teal-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-                                                <div className="relative">
-                                                    <div className="mb-4 flex items-center">
-                                                        <div className="rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 p-3 text-white">
-                                                            <Palette className="h-6 w-6" />
-                                                        </div>
-                                                        <h3 className="ml-3 text-xl font-bold text-white">Theming & Design</h3>
-                                                    </div>
-                                                    <ul className="space-y-3">
-                                                        <li className="flex items-start gap-3">
-                                                            <div className="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-emerald-500 dark:bg-emerald-400"></div>
-                                                            <span className="text-lg leading-relaxed text-gray-300">
-                                                                All current and future themes
-                                                            </span>
-                                                        </li>
-                                                        <li className="flex items-start gap-3">
-                                                            <div className="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-emerald-500 dark:bg-emerald-400"></div>
-                                                            <span className="text-lg leading-relaxed text-gray-300">
-                                                                Custom backgrounds & gradients
-                                                            </span>
-                                                        </li>
-                                                        <li className="flex items-start gap-3">
-                                                            <div className="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-emerald-500 dark:bg-emerald-400"></div>
-                                                            <span className="text-lg leading-relaxed text-gray-300">Create custom themes</span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-
-                                            {/* Advanced */}
-                                            <div className="group relative overflow-hidden rounded-2xl border border-blue-200/50 bg-gradient-to-br from-blue-50 to-cyan-50 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-blue-700/50 dark:from-blue-900/20 dark:to-cyan-900/20">
-                                                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-cyan-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-                                                <div className="relative">
-                                                    <div className="mb-4 flex items-center">
-                                                        <div className="rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 p-3 text-white">
-                                                            <SettingsIcon className="h-6 w-6" />
-                                                        </div>
-                                                        <h3 className="ml-3 text-xl font-bold text-white">Advanced</h3>
-                                                    </div>
-                                                    <ul className="space-y-3">
-                                                        <li className="flex items-start gap-3">
-                                                            <div className="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-blue-400"></div>
-                                                            <span className="text-lg leading-relaxed text-gray-300">Compact Pinned Tabs</span>
-                                                        </li>
-                                                        <li className="flex items-start gap-3">
-                                                            <div className="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-blue-400"></div>
-                                                            <span className="text-lg leading-relaxed text-gray-300">Custom CSS support</span>
-                                                        </li>
-                                                        <li className="flex items-start gap-3">
-                                                            <div className="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-blue-400"></div>
-                                                            <span className="text-lg leading-relaxed text-gray-300">
-                                                                Extensive customization options
-                                                            </span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-
-                                            {/* Premium Support */}
-                                            <div className="group relative inset-0 overflow-hidden rounded-2xl border border-pink-200/30 bg-gradient-to-br from-pink-600/10 to-rose-600/10 p-6 shadow-lg transition-transform hover:scale-105 hover:shadow-xl">
-                                                <div className="absolute inset-0 bg-gradient-to-br from-pink-600/10 to-rose-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-                                                <div className="relative">
-                                                    <div className="mb-4 flex items-center">
-                                                        <div className="rounded-full bg-gradient-to-r from-pink-500 to-rose-500 p-3 text-white">
-                                                            <HelpCircle className="h-6 w-6" />
-                                                        </div>
-                                                        <h3 className="ml-3 text-xl font-bold text-white">Premium Support</h3>
-                                                    </div>
-                                                    <ul className="space-y-3">
-                                                        <li className="flex items-start gap-3">
-                                                            <div className="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
-                                                            <span className="text-lg leading-relaxed text-gray-300">
-                                                                High Priority Feature Requests
-                                                            </span>
-                                                        </li>
-                                                        <li className="flex items-start gap-3">
-                                                            <div className="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
-                                                            <span className="text-lg leading-relaxed text-gray-300">Quick Response</span>
-                                                        </li>
-                                                        <li className="flex items-start gap-3">
-                                                            <div className="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
-                                                            <span className="text-lg leading-relaxed text-gray-300">
-                                                                First access to new features
-                                                            </span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-
-                                            {/* Call to Action */}
-                                            <div className="group relative overflow-hidden rounded-2xl border border-amber-200/50 bg-gradient-to-br from-amber-50 to-yellow-50 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-amber-700/50 dark:from-amber-900/20 dark:to-yellow-900/20">
-                                                <div className="absolute inset-0 bg-gradient-to-br from-amber-600/10 to-yellow-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-                                                <div className="relative text-left">
-                                                    <div className="items-left mx-auto mb-4 flex w-full justify-start">
-                                                        <div className="rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 p-3 text-white">
-                                                            <Star className="h-6 w-6" />
-                                                        </div>
-                                                    </div>
-                                                    <h3 className="text-xl font-bold text-white">Get Started Now</h3>
-                                                    <p className="mx-auto mt-2 max-w-xl text-lg leading-relaxed text-gray-300">
-                                                        Sign in to sync settings and unlock premium features!
-                                                    </p>
-                                                    <div className="mt-6 flex justify-start">
-                                                        <Button
-                                                            onClick={handleSignInOnWebsite}
-                                                            className="sharp-tabs-signin-button transform rounded-xl bg-gradient-to-r from-amber-700 to-yellow-700 p-3 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-amber-700 hover:to-yellow-700 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-amber-500/20 active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100"
-                                                            disabled={isWaitingForAuth}
-                                                        >
-                                                            {isWaitingForAuth ? (
-                                                                <>
-                                                                    <div className="mr-2 h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-                                                                    Connecting...
-                                                                </>
-                                                            ) : (
-                                                                <>
-                                                                    <ExternalLink className="mr-2 h-5 w-5" />
-                                                                    Sign In
-                                                                </>
-                                                            )}
-                                                        </Button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Call to Action moved into accordion below */}
                         </div>
                     )}
 

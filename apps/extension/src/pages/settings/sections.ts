@@ -13,5 +13,4 @@ export const SETTINGS_SECTIONS = [
     { id: "tab-suspending", label: "Tab Suspending" },
     { id: "saved-sessions", label: "Saved Sessions" },
     { id: "advanced", label: "Advanced" },
-    { id: "news-help", label: "News & Help" },
 ] as const;

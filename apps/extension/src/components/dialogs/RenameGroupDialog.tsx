@@ -30,7 +30,7 @@ async function generateNewAiName(
     const shouldUseDirectByok = hasOwnApiKey && (!isPremium || !userEmail);
 
     if (!isPremium && !hasOwnApiKey) {
-        toast.error("This feature requires a premium subscription or your own Gemini API key");
+        toast.error("This feature requires your own Gemini API key or the optional AI subscription");
         return;
     }
 
