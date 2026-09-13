@@ -468,7 +468,7 @@ function updateSubscriptionUI(subscriptionData, userEmail) {
                 ? `Purchased on ${new Date(subscriptionData.lifetimeLicense.purchaseDate * 1000).toLocaleDateString()}`
                 : "Lifetime access";
         } else {
-            statusText = "Premium Plan Active";
+            statusText = "AI Subscription Active";
             statusDescription = subscriptionData.currentPeriodEnd
                 ? `${subscriptionData.cancelAtPeriodEnd ? "Ends" : "Renews"} on ${new Date(subscriptionData.currentPeriodEnd * 1000).toLocaleDateString()}`
                 : "Active subscription";
@@ -523,9 +523,9 @@ function updateSubscriptionUI(subscriptionData, userEmail) {
                     </svg>
                 </div>
                 <div>
-                    <p class="text-lg font-semibold text-white">Free Plan</p>
+                    <p class="text-lg font-semibold text-white">Free</p>
                     <p class="text-gray-300">
-                        All features are free! Upgrade only if you want AI features without using your own Gemini API key.
+                        Every feature is free. Subscribe only if you want AI features without using your own Gemini API key.
                     </p>
                 </div>
             </div>

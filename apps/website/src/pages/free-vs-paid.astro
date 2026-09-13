@@ -16,7 +16,7 @@ import "../styles/global.css";
         <title>Sharp Tabs - Settings Overview</title>
         <meta
             name="description"
-            content="Complete overview of Sharp Tabs settings. All core features are free forever - premium is only needed for AI features without your own API key."
+            content="Complete overview of Sharp Tabs settings. Every feature is free with no account. AI features use your own free Gemini API key or an optional subscription."
         />
     </head>
     <body class="min-h-screen select-none bg-black transition-colors duration-300">
@@ -52,12 +52,12 @@ import "../styles/global.css";
                         <p class="mb-4 text-lg leading-relaxed text-gray-300">
                             Sharp Tabs is completely free to use with <strong>all features</strong> available at no cost.
                             You can enjoy tab management, workspaces, search, suspending, session backups, themes, custom CSS, and extensive customization
-                            <strong>without ever paying a cent</strong>.
+                            <strong>without ever paying a cent or creating an account</strong>.
                         </p>
                         <p class="text-lg leading-relaxed text-gray-300">
-                            The only premium feature is <strong>AI-powered organization</strong> (auto-grouping, auto-naming, auto-cleanup).
-                            Even AI features can be used for free by providing your own Gemini API key!
-                            Your support helps me dedicate more time to making Sharp Tabs even better for everyone.
+                            <strong>AI features</strong> (Prompt to Organize, auto-organize, group naming, tab cleanup) call an AI model,
+                            so they need your own free Gemini API key, or an optional subscription if you'd rather not manage a key.
+                            The subscription also helps me dedicate more time to making Sharp Tabs even better for everyone.
                         </p>
                     </div>
                 </div>
@@ -75,8 +75,8 @@ import "../styles/global.css";
                         </div>
                         <h3 class="mb-4 text-2xl font-semibold text-white">Bring Your Own Gemini Key</h3>
                         <p class="mb-4 text-lg leading-relaxed text-gray-300">
-                            Want to use AI features without a premium subscription? You can add your own Gemini API key in the extension settings
-                            and use all AI features completely free! Get your free API key from Google AI Studio.
+                            Add your own Gemini API key in the extension settings and use all AI features completely free, with no account
+                            or subscription. Get your free API key from Google AI Studio.
                         </p>
                         <a
                             href="https://aistudio.google.com/apikey"
@@ -378,7 +378,7 @@ import "../styles/global.css";
             <div class="container mx-auto max-w-5xl px-4">
                 <div class="mb-12 text-center">
                     <h2 class="mb-4 text-4xl font-bold text-white">AI Features</h2>
-                    <p class="text-lg text-gray-400">Premium subscription required, or bring your own Gemini API key for free</p>
+                    <p class="text-lg text-gray-400">AI features call an AI model: bring your own free Gemini API key, or get the optional subscription</p>
                 </div>
 
                 <div class="space-y-8">
@@ -387,8 +387,12 @@ import "../styles/global.css";
                         class="rounded-2xl border border-fuchsia-500/15 bg-gradient-to-br from-fuchsia-950/50 to-[#000e2b]/80 p-6 shadow-lg"
                     >
                         <h3 class="mb-4 text-2xl font-semibold text-fuchsia-300">AI-Powered Features</h3>
-                        <p class="mb-4 text-sm italic text-gray-400">These features use Gemini AI. Free with your own API key, or included with premium subscription.</p>
+                        <p class="mb-4 text-sm italic text-gray-400">These features use Gemini AI. Free with your own API key, or included with the optional subscription.</p>
                         <ul class="space-y-2">
+                            <li class="flex items-start gap-3">
+                                <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-fuchsia-400"></div>
+                                <span class="text-gray-300"><strong>Prompt to Organize</strong> - Describe one quick change (like "Create a new group for all YouTube links") and review the matching tabs before applying</span>
+                            </li>
                             <li class="flex items-start gap-3">
                                 <div class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-fuchsia-400"></div>
                                 <span class="text-gray-300"><strong>Auto Cleaner</strong> - Suggest tabs to be closed using AI</span>
@@ -420,7 +424,7 @@ import "../styles/global.css";
                                 class="inline-flex transform items-center gap-2 rounded-lg bg-gradient-to-r from-fuchsia-600 to-purple-600 px-4 py-2 font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
                             >
                                 <Sparkles size={18} />
-                                Get Premium
+                                Optional AI Subscription
                             </a>
                         </div>
                     </div>

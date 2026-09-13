@@ -17,8 +17,8 @@ export const messages: Message[] = [
                     everyone at no cost.
                 </p>
                 <p className="mb-3">
-                    <strong>AI Features</strong> are optional and available through Premium to cover costs and support
-                    development, but you can set your own Gemini API key to use AI features for free too.
+                    No account is needed. <strong>AI features</strong> (including the new Prompt to Organize) call an AI model,
+                    so they use your own free Gemini API key, or an optional AI subscription if you'd rather not manage a key.
                 </p>
                 <p className="mb-3">If you enjoy Sharp Tabs, here's how you can help:</p>
                 <ul className="list-inside list-disc space-y-1 pl-4">
@@ -33,7 +33,7 @@ export const messages: Message[] = [
                             GitHub
                         </a>
                     </li>
-                    <li>Consider buying Premium (subscription or lifetime) to support further development</li>
+                    <li>Get the optional AI subscription if you use AI features and want to support further development</li>
                 </ul>
             </>
         ),

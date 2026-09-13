@@ -16,7 +16,7 @@ import PremiumBenefits from "../components/PremiumBenefits.astro";
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
         <title>Profile - Sharp Tabs</title>
-        <meta name="description" content="Manage your Sharp Tabs profile, subscription, and premium features." />
+        <meta name="description" content="Sign in to manage your optional Sharp Tabs AI subscription. Sharp Tabs itself is free and needs no account." />
 
         <!-- Theme script -->
     </head>
@@ -55,7 +55,7 @@ import PremiumBenefits from "../components/PremiumBenefits.astro";
                             </div>
                             <h1 class="text-3xl font-bold text-white">Welcome to Sharp Tabs</h1>
                             <p class="mt-3 leading-relaxed text-gray-300">
-                                Sign in to get a premium plan or manage your subscription
+                                Sharp Tabs is free and works without an account. Sign in only to get or manage the optional AI subscription.
                             </p>
                         </div>
 
@@ -151,7 +151,7 @@ import PremiumBenefits from "../components/PremiumBenefits.astro";
                     <h1 class="mb-4 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-4xl font-bold text-transparent">
                         Your Sharp Tabs Dashboard
                     </h1>
-                    <p class="text-lg text-gray-300">Manage your subscription and unlock premium features</p>
+                    <p class="text-lg text-gray-300">Manage your optional AI subscription</p>
                 </div>
 
                 <!-- User Info Card -->
@@ -235,8 +235,8 @@ import PremiumBenefits from "../components/PremiumBenefits.astro";
                             </div>
                             <div class="relative">
                                 <div class="mb-8 text-center">
-                                    <h3 class="mb-4 text-3xl font-bold text-white">Support Sharp Tabs</h3>
-                                    <p class="text-lg text-gray-300">Get AI features and support continued development</p>
+                                    <h3 class="mb-4 text-3xl font-bold text-white">Optional AI Subscription</h3>
+                                    <p class="text-lg text-gray-300">Use AI features without your own API key and support continued development</p>
                                 </div>
                                 <PricingCards showTitle={false} showDescription={true} />
                                 <div class="mt-8 flex justify-center">
@@ -244,7 +244,7 @@ import PremiumBenefits from "../components/PremiumBenefits.astro";
                                         id="purchase-btn"
                                         class="transform rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 px-8 py-4 text-xl font-bold text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:from-blue-500 hover:to-cyan-500 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-500/20 active:scale-[0.98]"
                                     >
-                                        🚀 Purchase Extension
+                                        Get AI Subscription
                                     </button>
                                 </div>
                             </div>
@@ -252,7 +252,7 @@ import PremiumBenefits from "../components/PremiumBenefits.astro";
                     </div>
                 </div>
 
-                <!-- Premium Benefits -->
+                <!-- How AI Features Work -->
                 <PremiumBenefits />
             </div>
         </section>
